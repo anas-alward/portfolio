@@ -36,7 +36,6 @@ function App() {
     setMeta('property', 'og:title', title)
     setMeta('property', 'og:description', description)
     setMeta('property', 'og:url', currentUrl)
-    if (imageUrl) setMeta('property', 'og:image', imageUrl)
 
     // Twitter Card
     setMeta('name', 'twitter:title', title)
