@@ -48,7 +48,7 @@ function App() {
     if (profile.image) {
       const img = new Image()
       img.crossOrigin = "anonymous"
-      img.src = imageUrl
+      img.src = getStorageUrl(profile.image)
       img.onload = () => {
         const canvas = document.createElement('canvas')
         const size = 64 // Favicon size
