@@ -77,11 +77,12 @@ export function useSupabasePaginatedQuery<T>(
     const from = (page - 1) * pageSize;
 
     const finalParams = {
-        ...params,
         ...(userId ? { user: `eq.${userId}` } : {}),
         is_active: 'eq.true',
         limit: pageSize,
         offset: from,
+        order: 'order.asc',
+        ...params,
     };
 
     return useQuery<{ data: T[], count: number | null }, Error>({
