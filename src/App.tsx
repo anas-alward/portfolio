@@ -12,7 +12,7 @@ function App() {
 
     const title = profile.primary_title || 'Anas Portfolio'
     const description = `${title} — ${profile.secondary_title || 'Personal Portfolio'}`
-    const imageUrl = profile.image ? getStorageUrl(profile.image) : ''
+    const imageUrl = getStorageUrl('main/main/preview.png')
     const currentUrl = window.location.href
 
     // Helper to set or create a meta tag
