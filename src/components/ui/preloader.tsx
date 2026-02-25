@@ -1,0 +1,53 @@
+"use client"
+
+import { motion, AnimatePresence } from "framer-motion"
+
+interface PreloaderProps {
+    isLoading: boolean
+}
+
+export default function Preloader({ isLoading }: PreloaderProps) {
+    const letters = ["A", "N", "A", "S"]
+
+    return (
+        <AnimatePresence>
+            {isLoading && (
+                <motion.div
+                    key="preloader"
+                    initial={{ opacity: 1 }}
+                    exit={{
+                        y: "-100%",
+                        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }
+                    }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+                >
+                    <div className="overflow-hidden flex gap-[0.1em] p-2">
+                        {letters.map((letter, index) => (
+                            <motion.span
+                                key={index}
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                transition={{
+                                    duration: 1,
+                                    delay: index * 0.1,
+                                    ease: [0.76, 0, 0.24, 1]
+                                }}
+                                className="text-6xl tablet:text-8xl font-black tracking-tighter text-primary block"
+                            >
+                                {letter}
+                            </motion.span>
+                        ))}
+                    </div>
+
+                    {/* Subtle bottom line reveal */}
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                        className="absolute bottom-40 w-12 h-[2px] bg-primary/20"
+                    />
+                </motion.div>
+            )}
+        </AnimatePresence>
+    )
+}

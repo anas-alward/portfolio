@@ -1,0 +1,13 @@
+<svg
+    width="24"
+    height="20"
+    viewBox="0 0 24 20"
+    fill="none"
+    className="text-gray-300"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <path
+        d="M10 0V12H4C4 15.3137 6.68629 18 10 18V20C5.58172 20 2 16.4183 2 12V0H10ZM22 0V12H16C16 15.3137 18.6863 18 22 18V20C17.5817 20 14 16.4183 14 12V0H22Z"
+        fill="currentColor"
+    />
+</svg>
