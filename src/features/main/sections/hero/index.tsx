@@ -1,17 +1,32 @@
 import HeroPhoto from "./photo"
 import WordFadeIn from "@/components/animation/wordFadeIn"
+import FormattedText from "@/components/ui/formatted-text"
 import ContactBlock from "./contact"
 import { useProfile } from "@/hooks/useProfile"
 import { Skeleton } from "@/components/ui/skeleton"
+import { IsAvailableLabel, CurrentlyAtLabel } from "./labels"
 
 const HeroSection = () => {
     const { data: profile, isLoading } = useProfile({ order: undefined })
 
     return (
         <div>
-            <div className="flex flex-col gap-[30px]">
-                <HeroPhoto profile={profile} isLoading={isLoading} />
-                <div className='flex flex-col gap-[30px]'>
+            <div className="flex flex-col gap-[35px]">
+                {/* Name + Photo grouped as one item */}
+                <div className="flex items-center gap-3">
+                    <HeroPhoto profile={profile} isLoading={isLoading} />
+                    <div className="flex flex-col">
+                        <span className="text-[20px] pc:text-[25px] font-medium tracking-tight">
+                            {profile?.name || ""}
+                        </span>
+                        {
+                            profile?.is_available ? (<IsAvailableLabel />) : profile?.at && <CurrentlyAtLabel company={profile.at} />
+                        }
+                    </div>
+                </div>
+
+                {/* Primary & Secondary titles */}
+                <div className="flex flex-col gap-[30px]">
                     <div>
                         {
                             isLoading ? (
@@ -21,12 +36,13 @@ const HeroSection = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <WordFadeIn key="title-loaded" className="text-[22px] pc:text-[25px] font-normal">
+                                    <WordFadeIn key="title-loaded" className="text-[22px] pc:text-[25px] font-bold">
                                         {profile?.primary_title || ""}
                                     </WordFadeIn>
-                                    <WordFadeIn key="description-loaded" className="text-[17px] pc:text-[20px] text-secondary-foreground mt-2 font-normal">
+
+                                    <FormattedText animated className="text-[17px] pc:text-[20px] text-secondary-foreground mt-2 font-medium">
                                         {profile?.secondary_title || ""}
-                                    </WordFadeIn>
+                                    </FormattedText>
                                 </>
                             )
                         }

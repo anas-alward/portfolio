@@ -1,54 +1,93 @@
+import { useState } from "react";
 import type { Skill } from "@/types/skills";
-import { AwardIcon } from "lucide-react";
+import { AwardIcon, ChevronDown } from "lucide-react";
 import { getStorageUrl } from "@/lib/storage";
 
-
-
 const SkillItem = ({ skill }: { skill: Skill }) => {
-    return (
-        <div className="flex items-center justify-between w-full py-4 px-4 rounded-xl hover:bg-neutral-50 transition-colors">
+    const [showAll, setShowAll] = useState(false);
+    const tags = skill.tags.split(",").map((t) => t.trim()).filter(Boolean);
+    const visibleTags = tags.slice(0, 2);
+    const remaining = tags.length - 2;
 
-            {/* Left Section */}
-            <div className="flex items-center gap-4 min-w-0">
-                {/* Logo */}
-                <div className="w-12 h-12 flex items-center justify-center bg-neutral-50 rounded-lg border border-neutral-100 shrink-0">
-                    <img
-                        src={getStorageUrl(skill.icon)}
-                        alt={skill.name}
-                        className="w-7 h-7 object-contain"
-                    />
+    return (
+        <div className="group flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors -mx-4 px-4">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+                {/* Icon */}
+                <div className="self-start w-8 h-8 rounded-md bg-neutral-50 flex items-center justify-center shrink-0">
+                    <img src={getStorageUrl(skill.icon)} alt={skill.name} className="w-5 h-5 object-contain" />
                 </div>
 
-                {/* Title + Tags */}
-                <div className="flex flex-col min-w-0">
+                <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                        <h3 className="text-base font-semibold text-primary truncate">
-                            {skill.name}
-                        </h3>
-                        {skill.isMaster && (
-                            <AwardIcon className="w-4 h-4 text-yellow-500 shrink-0" />
+                        <h3 className="text-sm font-medium text-neutral-900 truncate">{skill.name}</h3>
+                        {skill.is_master && (
+                            <AwardIcon className="w-3.5 h-3.5 text-yellow-500 shrink-0 opacity-80" />
                         )}
                     </div>
 
-                    {/* Subtle Tags */}
-                    <div className="flex flex-wrap gap-x-2 text-sm text-secondary-foreground leading-none mt-1">
-                        {skill.tags.split(',').slice(0, 4).map((tag, index) => (
-                            <span key={tag}>
-                                {tag.trim()}
-                                {index !== skill.tags.split(',').length - 1 && " · "}
-                            </span>
-                        ))}
-                    </div>
+                    {/* Horizontal Tags Row - Hidden when expanded */}
+                    {!showAll && remaining > 0 && (
+                        <div className="flex items-center gap-2 mt-0.5">
+                            <div className="flex items-center text-xs text-neutral-500 truncate">
+                                {visibleTags.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        className="after:content-['·'] after:mx-2 after:text-neutral-300 last:after:content-none"
+                                    >
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            <button
+                                onClick={() => setShowAll(true)}
+                                className="flex items-center text-xs font-medium text-primary shrink-0 transition-colors"
+                            >
+                                <ChevronDown className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
+                    )}
+
+                    {/* No tags overflow - just show all inline */}
+                    {!showAll && remaining <= 0 && (
+                        <div className="flex items-center text-xs text-neutral-500 mt-0.5">
+                            {tags.map((tag, index) => (
+                                <span
+                                    key={tag}
+                                    className="after:content-['·'] after:mx-2 after:text-neutral-300 last:after:content-none"
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Accordion Dropdown - All tags vertical */}
+                    {showAll && (
+                        <div className="mt-2 pt-2 border-t border-neutral-100">
+                            <div className="flex flex-wrap gap-2">
+                                {tags.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        className="text-xs text-neutral-600 bg-neutral-100 px-2 py-1 rounded-md"
+                                    >
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            <button
+                                onClick={() => setShowAll(false)}
+                                className="mt-2 flex items-center text-xs text-neutral-400 hover:text-neutral-600 transition-colors"
+                            >
+                                <ChevronDown className="w-3.5 h-3.5 rotate-180" />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* Right Stats */}
-            <div className="flex items-center gap-4 text-base text-secondary-foreground shrink-0">
-                <span className="font-semibold ">{skill.level}%</span>
-                <span className="">•</span>
-                <span>{skill.years}y</span>
+            <div className="text-xs font-mono text-neutral-400 shrink-0">
+                {skill.level}% <span className="mx-1.5">/</span> {skill.years}y
             </div>
-
         </div>
     );
 };

@@ -3,6 +3,6 @@ export type Skill = {
     icon: string
     years: number
     level: number // 0 - 100
-    isMaster?: boolean
+    is_master?: boolean
     tags: string
 }
