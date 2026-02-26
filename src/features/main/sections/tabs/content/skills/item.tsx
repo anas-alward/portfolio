@@ -50,9 +50,9 @@ const SkillItem = ({ skill }: { skill: Skill }) => {
                     {/* No tags overflow - just show all inline */}
                     {!showAll && remaining <= 0 && (
                         <div className="flex items-center text-xs text-neutral-500 mt-0.5">
-                            {tags.map((tag, index) => (
+                            {tags.map((tag, i) => (
                                 <span
-                                    key={tag}
+                                    key={i}
                                     className="after:content-['·'] after:mx-2 after:text-neutral-300 last:after:content-none"
                                 >
                                     {tag}
