@@ -9,3 +9,4 @@ export type { Achievement } from "./achievements";
 export type { Project } from "./projects";
 export type { Contact } from './contacts'
 export type { Profile } from './profile'
+export { ProjectType } from './projects'

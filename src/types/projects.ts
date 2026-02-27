@@ -1,4 +1,9 @@
 
+export enum ProjectType {
+    personal = 'personal',
+    work = 'work',
+}
+
 
 export interface Project {
     id: number
@@ -6,6 +11,6 @@ export interface Project {
     description: string
     image: string
     link: string
-    type?: "Personal" | "Commercial"
+    type: ProjectType
     company?: string
 }
