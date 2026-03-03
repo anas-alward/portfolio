@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
 import HeroSection from './sections/hero'
 import TabsSection from './sections/tabs'
+import Footer from './sections/footer'
 
-
-const MainPage = () => {
+const MainPage = ({ isReady }: { isReady: boolean }) => {
   return (
     <div className="w-full min-h-screen flex flex-col items-center ">
       <motion.div
         initial="hidden"
-        animate="visible"
+        animate={isReady ? "visible" : "hidden"}
         variants={{
           hidden: { opacity: 0 },
           visible: {
@@ -34,6 +34,9 @@ const MainPage = () => {
         >
           <TabsSection />
         </motion.div>
+
+        {/* Footer */}
+        <Footer />
       </motion.div>
     </div>
   )

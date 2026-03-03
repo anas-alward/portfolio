@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import MainPage from './features/main/page'
 import Preloader from './components/ui/preloader'
 import { useProfile } from './hooks/useProfile'
@@ -6,6 +6,17 @@ import { getStorageUrl } from './lib/storage'
 
 function App() {
   const { data: profile, isLoading } = useProfile({ order: undefined })
+  const [isReady, setIsReady] = useState(false)
+  const [minLoaderFinished, setMinLoaderFinished] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinLoaderFinished(true)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const showLoader = isLoading || !minLoaderFinished
 
   useEffect(() => {
     if (!profile) return
@@ -84,8 +95,8 @@ function App() {
 
   return (
     <>
-      <Preloader isLoading={isLoading} />
-      <MainPage />
+      <Preloader isLoading={showLoader} onExitComplete={() => setIsReady(true)} />
+      <MainPage isReady={isReady} />
     </>
   )
 }

@@ -149,21 +149,25 @@ function applyRules(text: string, ruleIndex: number = 0): React.ReactNode[] {
 
 // ── Component ──
 
+// Narrow, explicit list of elements that can have children
+type AllowedElement = 'span' | 'div' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'td' | 'th' | 'label'
+
 interface FormattedTextProps {
     children: string
     className?: string
-    as?: keyof React.JSX.IntrinsicElements
+    as?: AllowedElement
     animated?: boolean
     delay?: number
 }
 
-const FormattedText: React.FC<FormattedTextProps> = ({
+// Use explicit function signature instead of React.FC for better type inference
+const FormattedText = ({
     children,
     className,
     as: Tag = "span",
     animated = false,
     delay = 0,
-}) => {
+}: FormattedTextProps): React.JSX.Element => {
     if (animated) {
         const segments = parseToSegments(children)
         const words = segmentsToWords(segments)
@@ -202,9 +206,8 @@ const FormattedText: React.FC<FormattedTextProps> = ({
         )
     }
 
-    // Static rendering
     const formatted = applyRules(children)
     return <Tag className={className}>{formatted}</Tag>
 }
 
-export default FormattedText
+export default FormattedText;

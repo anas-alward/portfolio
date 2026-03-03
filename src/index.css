@@ -124,5 +124,8 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .will-change-transform {
+    will-change: transform;
+  }
 }
 
