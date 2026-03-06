@@ -4,13 +4,13 @@ import { supabaseAxios } from '../lib/axios';
 /**
  * Generic hook to fetch data from a Supabase table using Axios and React Query
  */
-export function useSupabaseQuery<T>(
+export function useSupabaseQuery<T, TData = T[]>(
     key: string[],
     table: string,
     params?: Record<string, any>,
-    options?: Omit<UseQueryOptions<T[], Error>, 'queryKey' | 'queryFn'>
+    options?: Omit<UseQueryOptions<T[], Error, TData>, 'queryKey' | 'queryFn'>
 ) {
-    const userId = import.meta.env.VITE_USER_ID;
+    const userId = import.meta.env.VITE_SUPABASE_USER_ID;
     const finalParams = {
         order: 'order.asc',
         is_active: 'eq.true',
@@ -18,7 +18,7 @@ export function useSupabaseQuery<T>(
         ...params,
     };
 
-    return useQuery<T[], Error>({
+    return useQuery<T[], Error, TData>({
         queryKey: [...key, finalParams],
         queryFn: async () => {
             const { data } = await supabaseAxios.get<T[]>(`/${table}`, {
@@ -40,7 +40,7 @@ export function useSupabaseSingleQuery<T>(
     params?: Record<string, any>,
     options?: Omit<UseQueryOptions<T, Error>, 'queryKey' | 'queryFn'>
 ) {
-    const userId = import.meta.env.VITE_USER_ID;
+    const userId = import.meta.env.VITE_SUPABASE_USER_ID;
     const finalParams = {
         is_active: 'eq.true',
         order: 'order.asc',

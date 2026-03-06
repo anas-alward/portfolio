@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import MainPage from './features/main/page'
 import Preloader from './components/ui/preloader'
 import { useProfile } from './hooks/useProfile'
+import { useSettings } from './hooks/useSettings'
 import { getStorageUrl } from './lib/storage'
 
 function App() {
   const { data: profile, isLoading } = useProfile({ order: undefined })
+  const { data: settings, isLoading: settingsLoading } = useSettings()
   const [isReady, setIsReady] = useState(false)
   const [minLoaderFinished, setMinLoaderFinished] = useState(false)
 
@@ -16,7 +18,7 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const showLoader = isLoading || !minLoaderFinished
+  const showLoader = isLoading || settingsLoading || !minLoaderFinished
 
   useEffect(() => {
     if (!profile) return

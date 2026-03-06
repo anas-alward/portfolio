@@ -3,11 +3,14 @@ import WorkItem from "./item";
 import WorkSkeleton from "./skeleton";
 import Pagination from "@/components/ui/pagination";
 import { usePaginatedWork } from "@/hooks/useWork";
+import { useSettings } from "@/hooks/useSettings";
+import { SECTION, SETTINGS_TYPE } from "@/types/enums";
 
 const WorkTabContent = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 5;
-
+    const { data: settings } = useSettings({ section: SECTION.WORK, type: SETTINGS_TYPE.PAGINATION });
+    const pageSize = settings?.PAGE_SIZE ? parseInt(settings.PAGE_SIZE, 10) : 5;
+    console.log("data: settings: ", settings)
     const { data, isLoading } = usePaginatedWork(page, pageSize);
     const work = data?.data;
     const totalCount = data?.count || 0;
