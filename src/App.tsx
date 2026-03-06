@@ -7,7 +7,7 @@ import { getStorageUrl } from './lib/storage'
 
 function App() {
   const { data: profile, isLoading } = useProfile({ order: undefined })
-  const { data: settings, isLoading: settingsLoading } = useSettings()
+  const { isLoading: settingsLoading } = useSettings()
   const [isReady, setIsReady] = useState(false)
   const [minLoaderFinished, setMinLoaderFinished] = useState(false)
 
