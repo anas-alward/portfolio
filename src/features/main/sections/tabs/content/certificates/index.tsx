@@ -4,20 +4,19 @@ import CertificateSkeleton from "./skeleton";
 import Pagination from "@/components/ui/pagination";
 import { usePaginatedCertificates } from "@/hooks/useCertificates";
 
+
 const CertificatesTabContent = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 6;
 
-    const { data, isLoading } = usePaginatedCertificates(page, pageSize);
+    const { data, isLoading, pageSize } = usePaginatedCertificates(page);
     const certificates = data?.data;
-    const totalCount = data?.count || 0;
-    const totalPages = Math.ceil(totalCount / pageSize);
+    const totalPages = data?.totalPages || 0
 
     if (isLoading) {
         return (
             <section className="w-full space-y-6">
                 <div className="divide-y divide-neutral-200">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(pageSize)].map((_, i) => (
                         <CertificateSkeleton key={i} />
                     ))}
                 </div>

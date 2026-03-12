@@ -5,14 +5,12 @@ import ContactBlock from "./contact"
 import { useProfile } from "@/hooks/useProfile"
 import { Skeleton } from "@/components/ui/skeleton"
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels"
-import DotsOverlay from "./DotsOverlay"
 
 const HeroSection = () => {
     const { data: profile, isLoading } = useProfile({ order: undefined })
 
     return (
         <div className="relative">
-            <DotsOverlay count={300} size={0.001}/>
             <div className="flex flex-col gap-[35px]">
                 {/* Name + Photo grouped as one item */}
                 <div className="flex items-center gap-3">

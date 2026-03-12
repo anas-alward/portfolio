@@ -4,19 +4,18 @@ import SkillSkeleton from "./skeleton";
 import Pagination from "@/components/ui/pagination";
 import { usePaginatedSkills } from "@/hooks/useSkills";
 
+
+
 const SkillTabContent = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 6;
-
-    const { data, isLoading } = usePaginatedSkills(page, pageSize);
+    const { data, isLoading, pageSize} = usePaginatedSkills(page);
     const skills = data?.data;
-    const totalCount = data?.count || 0;
-    const totalPages = Math.ceil(totalCount / pageSize);
-
+    const totalPages = data?.totalPages || 0;
+    
     if (isLoading) {
         return (
             <div className="flex flex-col divide-y divide-neutral-100">
-                {[...Array(6)].map((_, i) => (
+                {[...Array(pageSize)].map((_, i) => (
                     <SkillSkeleton key={i} />
                 ))}
             </div>

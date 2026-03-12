@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.6",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-query-devtools": "^5.91.3",
@@ -22,7 +20,6 @@
     "lucide-react": "^0.574.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.183.2",
     "wrangler": "^4.69.0"
   },
   "devDependencies": {
@@ -30,7 +27,6 @@
     "@types/node": "^25.2.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.183.1",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.24",
     "babel-plugin-react-compiler": "^1.0.0",

@@ -9,5 +9,6 @@ export type { Project } from "./projects";
 export type { Contact } from './contacts'
 export type { Profile } from './profile'
 export type { Settings } from './settings'
+export { DATA_TYPE } from './settings'
 export { SECTION, SETTINGS_TYPE } from './enums'
 export { ProjectType } from './projects'

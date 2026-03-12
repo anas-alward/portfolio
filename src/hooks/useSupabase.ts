@@ -71,7 +71,7 @@ export function useSupabasePaginatedQuery<T>(
     page: number = 1,
     pageSize: number = 10,
     params?: Record<string, any>,
-    options?: Omit<UseQueryOptions<{ data: T[], count: number | null }, Error>, 'queryKey' | 'queryFn'>
+    options?: Omit<UseQueryOptions<{ data: T[], count: number | null, totalPages: number, pageSize: number }, Error>, 'queryKey' | 'queryFn'>
 ) {
     const userId = import.meta.env.VITE_SUPABASE_USER_ID;
     const from = (page - 1) * pageSize;
@@ -85,7 +85,7 @@ export function useSupabasePaginatedQuery<T>(
         ...params,
     };
 
-    return useQuery<{ data: T[], count: number | null }, Error>({
+    return useQuery<{ data: T[], count: number | null, totalPages: number, pageSize: number }, Error>({
         queryKey: [...key, finalParams],
         queryFn: async () => {
             const response = await supabaseAxios.get<T[]>(`/${table}`, {
@@ -98,10 +98,13 @@ export function useSupabasePaginatedQuery<T>(
             // PostgREST returns count in content-range header: e.g., "0-9/100"
             const contentRange = response.headers['content-range'];
             const count = contentRange ? parseInt(contentRange.split('/')[1], 10) : null;
-
+            const totalPages = Math.ceil(count ? count / pageSize : 0) 
+            
             return {
                 data: response.data,
                 count,
+                totalPages,
+                pageSize,
             };
         },
         ...options,

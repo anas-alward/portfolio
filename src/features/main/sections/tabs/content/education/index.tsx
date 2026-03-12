@@ -6,18 +6,15 @@ import { usePaginatedEducations } from "@/hooks/useEducations";
 
 const EducationTabContent = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 5;
-
-    const { data, isLoading } = usePaginatedEducations(page, pageSize);
+    const { data, isLoading, pageSize } = usePaginatedEducations(page);
     const education = data?.data;
-    const totalCount = data?.count || 0;
-    const totalPages = Math.ceil(totalCount / pageSize);
+    const totalPages = data?.totalPages || 0;
 
     if (isLoading) {
         return (
             <section className="w-full">
                 <div className="flex flex-col divide-y divide-neutral-100">
-                    {[...Array(3)].map((_, i) => (
+                    {[...Array(pageSize)].map((_, i) => (
                         <EducationSkeleton key={i} />
                     ))}
                 </div>

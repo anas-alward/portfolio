@@ -6,17 +6,14 @@ import { usePaginatedTestimonials } from "@/hooks/useTestimonial";
 
 const TestimonialTabContent = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 3;
-
-    const { data, isLoading } = usePaginatedTestimonials(page, pageSize, { order: "order.asc" });
+    const { data, isLoading, pageSize } = usePaginatedTestimonials(page);
     const testimonials = data?.data;
-    const totalCount = data?.count || 0;
-    const totalPages = Math.ceil(totalCount / pageSize);
+    const totalPages = data?.totalPages || 0;
 
     if (isLoading) {
         return (
             <div className="space-y-2">
-                {[...Array(3)].map((_, i) => (
+                {[...Array(pageSize)].map((_, i) => (
                     <TestimonialSkeleton key={i} />
                 ))}
             </div>
