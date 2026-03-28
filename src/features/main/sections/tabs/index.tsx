@@ -41,48 +41,56 @@ const TabsSection = () => {
     return (
         <Tabs defaultValue="Work">
 
-            <div className="relative group/tabs">
-                {/* Scroll Indicators for Mobile */}
-                <AnimatePresence>
-                    {showLeftArrow && (
-                        <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -10 }}
-                            className="absolute -left-4 top-0 bottom-0 w-12 bg-gradient-to-r from-background via-background/80 to-transparent z-20 flex items-center justify-start pl-1 pointer-events-none"
-                        >
-                            <ChevronLeft className="w-4 h-4 text-muted-foreground animate-pulse" />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                <AnimatePresence>
-                    {showRightArrow && (
-                        <motion.div
-                            initial={{ opacity: 0, x: 10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 10 }}
-                            className="absolute -right-4 top-0 bottom-0 w-12 bg-gradient-to-l from-background via-background/80 to-transparent z-20 flex items-center justify-end pr-1 pointer-events-none"
-                        >
-                            <ChevronRight className="w-4 h-4 text-muted-foreground animate-pulse" />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                <div
-                    ref={scrollRef}
-                    onScroll={checkScroll}
-                    className="mb-12 flex flex-nowrap gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-                >
-                    {tabs.map((tab) => (
-                        <Tabs.Trigger key={tab} value={tab} className="shrink-0">
-                            <div
-                                className={`px-4 py-1.5 rounded-full text-[13px] font-normal transition-all duration-300 group-data-[state=active]:bg-black group-data-[state=active]:text-white group-data-[state=inactive]:bg-transparent group-data-[state=inactive]:text-muted-foreground group-data-[state=inactive]:hover:text-black whitespace-nowrap`}
+            <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 -mt-4 mb-8">
+                <div className="relative group/tabs">
+                    {/* Scroll Indicators for Mobile */}
+                    <AnimatePresence>
+                        {showLeftArrow && (
+                            <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                className="absolute -left-4 top-0 bottom-0 w-12 bg-gradient-to-r from-background via-background/80 to-transparent z-20 flex items-center justify-start pl-1 pointer-events-none"
                             >
-                                {tab}
-                            </div>
-                        </Tabs.Trigger>
-                    ))}
+                                <ChevronLeft className="w-4 h-4 text-muted-foreground animate-pulse" />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <AnimatePresence>
+                        {showRightArrow && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 10 }}
+                                className="absolute -right-4 top-0 bottom-0 w-12 bg-gradient-to-l from-background via-background/80 to-transparent z-20 flex items-center justify-end pr-1 pointer-events-none"
+                            >
+                                <ChevronRight className="w-4 h-4 text-muted-foreground animate-pulse" />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <div
+                        ref={scrollRef}
+                        onScroll={checkScroll}
+                        className="flex flex-nowrap gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+                    >
+                        {tabs.map((tab) => (
+                            <Tabs.Trigger key={tab} value={tab} className="shrink-0">
+                                <div
+                                    className={`px-4 py-1.5 rounded-full text-[13px] font-normal transition-all duration-300 whitespace-nowrap
+                                                group-data-[state=active]:bg-accent 
+                                                group-data-[state=active]:text-accent-foreground
+                                                group-data-[state=inactive]:bg-transparent 
+                                                group-data-[state=inactive]:text-foreground/60
+                                                group-data-[state=inactive]:hover:bg-accent 
+                                                group-data-[state=inactive]:hover:text-accent-foreground`}
+                                >
+                                    {tab}
+                                </div>
+                            </Tabs.Trigger>
+                        ))}
+                    </div>
                 </div>
             </div>
 

@@ -13,7 +13,7 @@ const ProjectTabContent = () => {
     if (isLoading) {
         return (
             <section className="w-full">
-                <div className="flex flex-col divide-y divide-neutral-100">
+                <div className="flex flex-col gap-2 ">
                     {[...Array(pageSize)].map((_, i) => (
                         <ProjectSkeleton key={i} />
                     ))}
@@ -24,17 +24,21 @@ const ProjectTabContent = () => {
 
     return (
         <section className="w-full">
-            <div className="flex flex-col divide-y divide-neutral-100">
-                {projects?.map((project, i) => (
-                    <ProjectItem key={i} project={project} />
-                ))}
+            <div className="max-h-[70vh] overflow-y-auto px-4 -mx-4 no-scrollbar scroll-smooth">
+                <div className="flex flex-col gap-2 py-4">
+                    {projects?.map((project, i) => (
+                        <ProjectItem key={i} project={project} />
+                    ))}
+                </div>
             </div>
 
-            <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={setPage}
-            />
+            <div className="mt-8">
+                <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    onPageChange={setPage}
+                />
+            </div>
         </section>
     );
 }

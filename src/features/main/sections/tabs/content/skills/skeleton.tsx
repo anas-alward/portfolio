@@ -1,33 +1,43 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton"; // Adjust import path as needed
 
-const SkillSkeleton = () => {
+const SkillItemSkeleton = () => {
     return (
-        <div className="flex items-center justify-between w-full py-4 px-4 rounded-xl">
-            {/* Left Section */}
-            <div className="flex items-center gap-4 min-w-0">
-                {/* Logo Skeleton */}
-                <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
-
-                {/* Title + Tags Skeleton */}
-                <div className="flex flex-col min-w-0 space-y-2">
-                    <div className="flex items-center gap-2">
-                        <Skeleton className="h-4 w-32" />
-                    </div>
-                    <div className="flex gap-2">
-                        <Skeleton className="h-3 w-12" />
-                        <Skeleton className="h-3 w-16" />
-                        <Skeleton className="h-3 w-14" />
-                    </div>
+        <div
+            className="
+            relative
+            h-[130px]
+            w-[calc(50%-0.5rem)]  
+            tablet:w-[calc(33.333%-0.67rem)] 
+            bg-card border border-border
+            rounded-2xl
+            overflow-hidden
+            "
+        >
+            {/* Inner content container */}
+            <div
+                className="
+                h-full 
+                w-full
+                rounded-2xl 
+                p-4 
+                flex flex-col tablet:flex-row
+                justify-center
+                items-center
+                gap-2
+                tablet:gap-5
+                "
+            >
+                {/* Icon Skeleton - Fixed dimensions */}
+                
+                    <Skeleton className="w-10 h-10 rounded-xl" />
+                
+                {/* Text Skeleton - Fixed dimensions */}
+                <div className="text-center">
+                    <Skeleton className="h-5 w-20" />
                 </div>
-            </div>
-
-            {/* Right Stats Skeleton */}
-            <div className="flex items-center gap-4 shrink-0">
-                <Skeleton className="h-5 w-10" />
-                <Skeleton className="h-4 w-8" />
             </div>
         </div>
     );
 };
 
-export default SkillSkeleton;
+export default SkillItemSkeleton;

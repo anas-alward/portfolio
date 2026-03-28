@@ -16,4 +16,5 @@ export enum SECTION  {
 export enum SETTINGS_TYPE {
     PAGINATION = "PAGINATION",
     ANIMATION = "ANIMATION",
+    FEATURE = 'FEATURE',
 }

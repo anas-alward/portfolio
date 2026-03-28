@@ -13,7 +13,7 @@ export const CompanyLabel = ({ company, icon, url }: CompanyLabelProps) => {
     return (
 
         <div className="flex items-center gap-2 py-0.5">
-            {icon && (
+        {icon && (
                 <div className="w-5 h-5 flex-shrink-0 rounded-md overflow-hidden border border-neutral-100 bg-white">
                     <img
                         src={getStorageUrl(icon)}
@@ -22,12 +22,12 @@ export const CompanyLabel = ({ company, icon, url }: CompanyLabelProps) => {
                     />
                 </div>
             )}
-            <p className="text-xs font-medium text-secondary-foreground">
+            <p className="text-xs font-medium ">
                 <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-neutral-900 transition-colors underline decoration-secondary-foreground underline"
+                    className="text-muted-foreground transition-colors underline underline-offset-1"
                 >
                     {company}
                 </a>
