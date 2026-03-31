@@ -1,7 +1,18 @@
-import { useSupabaseQuery, useSupabasePaginatedQuery } from './useSupabase';
+import { useSupabaseQuery, useSupabasePaginatedQuery, useSupabaseSingleQuery } from './useSupabase';
 import { Project } from '../types';
-import { useSettings } from  './useSettings'
+import { useSettings } from './useSettings'
 import { SECTION, SETTINGS_TYPE } from '../types';
+
+/**
+ * Hook to fetch a single project by ID
+ */
+export function useProject(id: number) {
+    return useSupabaseSingleQuery<Project>(
+        ['project', String(id)],
+        'projects',
+        { id: `eq.${id}` },
+    );
+}
 /**
  * Hook to fetch projects from Supabase
  */
@@ -16,6 +27,6 @@ export function usePaginatedProjects(page: number = 1, params?: Record<string, a
     const DEFAULT_PAGE_SIZE = 3;
     const { data: settings } = useSettings({ section: SECTION.PROJECTS, type: SETTINGS_TYPE.PAGINATION });
     const pageSize = settings?.PAGE_SIZE ? Number(settings.PAGE_SIZE) : DEFAULT_PAGE_SIZE;
-    
-    return {...useSupabasePaginatedQuery<Project>(['projects', 'paginated'], 'projects', page, pageSize, params), pageSize};
+
+    return { ...useSupabasePaginatedQuery<Project>(['projects', 'paginated'], 'projects', page, pageSize, params), pageSize };
 }
