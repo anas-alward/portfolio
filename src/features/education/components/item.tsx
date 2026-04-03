@@ -9,7 +9,7 @@ const EducationItem = ({ education }: { education: Education }) => {
                 {/* Logo/Icon Placeholder */}
                 <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white border border-neutral-100 rounded-lg shadow-sm">
                     {education.icon ? (
-                        <img src={getStorageUrl(education.icon)} alt={education.institution} className="w-8 h-8 object-contain" />
+                        <img src={getStorageUrl(`${education.icon}`)} alt={education.institution} className="w-8 h-8 object-contain" />
                     ) : (
                         <span className="text-lg font-bold text-primary">
                             {education.institution.charAt(0)}
