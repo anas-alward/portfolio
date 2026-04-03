@@ -14,6 +14,7 @@ import { PreloaderProvider } from '@/context/PreloaderContext'
 import appCss from '@/index.css?url'
 import { fetchSiteMetadata } from '@/features/home/api'
 import NotFoundPage from '@/features/home/pages/404'
+import { getStorageUrl } from '@/lib/storage'
 
 // Type for metadata items returned by your API
 type MetaItem = { key: string; value: string }
@@ -51,7 +52,7 @@ export const Route = createRootRoute({
         const x_handler = getMeta('x_handler', '@alward_dev')
         const site_name = getMeta('site_name', 'Anas Portfolio')
         const description = getMeta('description', 'Portfolio of Anas Alward – Backend Dev')
-        const image = getMeta('image', '/preview.png')
+        const image = getStorageUrl(`${getMeta('image', '/preview.png')}`)
         const url = getMeta('url', import.meta.env.VITE_BASE_URL || 'https://alward.dev')
 
         return {
