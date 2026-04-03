@@ -1,12 +1,18 @@
 // types/work.ts
+
+export type Company = {
+    id: string;
+    name: string;
+    logo: string ;
+    url: string ;
+}
+
 export type Work = {
     id: string;
-    icon: string;
     order: number;
-    url: string;
     title: string;
     position: string;
-    company: string;
+    companies: Company; // Supabase join result
     start: string;
     end: string;
     description: string;

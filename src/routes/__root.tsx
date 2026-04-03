@@ -10,8 +10,10 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ThemeProvider } from '@/context/ThemeContext'
+import { PreloaderProvider } from '@/context/PreloaderContext'
 import appCss from '@/index.css?url'
-import { fetchSiteMetadata } from '@/api/metadata'
+import { fetchSiteMetadata } from '@/features/home/api'
+import NotFoundPage from '@/features/home/pages/404'
 
 // Type for metadata items returned by your API
 type MetaItem = { key: string; value: string }
@@ -29,7 +31,6 @@ export const Route = createRootRoute({
     loader: async () => {
         try {
             const metadata = await fetchSiteMetadata()
-            console.log('Fetched metadata:', metadata)
             return { metadata }
         } catch (error) {
             console.error('Failed to fetch site metadata:', error)
@@ -47,6 +48,8 @@ export const Route = createRootRoute({
         }
 
         const title = getMeta('title', 'Anas Alward | Portfolio')
+        const x_handler = getMeta('x_handler', '@alward_dev')
+        const site_name = getMeta('site_name', 'Anas Portfolio')
         const description = getMeta('description', 'Portfolio of Anas Alward – Backend Dev')
         const image = getMeta('image', '/preview.png')
         const url = getMeta('url', import.meta.env.VITE_BASE_URL || 'https://alward.dev')
@@ -60,18 +63,20 @@ export const Route = createRootRoute({
                 { name: 'description', content: description },
 
 
-                { property: 'og:type', content: 'website' },
                 { property: 'og:title', content: title },
                 { property: 'og:description', content: description },
                 { property: 'og:image', content: image },
                 { property: 'og:url', content: url },
-                { property: 'og:site_name', content: 'Anas Portfolio' },
+                { property: 'og:site_name', content: site_name },
+                { property: 'og:type', content: 'website' },
 
                 // Twitter Card - Dynamic
                 { name: 'twitter:card', content: 'summary_large_image' },
                 { name: 'twitter:title', content: title },
                 { name: 'twitter:description', content: description },
                 { name: 'twitter:image', content: image },
+                { name: 'twitter:site', content: x_handler },
+                { name: 'twitter:creator', content: x_handler },
             ],
             links: [
                 { rel: 'canonical', href: url },
@@ -87,20 +92,19 @@ export const Route = createRootRoute({
     },
 
     component: RootComponent,
-    notFoundComponent: NotFound,
+    notFoundComponent: NotFoundPage,
 })
 
 function RootComponent() {
-    // ✅ If you need metadata inside the React tree (not <head>), use your hook here:
-    // const { data: metadata, isLoading } = useMetadata()
-
     return (
         <RootDocument>
             <QueryClientProvider client={queryClient}>
-                <ThemeProvider>
-                    <Outlet />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                </ThemeProvider>
+                <PreloaderProvider>
+                    <ThemeProvider>
+                        <Outlet />
+                        <ReactQueryDevtools initialIsOpen={false} />
+                    </ThemeProvider>
+                </PreloaderProvider>
             </QueryClientProvider>
         </RootDocument>
     )
@@ -120,17 +124,3 @@ function RootDocument({ children }: { children: ReactNode }) {
     )
 }
 
-function NotFound() {
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4 text-center">
-            <h1 className="text-6xl font-bold mb-4">404</h1>
-            <p className="text-xl mb-8">Oops! The page you're looking for doesn't exist.</p>
-            <a
-                href="/"
-                className="px-6 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
-            >
-                Go Back Home
-            </a>
-        </div>
-    )
-}
