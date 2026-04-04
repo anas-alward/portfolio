@@ -10,7 +10,10 @@ interface ProjectPhotoProps {
 
 const ProjectPhoto = ({ project }: ProjectPhotoProps) => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const projectImage = getStorageUrl(`projects/${project.slug}/${project.image}`);
+    
+    // Check if slug or image is null/undefined - if so, no image exists
+    const hasImage = project.slug && project.image;
+    const projectImage = hasImage ? getStorageUrl(`projects/${project.slug}/${project.image}`) : null;
 
     return (
         <>
@@ -27,7 +30,7 @@ const ProjectPhoto = ({ project }: ProjectPhotoProps) => {
                     />
                 ) : (
                     <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-bold text-2xl uppercase group-hover:scale-105 transition-transform duration-300">
-                        {project.name.charAt(0)}
+                        {project.name}
                     </div>
                 )}
             </div>
