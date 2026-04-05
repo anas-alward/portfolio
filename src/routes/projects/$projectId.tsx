@@ -14,7 +14,7 @@ export const Route = createFileRoute('/projects/$projectId')({
         const project = loaderData?.project as Project
         if (!project) return { title: 'Project Not Found | Anas Alward' }
 
-        const projectImage = project.image ? getStorageUrl(project.image) : '/preview.png'
+        const projectImage = project.image ? getStorageUrl(`projects/${project.slug}/${project.image}`) : '/preview.png'
         const title = `${project.name} | Anas Alward`
         const description = project.description?.slice(0, 160) || 'Project details'
 
