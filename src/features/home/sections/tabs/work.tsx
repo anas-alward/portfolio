@@ -10,9 +10,9 @@ import { SETTINGS_TYPE, SECTION } from "@/types";
 
 const WorkTabContent = () => {
     const [page, setPage] = useState(1);
-    const { data:settings } = useSettings({type: SETTINGS_TYPE.PAGINATION, section: SECTION.WORK});
+    const { data: settings } = useSettings({ type: SETTINGS_TYPE.PAGINATION, section: SECTION.WORK });
 
-    const pageSize = settings?.PAGE_SIZE || 3;
+    const pageSize = (settings?.PAGE_SIZE as number) || 3;
     const { data, isPending } = useQuery({
         queryKey: ['work', page],
         queryFn: async () => await listWork(page, pageSize),
