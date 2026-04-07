@@ -4,8 +4,14 @@ import { getProjectDetails } from '@/features/projects/api'
 import { Project } from '@/types/projects'
 import { ProjectDetailPage } from '@/features/projects/pages/detail'
 import { ProjectNotFoundPage } from '@/features/projects/pages/404'
+import { z } from 'zod'
+
+const projectSearchSchema = z.object({
+    tab: z.string().optional(),
+})
 
 export const Route = createFileRoute('/projects/$projectId')({
+    validateSearch: (search) => projectSearchSchema.parse(search),
     loader: async ({ params }) => {
         const project = await getProjectDetails(params.projectId)
         return { project }

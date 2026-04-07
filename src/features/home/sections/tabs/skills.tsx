@@ -1,15 +1,23 @@
-import { useState } from "react";
-import { SkillItem, SkillSkeleton } from "@/features/skills/components";
+import { useState, useCallback } from "react";
+import { SkillItem, SkillSkeleton, SkillDialog } from "@/features/skills/components";
 import Pagination from "@/components/ui/pagination";
 import { usePaginatedSkills } from "@/hooks/useSkills";
+import { Skill } from "@/types";
 
 
 const SkillTabContent = () => {
     const [page, setPage] = useState(1);
     const { data, isLoading, pageSize } = usePaginatedSkills(page);
+    const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const skills = data?.data;
     const totalPages = data?.totalPages || 0;
+
+    const handleSkillClick = useCallback((skill: Skill) => {
+        setSelectedSkill(skill);
+        setIsDialogOpen(true);
+    }, []);
 
     return (
         <div className="flex flex-col gap-6">
@@ -22,7 +30,11 @@ const SkillTabContent = () => {
                         <SkillSkeleton key={i} />
                     ))
                     : skills?.map((skill, i) => (
-                        <SkillItem key={i} skill={skill} />
+                        <SkillItem
+                            key={i}
+                            skill={skill}
+                            onClick={handleSkillClick}
+                        />
                     ))
                 }
 
@@ -44,6 +56,12 @@ const SkillTabContent = () => {
                     }}
                 />
             </div>
+
+            <SkillDialog
+                skill={selectedSkill}
+                isOpen={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+            />
         </div>
     );
 };
