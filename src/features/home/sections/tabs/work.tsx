@@ -4,16 +4,21 @@ import WorkSkeleton from "@/features/work/components/skeleton";
 import Pagination from "@/components/ui/pagination";
 import { useQuery } from "@tanstack/react-query";
 import { listWork } from "@/features/work/api";
+import { useSettings } from '@/hooks/useSettings'
+import { SETTINGS_TYPE, SECTION } from "@/types";
+
 
 const WorkTabContent = () => {
     const [page, setPage] = useState(1);
+    const { data:settings } = useSettings({type: SETTINGS_TYPE.PAGINATION, section: SECTION.WORK});
+
+    const pageSize = settings?.PAGE_SIZE || 3;
     const { data, isPending } = useQuery({
         queryKey: ['work', page],
-        queryFn: () => listWork(page, 10),
+        queryFn: async () => await listWork(page, pageSize),
     })
     const work = data?.data;
-    const totalPages = data?.count || 0;
-
+    const totalPages = data?.totalPages || 0;
     if (isPending) {
         return (
             <div className="relative border-l border-neutral-700 ml-4 space-y-10">
