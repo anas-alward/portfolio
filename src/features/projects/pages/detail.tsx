@@ -1,20 +1,31 @@
-import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { useState, useCallback } from 'react'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { getStorageUrl } from '@/lib/storage'
 import { ProjectTypeLabel } from '@/features/projects/components/labels'
 import { ArrowLeft, ArrowUpRight, Copy, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SkillItem from '@/features/skills/components/item'
+import SkillDialog from '@/features/skills/components/dialog'
 import { Project } from '@/types/projects'
 import { Skill } from '@/types/skills'
 import Tooltip from '@/components/ui/tooltip'
+import { Lightbox } from '@/components/ui/lightbox'
 
 interface ProjectDetailPageProps {
     project: Project
 }
 
+const route = getRouteApi('/projects/$projectId')
+
 export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
+    const { tab } = route.useSearch()
     const [copied, setCopied] = useState(false)
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+    const [selectedImage, setSelectedImage] = useState("")
+
+    const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+    const [isSkillDialogOpen, setIsSkillDialogOpen] = useState(false);
+
     const projectImage = project.image ? getStorageUrl(`projects/${project.slug}/main.png`) : null
     const additionalImages = (project.images || []).map((image: string) => getStorageUrl(`projects/${project.slug}/${image}`))
 
@@ -23,6 +34,16 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
     }
+
+    const openLightbox = (image: string) => {
+        setSelectedImage(image)
+        setIsLightboxOpen(true)
+    }
+
+    const handleSkillClick = useCallback((skill: Skill) => {
+        setSelectedSkill(skill);
+        setIsSkillDialogOpen(true);
+    }, []);
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center">
@@ -36,6 +57,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                 <div className="flex items-center justify-between gap-4">
                     <Link
                         to="/"
+                        search={{ tab }}
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit group"
                     >
                         <ArrowLeft
@@ -73,7 +95,8 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                             initial={{ opacity: 0, scale: 0.98 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.5, delay: 0.1 }}
-                            className="w-full aspect-video rounded-2xl overflow-hidden border border-border bg-muted group relative"
+                            className="w-full aspect-video rounded-2xl overflow-hidden border border-border bg-muted group relative cursor-zoom-in"
+                            onClick={() => openLightbox(projectImage)}
                         >
                             <img
                                 src={projectImage}
@@ -91,7 +114,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                         transition={{ duration: 0.4, delay: 0.2 }}
                         className="flex flex-col gap-4"
                     >
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-3" >
                             <h1 className="text-3xl tablet:text-4xl font-bold text-foreground tracking-tight leading-tight">
                                 {project.name}
                             </h1>
@@ -141,7 +164,11 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                         </div>
                         <div className="flex flex-wrap gap-4">
                             {project.skills.map((skill: Skill) => (
-                                <SkillItem key={skill.name} skill={skill} />
+                                <SkillItem
+                                    key={skill.name}
+                                    skill={skill}
+                                    onClick={handleSkillClick}
+                                />
                             ))}
                         </div>
                     </motion.div>
@@ -164,7 +191,8 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                                 <motion.div
                                     key={index}
                                     whileHover={{ y: -5 }}
-                                    className="aspect-video rounded-xl overflow-hidden border border-border bg-muted group relative"
+                                    className="aspect-video rounded-xl overflow-hidden border border-border bg-muted group relative cursor-zoom-in"
+                                    onClick={() => openLightbox(image)}
                                 >
                                     <img
                                         src={image}
@@ -178,6 +206,19 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
                     </motion.div>
                 )}
             </motion.div>
+
+            <Lightbox
+                isOpen={isLightboxOpen}
+                onClose={() => setIsLightboxOpen(false)}
+                src={selectedImage}
+                alt={project.name}
+            />
+
+            <SkillDialog
+                skill={selectedSkill}
+                isOpen={isSkillDialogOpen}
+                onClose={() => setIsSkillDialogOpen(false)}
+            />
         </div>
     )
 }
