@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { getStorageUrl } from "@/lib/storage";
 import { Lightbox } from "@/components/ui/lightbox";
 import type { Project } from "@/types/projects";
+import Image from "@/components/ui/image";
+import { mediaPath } from "../utils";
 
 interface ProjectPhotoProps {
     project: Project;
@@ -11,7 +12,7 @@ interface ProjectPhotoProps {
 const ProjectPhoto = ({ project }: ProjectPhotoProps) => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const hasImage = project.slug && project.image;
-    const projectImage = hasImage ? getStorageUrl(`projects/${project.slug}/${project.image}`) : null;
+    const projectImage = hasImage ? mediaPath(project.slug, project.image) : null;
 
     return (
         <>
@@ -21,7 +22,7 @@ const ProjectPhoto = ({ project }: ProjectPhotoProps) => {
                 onClick={() => projectImage && setIsLightboxOpen(true)}
             >
                 {projectImage ? (
-                    <img
+                    <Image
                         src={projectImage}
                         alt={project.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
