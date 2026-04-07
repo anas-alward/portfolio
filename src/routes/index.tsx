@@ -6,7 +6,14 @@ import { useProfile } from '@/hooks/useProfile'
 import { useSettings } from '@/hooks/useSettings'
 import { usePreloader } from '@/context/PreloaderContext'
 
+import { z } from 'zod'
+
+const homeSearchSchema = z.object({
+    tab: z.string().optional(),
+})
+
 export const Route = createFileRoute('/')({
+    validateSearch: (search) => homeSearchSchema.parse(search),
     component: Home,
 })
 
