@@ -13,7 +13,7 @@ const WorkItem = ({ item }: { item: Work }) => {
                     <CompanyLabel
                         company={item.companies?.name }
                         icon={item.companies?.logo }
-                        url={item.companies?.url}
+                        link={item.companies?.link}
                     />
 
                     <h3 className="text-lg font-semibold text-primary leading-none pb-1">{item.position}</h3>
