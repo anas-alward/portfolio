@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import Tabs from "@/components/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getRouteApi } from "@tanstack/react-router";
 
 import ProjectTabContent from "./projects";
 import TestimonialTabContent from "./testimonial";
@@ -12,10 +13,12 @@ import LanguagesTabContent from "./languages";
 import EducationTabContent from "./education";
 import AchievementsTabContent from "./achievements";
 
-
+const route = getRouteApi('/')
 
 const TabsSection = () => {
     const tabs = ["Work", "Projects", "Skills", "Certificates", "Testimonials", "Education", "Achievements", "Languages"];
+    const { tab } = route.useSearch();
+    const navigate = route.useNavigate();
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -38,8 +41,18 @@ const TabsSection = () => {
         }
     }, []);
 
+    const handleTabChange = (value: string) => {
+        navigate({
+            search: (prev) => ({ ...prev, tab: value }),
+            replace: true,
+        });
+    };
+
     return (
-        <Tabs defaultValue="Work">
+        <Tabs
+            value={tab || "Work"}
+            onValueChange={handleTabChange}
+        >
 
             <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 -mt-4 mb-8">
                 <div className="relative group/tabs">
