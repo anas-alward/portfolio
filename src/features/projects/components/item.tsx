@@ -5,7 +5,7 @@ import ExpandableText from "@/components/ui/expandable-text";
 import { ProjectTypeLabel } from "./labels";
 import { Link } from "@tanstack/react-router";
 
-const ProjectItem = ({ project }: { project: Project }) => {
+const ProjectItem = ({ project, tab }: { project: Project; tab?: string }) => {
     return (
         <div className="group relative flex flex-col sm:flex-row gap-4 sm:gap-5 p-4 rounded-xl transition-colors bg-card hover:bg-muted/60 border bg-border">
 
@@ -44,9 +44,10 @@ const ProjectItem = ({ project }: { project: Project }) => {
                     <Link
                         to="/projects/$projectId"
                         params={{ projectId: project.id.toString() }}
+                        search={{ tab }}
                         className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                     >
-                        View Details
+                        View
                         <ArrowUpRight size={13} />
                     </Link>
 
