@@ -23,35 +23,37 @@ export default function Preloader({ isLoading, onExitComplete }: PreloaderProps)
                     }}
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-background will-change-transform"
                 >
-                    <div className="overflow-hidden flex gap-[0.1em] p-2">
-                        {letters.map((letter, index) => (
-                            <motion.span
-                                key={index}
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                exit={{
-                                    y: "-100%",
-                                    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
-                                }}
-                                transition={{
-                                    duration: 1,
-                                    delay: index * 0.1,
-                                    ease: [0.76, 0, 0.24, 1]
-                                }}
-                                className="text-6xl tablet:text-8xl font-black tracking-tighter text-primary block"
-                            >
-                                {letter}
-                            </motion.span>
-                        ))}
-                    </div>
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="overflow-hidden flex gap-[0.1em] p-2">
+                            {letters.map((letter, index) => (
+                                <motion.span
+                                    key={index}
+                                    initial={{ y: "100%" }}
+                                    animate={{ y: 0 }}
+                                    exit={{
+                                        y: "-100%",
+                                        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        delay: index * 0.1,
+                                        ease: [0.76, 0, 0.24, 1]
+                                    }}
+                                    className="text-6xl tablet:text-8xl font-black tracking-tighter text-primary block"
+                                >
+                                    {letter}
+                                </motion.span>
+                            ))}
+                        </div>
 
-                    {/* Subtle bottom line reveal */}
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                        className="absolute bottom-40 w-12 h-[2px] bg-primary/20"
-                    />
+                        {/* Subtle bottom line reveal */}
+                        <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                            className="w-12 h-[2px] bg-primary/20"
+                        />
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>
