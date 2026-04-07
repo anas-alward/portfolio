@@ -1,6 +1,7 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
+import Image from "./image"
 
 interface LightboxProps {
     isOpen: boolean
@@ -45,7 +46,7 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
                         >
                             <X className="w-8 h-8" />
                         </button>
-                        <img
+                        <Image
                             src={src}
                             alt={alt || "Full screen image"}
                             className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
