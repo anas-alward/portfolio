@@ -23,7 +23,7 @@ export default function Preloader({ isLoading, onExitComplete }: PreloaderProps)
                     }}
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-background will-change-transform"
                 >
-                    <div className="flex flex-col items-center gap-4">
+                    <div className="flex flex-col items-center ">
                         <div className="overflow-hidden flex gap-[0.1em] p-2">
                             {letters.map((letter, index) => (
                                 <motion.span
@@ -45,14 +45,6 @@ export default function Preloader({ isLoading, onExitComplete }: PreloaderProps)
                                 </motion.span>
                             ))}
                         </div>
-
-                        {/* Subtle bottom line reveal */}
-                        <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                            className="w-12 h-[2px] bg-primary/20"
-                        />
                     </div>
                 </motion.div>
             )}
