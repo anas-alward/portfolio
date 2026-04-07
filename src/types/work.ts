@@ -4,7 +4,7 @@ export type Company = {
     id: string;
     name: string;
     logo: string ;
-    url: string ;
+    link: string ;
 }
 
 export type Work = {

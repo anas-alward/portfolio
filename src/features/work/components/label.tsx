@@ -5,11 +5,10 @@ import { getStorageUrl } from "@/lib/storage"
 type CompanyLabelProps = {
     company: string
     icon?: string
-    url?: string
+    link?: string
 }
 
-export const CompanyLabel = ({ company, icon, url }: CompanyLabelProps) => {
-
+export const CompanyLabel = ({ company, icon, link }: CompanyLabelProps) => {
     return (
 
         <div className="flex items-center gap-2 py-0.5">
@@ -24,7 +23,7 @@ export const CompanyLabel = ({ company, icon, url }: CompanyLabelProps) => {
             )}
             <p className="text-xs font-medium ">
                 <a
-                    href={url}
+                    href={link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground transition-colors underline underline-offset-1"

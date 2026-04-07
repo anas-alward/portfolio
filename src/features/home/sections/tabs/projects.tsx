@@ -3,8 +3,12 @@ import ProjectItem from "@/features/projects/components/item";
 import ProjectSkeleton from "@/features/projects/components/skeleton";
 import Pagination from "@/components/ui/pagination";
 import { usePaginatedProjects } from '@/hooks/useProjects'
+import { getRouteApi } from "@tanstack/react-router";
+
+const route = getRouteApi('/')
 
 const ProjectTabContent = () => {
+    const { tab } = route.useSearch()
     const [page, setPage] = useState(1);
     const { data, isLoading, pageSize } = usePaginatedProjects(page);
     const projects = data?.data;
@@ -27,7 +31,7 @@ const ProjectTabContent = () => {
             <div className="max-h-[70vh] overflow-y-auto px-4 -mx-4 no-scrollbar scroll-smooth">
                 <div className="flex flex-col gap-2 py-4">
                     {projects?.map((project, i) => (
-                        <ProjectItem key={i} project={project} />
+                        <ProjectItem key={i} project={project} tab={tab} />
                     ))}
                 </div>
             </div>
