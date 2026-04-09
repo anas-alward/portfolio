@@ -2,7 +2,7 @@ import { useState } from "react";
 import AchievementItem from "@/features/achievements/components/item";
 import AchievementSkeleton from "@/features/achievements/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedAchievements } from "@/hooks/useAchievements";
+import { usePaginatedAchievements } from "@/features/achievements/hooks";
 
 const AchievementsTabContent = () => {
     const [page, setPage] = useState(1);
