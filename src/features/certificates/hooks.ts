@@ -1,7 +1,7 @@
-import { useSupabaseQuery, useSupabasePaginatedQuery } from './useSupabase';
-import { Certificate } from '../types';
-import { useSettings } from './useSettings';
-import { SECTION, SETTINGS_TYPE } from '../types';
+import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
+import { Certificate } from '@/types';
+import { useSettings } from '@/features/settings/hooks';
+import { SECTION, SETTINGS_TYPE } from '@/types';
 
 /**
  * Hook to fetch certificates from Supabase
