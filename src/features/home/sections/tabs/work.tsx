@@ -4,7 +4,7 @@ import WorkSkeleton from "@/features/work/components/skeleton";
 import Pagination from "@/components/ui/pagination";
 import { useQuery } from "@tanstack/react-query";
 import { listWork } from "@/features/work/api";
-import { useSettings } from '@/hooks/useSettings'
+import { useSettings } from '@/features/settings/hooks'
 import { SETTINGS_TYPE, SECTION } from "@/types";
 
 
