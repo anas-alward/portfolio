@@ -1,10 +1,10 @@
-import { useSupabaseQuery, useSupabasePaginatedQuery } from './useSupabase';
-import { Achievement } from '../types';
-import { useSettings } from './useSettings';
-import { SECTION, SETTINGS_TYPE } from '../types';
+import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
+import { Achievement } from '@/types';
+import { useSettings } from '@/features/settings/hooks';
+import { SECTION, SETTINGS_TYPE } from '@/types';
 
 /**
- * Hook to fetch skills from Supabase
+ * Hook to fetch achievements from Supabase
  */
 export function useAchievements(params?: Record<string, any>) {
     return useSupabaseQuery<Achievement>(['achievements'], 'achievements', params);
