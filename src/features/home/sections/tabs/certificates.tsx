@@ -2,7 +2,8 @@ import { useState } from "react";
 import CertificateItem from "@/features/certificates/components/item";
 import CertificateSkeleton from "@/features/certificates/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedCertificates } from "@/hooks/useCertificates";
+import { usePaginatedCertificates } from "@/features/certificates/hooks";
+
 
 const CertificatesTabContent = () => {
     const [page, setPage] = useState(1);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProjectItem from "@/features/projects/components/item";
 import ProjectSkeleton from "@/features/projects/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedProjects } from '@/hooks/useProjects'
+import { usePaginatedProjects } from '@/features/projects/hooks'
 import { getRouteApi } from "@tanstack/react-router";
 
 const route = getRouteApi('/')

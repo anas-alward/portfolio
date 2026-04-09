@@ -2,7 +2,7 @@ import { useState } from "react";
 import EducationItem from "@/features/education/components/item";
 import EducationSkeleton from "@/features/education/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedEducations } from "@/hooks/useEducations";
+import { usePaginatedEducations } from "@/features/education/hooks";
 import { Education } from "@/types";
 
 const EducationTabContent = () => {

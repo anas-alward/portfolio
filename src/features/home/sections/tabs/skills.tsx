@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { SkillItem, SkillSkeleton, SkillDialog } from "@/features/skills/components";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedSkills } from "@/hooks/useSkills";
+import { usePaginatedSkills } from "@/features/skills/hooks";
 import { Skill } from "@/types";
 
 

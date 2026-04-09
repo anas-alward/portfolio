@@ -2,7 +2,7 @@ import { useState } from "react";
 import TestimonialItem from "@/features/testimonial/components/item";
 import TestimonialSkeleton from "@/features/testimonial/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedTestimonials } from "@/hooks/useTestimonial";
+import { usePaginatedTestimonials } from "@/features/testimonial/hooks";
 
 const TestimonialTabContent = () => {
     const [page, setPage] = useState(1);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import LanguageItem from "@/features/languages/components/item";
 import LanguageSkeleton from "@/features/languages/components/skeleton";
 import Pagination from "@/components/ui/pagination";
-import { usePaginatedLanguages } from "@/hooks/useLanguages";
+import { usePaginatedLanguages } from "@/features/languages/hooks";
 
 const LanguagesTabContent = () => {
     const [page, setPage] = useState(1);
