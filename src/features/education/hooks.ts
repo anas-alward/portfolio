@@ -1,9 +1,10 @@
-import { useSupabaseQuery, useSupabasePaginatedQuery } from './useSupabase';
+import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
 import { Education } from '@/types';
-import { useSettings } from './useSettings';
+import { useSettings } from '@/features/settings/hooks';
 import { SECTION, SETTINGS_TYPE } from '@/types';
+
 /**
- * Hook to fetch skills from Supabase
+ * Hook to fetch education from Supabase
  */
 export function useEducations(params?: Record<string, any>) {
     return useSupabaseQuery<Education>(['educations'], 'educations', params);
