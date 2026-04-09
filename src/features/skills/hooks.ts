@@ -1,6 +1,6 @@
-import { useSupabaseQuery, useSupabasePaginatedQuery } from './useSupabase';
-import { Skill } from '../types';
-import { useSettings } from './useSettings';
+import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
+import { Skill } from '@/types';
+import { useSettings } from '@/features/settings/hooks';
 import { SECTION, SETTINGS_TYPE } from '@/types';
 
 /**
