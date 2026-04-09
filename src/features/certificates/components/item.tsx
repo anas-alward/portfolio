@@ -40,7 +40,7 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
                         href={certificate.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs font-semibold text-neutral-900 border border-neutral-200 px-3 py-1 rounded-full hover:bg-black hover:text-white hover:border-black transition-all"
+                        className="text-xs font-medium text-primary-foreground bg-primary px-3 py-1 rounded-full hover:scale-105 transition-all"
                     >
                         View
                     </a>

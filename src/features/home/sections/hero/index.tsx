@@ -2,11 +2,11 @@ import HeroPhoto from "./photo"
 import WordFadeIn from "@/components/animation/wordFadeIn"
 import FormattedText from "@/components/ui/formatted-text"
 import ContactBlock from "./contact"
-import { useProfile } from "@/hooks/useProfile"
+import { useProfile } from "@/features/home/hooks"
 import { Skeleton } from "@/components/ui/skeleton"
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { useSettings } from "@/hooks/useSettings"
+import { useSettings } from "@/features/settings/hooks"
 import { SECTION, SETTINGS_TYPE } from "@/types/enums"
 
 const HeroSection = () => {

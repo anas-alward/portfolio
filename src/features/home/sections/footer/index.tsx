@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import SocialLinks from "@/components/ui/social-links"
-import { useProfile } from "@/hooks/useProfile"
+import { useProfile } from "@/features/home/hooks"
 
 const Footer = () => {
     const { data: profile } = useProfile({ order: undefined });

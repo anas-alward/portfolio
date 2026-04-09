@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion"
-import { useSocials } from "@/hooks/useSocials"
+import { useSocials } from "@/features/home/hooks"
 import { getStorageUrl } from "@/lib/storage"
 import Tooltip from "@/components/ui/tooltip"
 import { Skeleton } from "@/components/ui/skeleton"
