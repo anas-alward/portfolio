@@ -1,5 +1,5 @@
-import { useSupabaseQuery } from './useSupabase';
-import { Settings, DATA_TYPE } from '../types';
+import { useSupabaseQuery } from '@/hooks/useSupabase';
+import { Settings, DATA_TYPE } from '@/types';
 
 /**
  * Casts a string value to its appropriate data type.
