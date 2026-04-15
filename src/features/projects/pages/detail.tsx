@@ -27,7 +27,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
     const [isSkillDialogOpen, setIsSkillDialogOpen] = useState(false);
 
     const projectImage = project.image ? getStorageUrl(`projects/${project.slug}/main.png`) : null
-    const additionalImages = (project.images || []).map((image: string) => getStorageUrl(`projects/${project.slug}/${image}`))
+    const additionalImages = (project.images || []).map((image: string) => `projects/${project.slug}/${image}`)
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(window.location.href)
