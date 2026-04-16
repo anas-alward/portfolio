@@ -32,3 +32,18 @@ export const listWork = async (page = 1, pageSize = 3): Promise<ListWorkResponse
         totalPages: Math.ceil(count / pageSize)
     };
 };
+
+export const getWorkDetails = async (workId: string): Promise<Work | null> => {
+    const USER_ID = import.meta.env.VITE_SUPABASE_USER_ID;
+
+    const { data } = await supabaseAxios.get<Work[]>('/work_details', {
+        params: {
+            select: '*',
+            id: `eq.${workId}`,
+            ...(USER_ID ? { user: `eq.${USER_ID}` } : {}),
+            limit: 1,
+        },
+    });
+
+    return data?.[0] || null;
+};

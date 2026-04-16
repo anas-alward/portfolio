@@ -31,11 +31,11 @@ const WorkTabContent = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="relative border-l border-neutral-700 ml-4 space-y-10">
+            <ol className="relative border-l border-border ml-4 space-y-12">
                 {work?.map((item) => (
                     <WorkItem key={item.id} item={item} />
                 ))}
-            </div>
+            </ol>
 
             <Pagination
                 currentPage={page}
