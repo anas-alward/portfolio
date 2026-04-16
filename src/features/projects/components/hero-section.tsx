@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { ProjectTypeLabel } from '@/features/projects/components/labels'
 import { ArrowUpRight } from 'lucide-react'
 import { Project } from '@/types/projects'
-
+import { getStorageUrl } from '@/lib/storage'
 interface ProjectHeroSectionProps {
     project: Project
     projectImage: string | null
@@ -22,7 +22,7 @@ export function ProjectHeroSection({ project, projectImage, onImageClick }: Proj
                     onClick={() => onImageClick(projectImage)}
                 >
                     <img
-                        src={projectImage}
+                        src={getStorageUrl(projectImage)}
                         alt={project.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

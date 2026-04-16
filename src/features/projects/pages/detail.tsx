@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
-import { getStorageUrl } from '@/lib/storage'
 import { motion } from 'framer-motion'
 import SkillDialog from '@/features/skills/components/dialog'
 import { Project } from '@/types/projects'
@@ -26,7 +25,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
     const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
     const [isSkillDialogOpen, setIsSkillDialogOpen] = useState(false);
 
-    const projectImage = project.image ? getStorageUrl(`projects/${project.slug}/main.png`) : null
+    const projectImage = project.image ? (`projects/${project.slug}/main.png`) : null
     const additionalImages = (project.images || []).map((image: string) => `projects/${project.slug}/${image}`)
 
     const handleCopyLink = () => {
