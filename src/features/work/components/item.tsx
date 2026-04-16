@@ -1,31 +1,46 @@
 import type { Work } from "@/types/work";
-import { CompanyLabel, DateLabel } from "./label";
-
+import { Link } from '@tanstack/react-router'
+import { ArrowUpRight } from 'lucide-react'
+import DateLabel from "./date-label";
 
 const WorkItem = ({ item }: { item: Work }) => {
-
     return (
-        <div key={item.id} className="relative pl-8">
-            <span className="absolute -left-[9px] top-1.5 w-4 h-4 bg-white rounded-full border-4 border-neutral-900 z-10" />
-
-            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4 items-start sm:items-baseline">
-                <div className="space-y-1 flex-1">
-                    <CompanyLabel
-                        company={item.companies?.name }
-                        icon={item.companies?.logo }
-                        link={item.companies?.link}
-                    />
-
-                    <h3 className="text-lg font-semibold text-primary leading-none pb-1">{item.position}</h3>
-
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                        {item.description}
-                    </p>
-                </div>
-
-                <DateLabel start={item.start} end={item.end} />
+        <li key={item.id} className="ms-4 mt-1.5">
+            <div className="flex items-center gap-2">
+                <div className="absolute w-3 h-3 bg-muted rounded-full -left-[6.5px] border border-background"></div>
+                <DateLabel date={item.start} />
             </div>
-        </div>
+
+            <div className="flex flex-col gap-1">
+
+                
+
+                <h3 className="text-lg font-semibold text-foreground mt-2 mb-1">
+                    {item.position}
+                </h3>
+
+                {item.title && (
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-2">
+                        {item.title}
+                    </p>
+                )}
+
+                <p className="mb-4 text-sm font-normal text-muted-foreground leading-relaxed max-w-2xl">
+                    {item.description}
+                </p>
+                <div className="flex justify-end items-center">
+
+                <Link
+                    to="/work/$workId"
+                    params={{ workId: item.id }}
+                    className="inline-flex items-center gap-2 w-fit px-4 py-2 text-sm font-medium text-foreground bg-secondary border border-border rounded-lg hover:bg-muted transition-colors group/link"
+                    >
+                    Learn more
+                    <ArrowUpRight size={16} className="transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                </Link>
+                    </div>
+            </div>
+        </li>
     );
 }
 

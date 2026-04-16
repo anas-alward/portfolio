@@ -22,14 +22,20 @@ export const CompanyLabel = ({ company, icon, link }: CompanyLabelProps) => {
                 </div>
             )}
             <p className="text-xs font-medium ">
-                <a
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground transition-colors underline underline-offset-1"
-                >
-                    {company}
-                </a>
+                {link ? (
+                    <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground transition-colors underline underline-offset-1"
+                    >
+                        {company}
+                    </a>
+                ) : (
+                    <span className="text-muted-foreground">
+                        {company}
+                    </span>
+                )}
             </p>
         </div>
     )
