@@ -1,7 +1,5 @@
 import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
 import { Achievement } from '@/types';
-import { useSettings } from '@/features/settings/hooks';
-import { SECTION, SETTINGS_TYPE } from '@/types';
 
 /**
  * Hook to fetch achievements from Supabase
@@ -11,11 +9,8 @@ export function useAchievements(params?: Record<string, any>) {
 }
 
 /**
- * Hook to fetch achievements from Supabase with pagination
+ * Hook to fetch achievements from Supabase (formerly paginated, now returns all)
  */
-export function usePaginatedAchievements(page: number = 1, params?: Record<string, any>) {
-    const DEFAULT_PAGE_SIZE = 3;
-    const { data: settings } = useSettings({ section: SECTION.ACHIEVEMENTS, type: SETTINGS_TYPE.PAGINATION })
-    const pageSize = Number(settings?.PAGE_SIZE) || DEFAULT_PAGE_SIZE;
-    return { ...useSupabasePaginatedQuery<Achievement>(['achievements', 'paginated'], 'achievements', page, pageSize, params), pageSize };
+export function usePaginatedAchievements(params?: Record<string, any>) {
+    return { ...useSupabasePaginatedQuery<Achievement>(['achievements', 'paginated'], 'achievements', 1, 10, params), pageSize: 10 };
 }

@@ -1,7 +1,5 @@
 import { useSupabaseQuery, useSupabasePaginatedQuery } from '@/hooks/useSupabase';
 import { Certificate } from '@/types';
-import { useSettings } from '@/features/settings/hooks';
-import { SECTION, SETTINGS_TYPE } from '@/types';
 
 /**
  * Hook to fetch certificates from Supabase
@@ -11,11 +9,8 @@ export function useCertificates(params?: Record<string, any>) {
 }
 
 /**
- * Hook to fetch certificates from Supabase with pagination
+ * Hook to fetch certificates from Supabase (formerly paginated, now returns all)
  */
-export function usePaginatedCertificates(page: number = 1, params?: Record<string, any>) {
-    const DEFAULT_PAGE_SIZE = 5;
-    const { data: settings } = useSettings({ section: SECTION.CERTIFICATES, type: SETTINGS_TYPE.PAGINATION });
-    const pageSize = settings?.PAGE_SIZE ? Number(settings.PAGE_SIZE) : DEFAULT_PAGE_SIZE;
-    return { ...useSupabasePaginatedQuery<Certificate>(['certificates', 'paginated'], 'certificates', page, pageSize, params), pageSize };
+export function usePaginatedCertificates(params?: Record<string, any>) {
+    return { ...useSupabasePaginatedQuery<Certificate>(['certificates', 'paginated'], 'certificates', 1, 10, params), pageSize: 10 };
 }

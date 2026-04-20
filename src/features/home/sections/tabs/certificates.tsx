@@ -1,21 +1,17 @@
-import { useState } from "react";
 import CertificateItem from "@/features/certificates/components/item";
 import CertificateSkeleton from "@/features/certificates/components/skeleton";
-import Pagination from "@/components/ui/pagination";
 import { usePaginatedCertificates } from "@/features/certificates/hooks";
 
 
 const CertificatesTabContent = () => {
-    const [page, setPage] = useState(1);
-    const { data, isLoading, pageSize } = usePaginatedCertificates(page);
+    const { data, isLoading } = usePaginatedCertificates();
     const certificates = data?.data;
-    const totalPages = data?.totalPages || 0
 
     if (isLoading) {
         return (
             <section className="w-full space-y-6">
                 <div className="divide-y divide-neutral-200">
-                    {[...Array(pageSize)].map((_, i) => (
+                    {[...Array(3)].map((_, i) => (
                         <CertificateSkeleton key={i} />
                     ))}
                 </div>
@@ -40,12 +36,6 @@ const CertificatesTabContent = () => {
                         </p>
                     )}
                 </div>
-
-                <Pagination
-                    currentPage={page}
-                    totalPages={totalPages}
-                    onPageChange={setPage}
-                />
             </div>
         </section>
     );

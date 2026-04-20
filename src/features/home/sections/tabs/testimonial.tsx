@@ -1,19 +1,15 @@
-import { useState } from "react";
 import TestimonialItem from "@/features/testimonial/components/item";
 import TestimonialSkeleton from "@/features/testimonial/components/skeleton";
-import Pagination from "@/components/ui/pagination";
 import { usePaginatedTestimonials } from "@/features/testimonial/hooks";
 
 const TestimonialTabContent = () => {
-    const [page, setPage] = useState(1);
-    const { data, isLoading, pageSize } = usePaginatedTestimonials(page);
+    const { data, isLoading } = usePaginatedTestimonials();
     const testimonials = data?.data;
-    const totalPages = data?.totalPages || 0;
 
     if (isLoading) {
         return (
             <div className="space-y-2">
-                {[...Array(pageSize)].map((_, i) => (
+                {[...Array(3)].map((_, i) => (
                     <TestimonialSkeleton key={i} />
                 ))}
             </div>
@@ -27,12 +23,6 @@ const TestimonialTabContent = () => {
                     <TestimonialItem key={testimonial.id || i} testimonial={testimonial} />
                 ))}
             </div>
-
-            <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={setPage}
-            />
         </div>
     );
 };

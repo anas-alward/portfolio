@@ -68,19 +68,16 @@ export function useSupabaseSingleQuery<T>(
 export function useSupabasePaginatedQuery<T>(
     key: string[],
     table: string,
-    page: number = 1,
-    pageSize: number = 10,
+    _page: number = 1,
+    _pageSize: number = 10,
     params?: Record<string, any>,
     options?: Omit<UseQueryOptions<{ data: T[], count: number | null, totalPages: number, pageSize: number }, Error>, 'queryKey' | 'queryFn'>
 ) {
     const userId = import.meta.env.VITE_SUPABASE_USER_ID;
-    const from = (page - 1) * pageSize;
 
     const finalParams = {
         ...(userId ? { user: `eq.${userId}` } : {}),
         is_active: 'eq.true',
-        limit: pageSize,
-        offset: from,
         order: 'order.asc',
         ...params,
     };
@@ -98,13 +95,13 @@ export function useSupabasePaginatedQuery<T>(
             // PostgREST returns count in content-range header: e.g., "0-9/100"
             const contentRange = response.headers['content-range'];
             const count = contentRange ? parseInt(contentRange.split('/')[1], 10) : null;
-            const totalPages = Math.ceil(count ? count / pageSize : 0) 
-            
+            const totalPages = 1;
+
             return {
                 data: response.data,
                 count,
                 totalPages,
-                pageSize,
+                pageSize: _pageSize,
             };
         },
         ...options,
