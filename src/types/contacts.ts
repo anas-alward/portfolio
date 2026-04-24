@@ -6,6 +6,7 @@ export interface Contact {
     url: string
     icon: string
     order: number
+    copy_reference?: string
 }
 
 

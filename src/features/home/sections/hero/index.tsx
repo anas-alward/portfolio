@@ -1,4 +1,5 @@
 import HeroPhoto from "./photo"
+import ContactCTA from "./cta"
 import WordFadeIn from "@/components/animation/wordFadeIn"
 import FormattedText from "@/components/ui/formatted-text"
 import ContactBlock from "./contact"
@@ -27,9 +28,13 @@ const HeroSection = () => {
                         <span className="text-primary text-[20px] pc:text-[25px] font-medium tracking-tight">
                             {profile?.name || ""}
                         </span>
-                        {
-                            profile?.is_available ? (<IsAvailableLabel />) : profile?.at && <CurrentlyAtLabel company={profile.at} />
-                        }
+                        <div className="flex items-center gap-2">
+                            {
+                                profile?.is_available ? (<IsAvailableLabel />) : profile?.at && <CurrentlyAtLabel company={profile.at} />
+                            }
+                            <span className="text-secondary-foreground/20 select-none">•</span>
+                            <ContactCTA />
+                        </div>
                     </div>
                 </div>
 
