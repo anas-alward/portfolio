@@ -3,7 +3,7 @@ import ContactCTA from "./cta"
 import WordFadeIn from "@/components/animation/wordFadeIn"
 import FormattedText from "@/components/ui/formatted-text"
 import ContactBlock from "./contact"
-import { useProfile } from "@/features/home/hooks"
+import { useProfile, useSocials } from "@/features/home/hooks"
 import { Skeleton } from "@/components/ui/skeleton"
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
@@ -11,9 +11,19 @@ import { useSettings } from "@/features/settings/hooks"
 import { SECTION, SETTINGS_TYPE } from "@/types/enums"
 
 const HeroSection = () => {
-    const { data: profile, isLoading } = useProfile({ order: undefined })
+    const { data: profile, isLoading: profileLoading } = useProfile({ order: undefined })
+    const { data: socials, isLoading: socialsLoading } = useSocials({ is_active: "eq.true", order: "order.asc" })
     const { data: settings } = useSettings({ section: SECTION.HERO, type: SETTINGS_TYPE.FEATURE })
+
     const isThemeToggleEnabled = settings?.THEME_TOGGLE ? settings.THEME_TOGGLE : false
+    const isLoading = profileLoading || socialsLoading
+
+    // Find email or default to first social link for fallback
+    const emailSocial = socials?.find(s => s.name.toLowerCase().includes('email'))
+    const linkedinSocial = socials?.find(s => s.name.toLowerCase().includes('linkedin'))
+    const primaryContact = emailSocial || linkedinSocial || socials?.[0]
+
+    const ctaLink = profile?.cta_link || primaryContact?.url || ""
 
     return (
         <div className="relative">
@@ -33,7 +43,7 @@ const HeroSection = () => {
                                 profile?.is_available ? (<IsAvailableLabel />) : profile?.at && <CurrentlyAtLabel company={profile.at} />
                             }
                             <span className="text-secondary-foreground/20 select-none">•</span>
-                            <ContactCTA />
+                            <ContactCTA href={ctaLink} />
                         </div>
                     </div>
                 </div>

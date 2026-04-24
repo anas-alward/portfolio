@@ -62,7 +62,8 @@ const SocialLinks = ({
         }
     }
 
-    const springTransition = { type: "spring", stiffness: 450, damping: 40 }
+    const springTransition = { type: "spring", stiffness: 180, damping: 25 } as const
+    const exitTransition = { type: "spring", stiffness: 150, damping: 28 } as const
 
     const variants: Variants = {
         hidden: { opacity: 0, scale: 0.95 },
@@ -91,7 +92,7 @@ const SocialLinks = ({
                         <motion.div
                             key={social.id}
                             layout
-                            transition={springTransition}
+                            transition={isExpanded ? springTransition : exitTransition}
                             onMouseEnter={() => activeId === null && setHoveredId(social.id)}
                             onMouseLeave={() => setHoveredId(null)}
                             className={`group relative flex items-center bg-secondary/10 hover:bg-secondary/30 border border-border/20 rounded-full transition-shadow duration-300 overflow-hidden ${isExpanded ? 'px-3 py-1.5 ring-1 ring-primary/20 shadow-sm z-10' : 'p-2 z-0'} ${itemClassName}`}
@@ -115,7 +116,7 @@ const SocialLinks = ({
                                             initial={{ width: 0, opacity: 0 }}
                                             animate={{ width: "auto", opacity: 1 }}
                                             exit={{ width: 0, opacity: 0 }}
-                                            transition={springTransition}
+                                            transition={isExpanded ? springTransition : exitTransition}
                                             className="flex items-center gap-1.5 overflow-hidden"
                                         >
                                             <span className="whitespace-nowrap text-[13px] font-semibold text-secondary-foreground/80 group-hover:text-secondary-foreground transition-colors">
@@ -133,7 +134,7 @@ const SocialLinks = ({
                                         initial={{ opacity: 0, width: 0 }}
                                         animate={{ opacity: 1, width: "auto" }}
                                         exit={{ opacity: 0, width: 0 }}
-                                        transition={springTransition}
+                                        transition={isExpanded ? springTransition : exitTransition}
                                         className="flex items-center overflow-hidden"
                                     >
                                         <div className="w-[1px] h-3.5 bg-border/40 mx-2 shrink-0" />

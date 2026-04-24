@@ -1,16 +1,12 @@
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
-import { useSocials } from "@/features/home/hooks"
 
-const ContactCTA = () => {
-    const { data: socials, isLoading } = useSocials({ is_active: "eq.true", order: "order.asc" })
+interface ContactCTAProps {
+    href: string
+}
 
-    // Find email or default to first social link
-    const emailSocial = socials?.find(s => s.name.toLowerCase().includes('email'))
-    const linkedinSocial = socials?.find(s => s.name.toLowerCase().includes('linkedin'))
-    const primaryContact = emailSocial || linkedinSocial || socials?.[0]
-
-    if (isLoading || !primaryContact) return null
+const ContactCTA = ({ href }: ContactCTAProps) => {
+    if (!href) return null
 
     return (
         <motion.div
@@ -20,8 +16,8 @@ const ContactCTA = () => {
             className="flex items-center"
         >
             <a
-                href={primaryContact.url}
-                target={primaryContact.name.toLowerCase().includes('email') ? "_self" : "_blank"}
+                href={href}
+                target={href.startsWith('mailto:') ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 className="group flex items-center gap-1.5 text-[13px] pc:text-[14px] font-bold text-primary/80 hover:text-primary transition-all duration-300"
             >
