@@ -52,12 +52,6 @@ const SocialLinks = ({
         setActiveId(null)
     }
 
-    const handleLinkClick = (e: React.MouseEvent, id: number, isExpanded: boolean) => {
-        if (!isExpanded) {
-            e.preventDefault()
-            setActiveId(id)
-        }
-    }
 
     const springTransition = { type: "spring", stiffness: 180, damping: 25 } as const
     const exitTransition = { type: "spring", stiffness: 150, damping: 28 } as const
@@ -118,61 +112,51 @@ const SocialLinks = ({
                                         animate={{ opacity: 1, scale: 1, x: '0%', y: '0%' }}
                                         exit={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
                                         transition={isExpanded ? springTransition : exitTransition}
-                                        className="absolute -top-1 -left-1 z-50 flex items-center bg-background/60 backdrop-blur-md border border-primary/20 rounded-full px-3 py-1.5 shadow-xl ring-1 ring-primary/5 min-w-max pointer-events-auto"
+                                        className="absolute -top-1 -left-1 z-50 flex items-center bg-background/80 backdrop-blur-md border border-primary/20 rounded-full p-1.5 shadow-xl ring-1 ring-primary/5 min-w-max pointer-events-auto gap-1"
                                     >
                                         <a
                                             href={social.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            onClick={(e) => handleLinkClick(e, social.id, isExpanded)}
-                                            className="flex items-center gap-2 group"
+                                            className="p-2 rounded-full hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-all group"
+                                            title="Open link"
                                         >
-                                            <img
-                                                src={getStorageUrl(social.icon)}
-                                                alt={social.name}
-                                                className={`w-${iconSize} h-${iconSize} transition-transform group-hover:scale-110`}
-                                            />
-                                            <span className="whitespace-nowrap text-[13px] font-semibold text-secondary-foreground transition-colors group-hover:text-primary">
-                                                {reference}
-                                            </span>
-                                            <ArrowUpRight size={12} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
+                                            <ArrowUpRight size={15} className="group-hover:scale-110 transition-transform" />
                                         </a>
 
-                                        <div className="w-[1px] h-3.5 bg-border/40 mx-2 shrink-0" />
+                                        <div className="w-[1px] h-3 bg-border/40 mx-0.5 shrink-0" />
 
-                                        <div className="flex items-center gap-1">
-                                            <motion.button
-                                                whileHover={{ scale: 1.15, color: "var(--primary)" }}
-                                                whileTap={{ scale: 0.9 }}
-                                                onClick={(e) => handleCopy(e, reference, social.id)}
-                                                className="p-1 rounded-full hover:bg-primary/10 text-muted-foreground/40 hover:text-primary transition-all shrink-0"
-                                                title="Copy reference"
-                                            >
-                                                <AnimatePresence mode="wait">
-                                                    <motion.div
-                                                        key={copiedId === social.id ? "checked" : "copy"}
-                                                        initial={{ opacity: 0, rotate: -45 }}
-                                                        animate={{ opacity: 1, rotate: 0 }}
-                                                        exit={{ opacity: 0, rotate: 45 }}
-                                                        transition={{ duration: 0.15 }}
-                                                    >
-                                                        {copiedId === social.id ? <Check size={13} /> : <Copy size={13} />}
-                                                    </motion.div>
-                                                </AnimatePresence>
-                                            </motion.button>
+                                        <motion.button
+                                            whileHover={{ scale: 1.15, color: "var(--primary)" }}
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={(e) => handleCopy(e, reference, social.id)}
+                                            className="p-1.5 rounded-full hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-all shrink-0"
+                                            title="Copy reference"
+                                        >
+                                            <AnimatePresence mode="wait">
+                                                <motion.div
+                                                    key={copiedId === social.id ? "checked" : "copy"}
+                                                    initial={{ opacity: 0, rotate: -45 }}
+                                                    animate={{ opacity: 1, rotate: 0 }}
+                                                    exit={{ opacity: 0, rotate: 45 }}
+                                                    transition={{ duration: 0.15 }}
+                                                >
+                                                    {copiedId === social.id ? <Check size={14} /> : <Copy size={13} />}
+                                                </motion.div>
+                                            </AnimatePresence>
+                                        </motion.button>
 
-                                            <div className="w-[1px] h-3 bg-border/20 mx-0.5 shrink-0" />
+                                        <div className="w-[1px] h-3 bg-border/40 mx-0.5 shrink-0" />
 
-                                            <motion.button
-                                                whileHover={{ scale: 1.15, color: "#ef4444" }}
-                                                whileTap={{ scale: 0.9 }}
-                                                onClick={handleClose}
-                                                className="p-1 rounded-full hover:bg-red-500/10 text-muted-foreground/40 hover:text-red-500 transition-all shrink-0"
-                                                title="Close"
-                                            >
-                                                <X size={13} />
-                                            </motion.button>
-                                        </div>
+                                        <motion.button
+                                            whileHover={{ scale: 1.15, color: "#ef4444" }}
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={handleClose}
+                                            className="p-1.5 rounded-full hover:bg-red-500/10 text-muted-foreground/60 hover:text-red-500 transition-all shrink-0"
+                                            title="Close"
+                                        >
+                                            <X size={14} />
+                                        </motion.button>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
