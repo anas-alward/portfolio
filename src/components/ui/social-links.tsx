@@ -122,7 +122,7 @@ const SocialLinks = ({
                                         initial={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
                                         animate={{ opacity: 1, scale: 1, x: '0%', y: '0%' }}
                                         exit={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
-                                        transition={isExpanded ? springTransition : exitTransition}
+                                        transition={springTransition}
                                         className="absolute -top-1 -left-1 z-50 flex items-center bg-background/60 backdrop-blur-md border border-primary/20 rounded-full px-3 py-1.5 shadow-xl ring-1 ring-primary/5 min-w-max pointer-events-auto"
                                     >
                                         <a
