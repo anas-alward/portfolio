@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence, Variants } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useSocials } from "@/features/home/hooks"
 import { getStorageUrl } from "@/lib/storage"
 import Tooltip from "@/components/ui/tooltip"
@@ -14,7 +14,6 @@ interface SocialLinksProps {
     className?: string
     itemClassName?: string
 }
-
 
 const SocialLinks = ({
     iconSize = 6,
@@ -65,7 +64,7 @@ const SocialLinks = ({
     const springTransition = { type: "spring", stiffness: 180, damping: 25 } as const
     const exitTransition = { type: "spring", stiffness: 150, damping: 28 } as const
 
-    const variants: Variants = {
+    const variants = {
         hidden: { opacity: 0, scale: 0.95 },
         visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } }
     }
@@ -77,76 +76,81 @@ const SocialLinks = ({
         >
             {isLoading ? (
                 <>
-                    <Skeleton className={`w-${iconSize} h-${iconSize} rounded-full`} />
-                    <Skeleton className={`w-${iconSize} h-${iconSize} rounded-full`} />
-                    <Skeleton className={`w-${iconSize} h-${iconSize} rounded-full`} />
+                    <Skeleton className={`w-10 h-10 rounded-full`} />
+                    <Skeleton className={`w-10 h-10 rounded-full`} />
+                    <Skeleton className={`w-10 h-10 rounded-full`} />
                 </>
             ) : (
                 data?.map((social) => {
                     const reference = social.copy_reference || social.name
-                    // Ensure exclusivity: if an item is 'active', only that one is expanded.
-                    // If none is active, hovered item can expand.
                     const isExpanded = activeId === social.id || (activeId === null && hoveredId === social.id)
 
-                    const linkContent = (
+                    const iconOnly = (
                         <motion.div
-                            key={social.id}
-                            layout
-                            transition={isExpanded ? springTransition : exitTransition}
                             onMouseEnter={() => activeId === null && setHoveredId(social.id)}
                             onMouseLeave={() => setHoveredId(null)}
-                            className={`group relative flex items-center bg-secondary/10 hover:bg-secondary/30 border border-border/20 rounded-full transition-shadow duration-300 overflow-hidden ${isExpanded ? 'px-3 py-1.5 ring-1 ring-primary/20 shadow-sm z-10' : 'p-2 z-0'} ${itemClassName}`}
+                            className={`p-2.5 rounded-full bg-secondary/10 hover:bg-secondary/20 border border-border/20 transition-all duration-300 cursor-pointer ${itemClassName}`}
                         >
-                            <a
-                                href={social.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => handleLinkClick(e, social.id, isExpanded)}
-                                className="flex items-center gap-2"
-                            >
-                                <img
-                                    src={getStorageUrl(social.icon)}
-                                    alt={social.name}
-                                    className={`opacity-60 group-hover:opacity-100 transition-opacity w-${iconSize} h-${iconSize}`}
-                                />
+                            <img
+                                src={getStorageUrl(social.icon)}
+                                alt={social.name}
+                                className={`opacity-60 group-hover:opacity-100 transition-opacity w-${iconSize} h-${iconSize}`}
+                            />
+                        </motion.div>
+                    )
 
-                                <AnimatePresence initial={false}>
-                                    {isExpanded && (
-                                        <motion.div
-                                            initial={{ width: 0, opacity: 0 }}
-                                            animate={{ width: "auto", opacity: 1 }}
-                                            exit={{ width: 0, opacity: 0 }}
-                                            transition={isExpanded ? springTransition : exitTransition}
-                                            className="flex items-center gap-1.5 overflow-hidden"
-                                        >
-                                            <span className="whitespace-nowrap text-[13px] font-semibold text-secondary-foreground/80 group-hover:text-secondary-foreground transition-colors">
-                                                {reference}
-                                            </span>
-                                            <ArrowUpRight size={12} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </a>
+                    return (
+                        <div
+                            key={social.id}
+                            className="relative flex items-center justify-center pt-2 pr-2"
+                            onMouseEnter={() => activeId === null && setHoveredId(social.id)}
+                            onMouseLeave={() => setHoveredId(null)}
+                        >
+                            {/* Base Icon - Stays in layout */}
+                            <div className={isExpanded ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'}>
+                                {showTooltip ? (
+                                    <Tooltip content={social.name} position="bottom">
+                                        {iconOnly}
+                                    </Tooltip>
+                                ) : iconOnly}
+                            </div>
 
+                            {/* Hover/Active Overlay - Absolute */}
                             <AnimatePresence>
                                 {isExpanded && (
                                     <motion.div
-                                        initial={{ opacity: 0, width: 0 }}
-                                        animate={{ opacity: 1, width: "auto" }}
-                                        exit={{ opacity: 0, width: 0 }}
+                                        initial={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
+                                        animate={{ opacity: 1, scale: 1, x: '0%', y: '0%' }}
+                                        exit={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
                                         transition={isExpanded ? springTransition : exitTransition}
-                                        className="flex items-center overflow-hidden"
+                                        className="absolute -top-1 -left-1 z-50 flex items-center bg-background/60 backdrop-blur-md border border-primary/20 rounded-full px-3 py-1.5 shadow-xl ring-1 ring-primary/5 min-w-max pointer-events-auto"
                                     >
+                                        <a
+                                            href={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => handleLinkClick(e, social.id, isExpanded)}
+                                            className="flex items-center gap-2 group"
+                                        >
+                                            <img
+                                                src={getStorageUrl(social.icon)}
+                                                alt={social.name}
+                                                className={`w-${iconSize} h-${iconSize} transition-transform group-hover:scale-110`}
+                                            />
+                                            <span className="whitespace-nowrap text-[13px] font-semibold text-secondary-foreground transition-colors group-hover:text-primary">
+                                                {reference}
+                                            </span>
+                                            <ArrowUpRight size={12} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
+                                        </a>
+
                                         <div className="w-[1px] h-3.5 bg-border/40 mx-2 shrink-0" />
+
                                         <div className="flex items-center gap-1">
                                             <motion.button
-                                                initial={{ scale: 0.5, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                exit={{ scale: 0.5, opacity: 0 }}
                                                 whileHover={{ scale: 1.15, color: "var(--primary)" }}
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={(e) => handleCopy(e, reference, social.id)}
-                                                className="p-1 rounded-full hover:bg-background/50 text-muted-foreground/30 hover:text-primary transition-all shrink-0"
+                                                className="p-1 rounded-full hover:bg-primary/10 text-muted-foreground/40 hover:text-primary transition-all shrink-0"
                                                 title="Copy reference"
                                             >
                                                 <AnimatePresence mode="wait">
@@ -165,13 +169,10 @@ const SocialLinks = ({
                                             <div className="w-[1px] h-3 bg-border/20 mx-0.5 shrink-0" />
 
                                             <motion.button
-                                                initial={{ scale: 0.5, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                exit={{ scale: 0.5, opacity: 0 }}
-                                                whileHover={{ scale: 1.15, color: "var(--primary)" }}
+                                                whileHover={{ scale: 1.15, color: "#ef4444" }}
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={handleClose}
-                                                className="p-1 rounded-full hover:bg-background/50 text-muted-foreground/30 hover:text-red-500 transition-all shrink-0"
+                                                className="p-1 rounded-full hover:bg-red-500/10 text-muted-foreground/40 hover:text-red-500 transition-all shrink-0"
                                                 title="Close"
                                             >
                                                 <X size={13} />
@@ -180,18 +181,8 @@ const SocialLinks = ({
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </motion.div>
+                        </div>
                     )
-
-                    if (showTooltip && !isExpanded) {
-                        return (
-                            <Tooltip key={social.id} content={social.name} position="bottom">
-                                {linkContent}
-                            </Tooltip>
-                        )
-                    }
-
-                    return linkContent
                 })
             )}
         </div>
