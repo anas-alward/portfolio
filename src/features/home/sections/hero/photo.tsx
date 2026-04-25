@@ -63,7 +63,7 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
                 {portraitImage && (
                     <motion.img
                         key="profile-image"
-                        src={portraitImage}
+                        src={getStorageUrl(portraitImage)}
                         alt="persona portrait"
                         initial={{ opacity: 0, filter: "blur(4px)" }}
                         animate={{
