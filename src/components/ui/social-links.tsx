@@ -25,7 +25,6 @@ const SocialLinks = ({
 }: SocialLinksProps) => {
     const { data, isLoading } = useSocials({ is_active: "eq.true", order: "order.asc" })
     const [activeId, setActiveId] = useState<number | null>(null)
-    const [hoveredId, setHoveredId] = useState<number | null>(null)
     const [copiedId, setCopiedId] = useState<number | null>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
@@ -51,7 +50,6 @@ const SocialLinks = ({
         e.preventDefault()
         e.stopPropagation()
         setActiveId(null)
-        setHoveredId(null)
     }
 
     const handleLinkClick = (e: React.MouseEvent, id: number, isExpanded: boolean) => {
@@ -83,18 +81,17 @@ const SocialLinks = ({
             ) : (
                 data?.map((social) => {
                     const reference = social.copy_reference || social.name
-                    const isExpanded = activeId === social.id || (activeId === null && hoveredId === social.id)
+                    const isExpanded = activeId === social.id
 
                     const iconOnly = (
                         <motion.div
-                            onMouseEnter={() => activeId === null && setHoveredId(social.id)}
-                            onMouseLeave={() => setHoveredId(null)}
+                            onClick={() => setActiveId(social.id)}
                             className={`p-2.5 rounded-full bg-secondary/10 hover:bg-secondary/20 border border-border/20 transition-all duration-300 cursor-pointer ${itemClassName}`}
                         >
                             <img
                                 src={getStorageUrl(social.icon)}
                                 alt={social.name}
-                                className={`opacity-60 group-hover:opacity-100 transition-opacity w-${iconSize} h-${iconSize}`}
+                                className={`opacity-60 hover:opacity-100 transition-opacity w-${iconSize} h-${iconSize}`}
                             />
                         </motion.div>
                     )
@@ -103,8 +100,6 @@ const SocialLinks = ({
                         <div
                             key={social.id}
                             className="relative flex items-center justify-center pt-2 pr-2"
-                            onMouseEnter={() => activeId === null && setHoveredId(social.id)}
-                            onMouseLeave={() => setHoveredId(null)}
                         >
                             {/* Base Icon - Stays in layout */}
                             <div className={isExpanded ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'}>
@@ -122,7 +117,7 @@ const SocialLinks = ({
                                         initial={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
                                         animate={{ opacity: 1, scale: 1, x: '0%', y: '0%' }}
                                         exit={{ opacity: 0, scale: 0.8, x: '0%', y: '0%' }}
-                                        transition={springTransition}
+                                        transition={isExpanded ? springTransition : exitTransition}
                                         className="absolute -top-1 -left-1 z-50 flex items-center bg-background/60 backdrop-blur-md border border-primary/20 rounded-full px-3 py-1.5 shadow-xl ring-1 ring-primary/5 min-w-max pointer-events-auto"
                                     >
                                         <a
