@@ -14,7 +14,7 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
 
     const portraitImage = profile?.image
-        ? getStorageUrl(profile.image)
+        ? profile.image
         : '';
 
     const initials = profile?.name
