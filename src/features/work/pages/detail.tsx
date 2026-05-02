@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import { Work } from '@/types/work'
@@ -14,13 +13,6 @@ const route = getRouteApi('/work/$workId')
 
 export function WorkDetailPage({ work }: WorkDetailPageProps) {
     const { tab } = route.useSearch()
-    const [copied, setCopied] = useState(false)
-
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.href)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-    }
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center">
@@ -32,8 +24,6 @@ export function WorkDetailPage({ work }: WorkDetailPageProps) {
             >
                 <WorkHeaderActions
                     tab={tab}
-                    onCopyLink={handleCopyLink}
-                    isCopied={copied}
                 />
 
                 <WorkHeroSection work={work} />

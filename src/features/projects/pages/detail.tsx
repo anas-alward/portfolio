@@ -18,7 +18,6 @@ const route = getRouteApi('/projects/$projectId')
 
 export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
     const { tab } = route.useSearch()
-    const [copied, setCopied] = useState(false)
     const [isLightboxOpen, setIsLightboxOpen] = useState(false)
     const [selectedImage, setSelectedImage] = useState("")
 
@@ -27,12 +26,6 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
     const projectImage = project.image ? (`projects/${project.slug}/main.png`) : null
     const additionalImages = (project.images || []).map((image: string) => `projects/${project.slug}/${image}`)
-
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.href)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-    }
 
     const openLightbox = (image: string) => {
         setSelectedImage(image)
@@ -54,8 +47,6 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
             >
                 <ProjectHeaderActions
                     tab={tab}
-                    onCopyLink={handleCopyLink}
-                    isCopied={copied}
                 />
 
                 <ProjectHeroSection

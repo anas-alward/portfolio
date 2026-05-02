@@ -1,14 +1,12 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft, Copy, Check } from 'lucide-react'
-import Tooltip from '@/components/ui/tooltip'
+import { ShareLink } from '@/components/ui/share-link'
 
 interface ProjectHeaderActionsProps {
     tab?: string
-    onCopyLink: () => void
-    isCopied: boolean
 }
 
-export function ProjectHeaderActions({ tab, onCopyLink, isCopied }: ProjectHeaderActionsProps) {
+export function ProjectHeaderActions({ tab }: ProjectHeaderActionsProps) {
     return (
         <div className="flex items-center justify-between gap-4">
             <Link
@@ -22,24 +20,26 @@ export function ProjectHeaderActions({ tab, onCopyLink, isCopied }: ProjectHeade
                 />
             </Link>
 
-            <Tooltip content={isCopied ? "Link Copied!" : "Copy Link"}>
-                <button
-                    onClick={onCopyLink}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm font-medium"
-                >
-                    {isCopied ? (
-                        <>
-                            <Check size={16} className="text-green-500" />
-                            Copied!
-                        </>
-                    ) : (
-                        <>
-                            <Copy size={16} />
-                            Copy Link
-                        </>
-                    )}
-                </button>
-            </Tooltip>
+            <ShareLink>
+                {({ isCopied, copy }) => (
+                    <button
+                        onClick={copy}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm font-medium"
+                    >
+                        {isCopied ? (
+                            <>
+                                <Check size={16} className="text-green-500" />
+                                Copied!
+                            </>
+                        ) : (
+                            <>
+                                <Copy size={16} />
+                                Copy Link
+                            </>
+                        )}
+                    </button>
+                )}
+            </ShareLink>
         </div>
     )
 }
