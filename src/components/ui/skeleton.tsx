@@ -4,7 +4,7 @@ function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
     return (
         <div
-            className={`animate-pulse rounded-md bg-muted-foreground ${className || ""}`}
+            className={`animate-pulse rounded-md bg-accent ${className || ""}`}
             {...props}
         />
     );
