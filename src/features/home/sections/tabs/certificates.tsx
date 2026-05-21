@@ -10,7 +10,7 @@ const CertificatesTabContent = () => {
     if (isLoading) {
         return (
             <section className="w-full space-y-6">
-                <div className="divide-y divide-neutral-200">
+                <div className="divide-y ">
                     {[...Array(3)].map((_, i) => (
                         <CertificateSkeleton key={i} />
                     ))}
@@ -22,7 +22,7 @@ const CertificatesTabContent = () => {
     return (
         <section className="w-full space-y-6">
             <div className="flex flex-col">
-                <div className="divide-y divide-neutral-200">
+                <div className="divide-y">
                     {certificates?.map((cert) => (
                         <CertificateItem
                             key={cert.id}

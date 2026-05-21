@@ -8,7 +8,7 @@ const TestimonialTabContent = () => {
 
     if (isLoading) {
         return (
-            <div className="space-y-2">
+            <div className="divide-y-2">
                 {[...Array(3)].map((_, i) => (
                     <TestimonialSkeleton key={i} />
                 ))}
@@ -18,7 +18,7 @@ const TestimonialTabContent = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="space-y-2">
+            <div className="divide-y-2">
                 {testimonials?.map((testimonial, i) => (
                     <TestimonialItem key={testimonial.id || i} testimonial={testimonial} />
                 ))}

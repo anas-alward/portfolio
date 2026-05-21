@@ -1,13 +1,13 @@
 import type { Certificate } from "@/types";
 import { getStorageUrl } from "@/lib/storage";
 import { CertificateTypeLabel } from "./label";
-import { ChevronRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
   return (
     <div
       key={certificate.id}
-      className="relative group py-4 flex items-center justify-between gap-4 sm:gap-6 flex-nowrap transition hover:bg-neutral-50 rounded-lg px-3 -mx-3"
+      className="relative group py-4 flex items-center justify-between gap-4 sm:gap-6 flex-nowrap transition  rounded-lg px-3 -mx-3"
     >
       {/* Left Section: breadcrumb attached outside + Icon & Title in same row */}
       <div className="flex-1 min-w-0">
@@ -16,11 +16,11 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
             {certificate.date ? new Date(certificate.date).getFullYear() : ""}
           </span>
           <span className="text-neutral-300" aria-hidden="true">
-            <ChevronRight className="inline-block" size={12} />
+            /
           </span>
-          <span className="truncate">{certificate.issuer}</span>
+          <span className="">{certificate.issuer}</span>
           <span className="text-neutral-300" aria-hidden="true">
-            <ChevronRight className="inline-block" size={12} />
+            /
           </span>
           <span className="shrink-0">
             <CertificateTypeLabel type={certificate.type} />
@@ -37,7 +37,7 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg md:text-xl font-bold text-primary leading-tight truncate">
+            <h3 className="text-lg md:text-xl font-bold text-primary leading-tight whitespace-normal wrap-break-word">
               {certificate.name}
             </h3>
           </div>

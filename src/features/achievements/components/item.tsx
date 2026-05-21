@@ -15,10 +15,10 @@ const AchievementItem = ({ achievement }: { achievement: Achievement }) => {
     }
 
     return (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 group hover:bg-neutral-50 rounded-lg transition-colors px-3 -mx-3 gap-4 sm:gap-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 rounded-lg px-3 -mx-3 gap-4 sm:gap-0">
             <div className="flex items-start gap-4">
                 {/* Icon Placeholder */}
-                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-yellow-50 text-yellow-600 rounded-lg">
+                <div className="w-12 h-12 shrink-0 flex items-center justify-center bg-yellow-50 text-yellow-600 rounded-lg">
                     {achievement.image ? (
                         <img src={getStorageUrl(achievement.image)} alt={achievement.name} className="w-6 h-6 object-contain" />
                     ) : (

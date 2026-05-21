@@ -5,7 +5,7 @@ import ExpandableText from "@/components/ui/expandable-text";
 
 const TestimonialItem = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
-    <div className="w-full py-6 border-b border-neutral-200">
+    <div className="w-full py-6">
       {/* Quote */}
       <div className="flex gap-3">
         <img

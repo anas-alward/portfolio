@@ -30,7 +30,7 @@ const HeroSection = () => {
             <div className="absolute right-0 top-0">
                 {isThemeToggleEnabled && <ThemeToggle />}
             </div>
-            <div className="flex flex-col gap-[35px]">
+            <div className="flex flex-col gap-8.75">
                 {/* Name + Photo grouped as one item */}
                 <div className="flex items-center gap-3">
                     <HeroPhoto profile={profile} isLoading={isLoading} />
@@ -49,7 +49,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Primary & Secondary titles */}
-                <div className="flex flex-col gap-[30px]">
+                <div className="flex flex-col gap-7.5">
                     <div>
                         {
                             isLoading ? (
@@ -59,11 +59,11 @@ const HeroSection = () => {
                                 </div>
                             ) : (
                                 <>
-                                    <WordFadeIn key="title-loaded" className="text-primary text-[22px] pc:text-[25px] font-bold">
+                                    <WordFadeIn key="title-loaded" className="text-[22px] pc:text-[25px] font-bold">
                                         {profile?.primary_title || ""}
                                     </WordFadeIn>
 
-                                    <FormattedText animated className="text-[17px] pc:text-[20px] text-secondary-foreground mt-2 font-medium">
+                                    <FormattedText animated className="text-[17px] pc:text-[20px] text-muted-foreground mt-2 font-medium">
                                         {profile?.secondary_title || ""}
                                     </FormattedText>
                                 </>

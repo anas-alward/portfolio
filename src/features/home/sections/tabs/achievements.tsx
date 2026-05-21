@@ -9,7 +9,7 @@ const AchievementsTabContent = () => {
     if (isLoading) {
         return (
             <section className="w-full">
-                <div className="flex flex-col divide-y divide-neutral-100">
+                <div className="flex flex-col divide-y">
                     {[...Array(3)].map((_, i) => (
                         <AchievementSkeleton key={i} />
                     ))}
@@ -20,7 +20,7 @@ const AchievementsTabContent = () => {
 
     return (
         <section className="w-full">
-            <div className="flex flex-col divide-y divide-neutral-100">
+            <div className="flex flex-col divide-y">
                 {achievements?.map((item) => (
                     <AchievementItem key={item.id} achievement={item} />
                 ))}

@@ -49,35 +49,43 @@
 }
 
 .dark {
-  /* Dark Mode: "Inky" Cinematic Slate */
-  --background: oklch(0.12 0.015 250);  /* Deep slate-black */
-  --foreground: oklch(0.95 0.01 250);   /* Off-white for reduced eye strain */
-  
-  --card: oklch(0.16 0.02 250);        /* Slightly lighter than background for depth */
+  /* Background system */
+  --background: oklch(0.11 0.012 255);       /* page */
+  --foreground: oklch(0.94 0.01 255);
+
+  /* Elevated surfaces */
+  --card: oklch(0.15 0.015 255);
   --card-foreground: var(--foreground);
-  
-  --popover: oklch(0.16 0.02 250);
+
+  --popover: oklch(0.17 0.018 255);
   --popover-foreground: var(--foreground);
-  
-  --primary: oklch(0.98 0.005 250);     /* High contrast primary action */
-  --primary-foreground: oklch(0.12 0.015 250);
-  
-  --secondary: oklch(0.22 0.02 250);    /* Soft UI layers */
-  --secondary-foreground: oklch(0.8 0.015 250);
-  
-  --muted: #0f1720;
-  --muted-foreground: oklch(0.65 0.015 250);
-  
-  --accent: oklch(0.25 0.025 250);      /* Hover states & highlights */
-  --accent-foreground: oklch(0.98 0.005 250);
-  
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0.005 250);
-  
-  --border: oklch(0.24 0.02 250 / 0.5); /* Subtle borders */
-  --input: oklch(0.24 0.02 250 / 0.5);
-  --ring: oklch(0.4 0.03 250);
+
+  /* Interactive */
+  --primary: oklch(0.92 0.015 255);
+  --primary-foreground: oklch(0.12 0.012 255);
+
+  /* Layering */
+  --secondary: oklch(0.19 0.018 255);
+  --secondary-foreground: oklch(0.82 0.012 255);
+
+  --muted: oklch(0.14 0.012 255);
+  --muted-foreground: oklch(0.63 0.01 255);
+
+  --accent: oklch(0.24 0.02 255);
+  --accent-foreground: var(--foreground);
+
+  /* Borders */
+  --border: oklch(0.26 0.012 255 / 0.4);
+  --input: oklch(0.26 0.012 255 / 0.4);
+
+  /* Focus */
+  --ring: oklch(0.55 0.03 255);
+
+  /* Danger */
+  --destructive: oklch(0.58 0.22 28);
+  --destructive-foreground: white;
 }
+
 @theme {
   /* Breakpoints */
   --breakpoint-tablet: 810px;
@@ -109,6 +117,7 @@
 
 body {
   background-color:var(--background);
+  color: var(--color-foreground);
   border-color: var(--color-border);
 }
 
@@ -120,6 +129,67 @@ body {
 }
 
 @layer utilities {
+  .icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    line-height: 0;
+    background-color: currentColor;
+    -webkit-mask-image: var(--icon-src);
+    mask-image: var(--icon-src);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .icon-xs {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .icon-sm {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .icon-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .icon-external-link {
+    --icon-src: url("https://api.iconify.design/ri/external-link-line.svg");
+  }
+
+  .icon-copy {
+    --icon-src: url("https://api.iconify.design/ri/file-copy-line.svg");
+  }
+
+  .icon-check {
+    --icon-src: url("https://api.iconify.design/ri/check-line.svg");
+  }
+
+  .icon-close {
+    --icon-src: url("https://api.iconify.design/ri/close-line.svg");
+  }
+
+  .icon-custom {
+    -webkit-mask-image: var(--icon-src);
+    mask-image: var(--icon-src);
+  }
+
+  .icon-theme {
+    color: var(--color-foreground);
+  }
+
+  .dark .icon-theme {
+    color: var(--color-foreground);
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const TestimonialSkeleton = () => {
     return (
-        <div className="w-full py-6 border-b border-neutral-200">
+        <div className="w-full py-6">
             {/* Quote Skeleton */}
             <div className="flex gap-3">
                 <Skeleton className="w-5 h-5 mt-1 shrink-0" />

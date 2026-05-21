@@ -18,7 +18,7 @@ type CertificateTypeLabelProps = {
 export const CertificateTypeLabel = ({ type }: CertificateTypeLabelProps) => {
     return (
         <span
-            className={`text-xs px-2 py-0.5 rounded-full font-medium ${typeStyles[type]}`}
+            className={`bg-muted text-xs px-2 py-0.5 rounded-full font-medium ${typeStyles[type]}`}
         >
             {type}
         </span>

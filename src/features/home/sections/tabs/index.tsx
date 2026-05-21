@@ -54,7 +54,7 @@ const TabsSection = () => {
             onValueChange={handleTabChange}
         >
 
-            <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 -mt-4 mb-8">
+            <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 py-4 -mt-4 mb-8">
                 <div className="relative group/tabs">
                     {/* Scroll Indicators for Mobile */}
                     <AnimatePresence>
@@ -63,7 +63,7 @@ const TabsSection = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
-                                className="absolute -left-4 top-0 bottom-0 w-12 bg-gradient-to-r from-background via-background/80 to-transparent z-20 flex items-center justify-start pl-1 pointer-events-none"
+                                className="absolute -left-4 top-0 bottom-0 w-12 bg-linear-to-r from-background via-background/80 to-transparent z-20 flex items-center justify-start pl-1 pointer-events-none"
                             >
                                 <ChevronLeft className="w-4 h-4 text-muted-foreground animate-pulse" />
                             </motion.div>
@@ -76,7 +76,7 @@ const TabsSection = () => {
                                 initial={{ opacity: 0, x: 10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 10 }}
-                                className="absolute -right-4 top-0 bottom-0 w-12 bg-gradient-to-l from-background via-background/80 to-transparent z-20 flex items-center justify-end pr-1 pointer-events-none"
+                                className="absolute -right-4 top-0 bottom-0 w-12 bg-linear-to-l from-background via-background/80 to-transparent z-20 flex items-center justify-end pr-1 pointer-events-none"
                             >
                                 <ChevronRight className="w-4 h-4 text-muted-foreground animate-pulse" />
                             </motion.div>

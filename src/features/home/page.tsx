@@ -19,7 +19,7 @@ const MainPage = ({ isReady }: { isReady: boolean }) => {
             }
           }
         }}
-        className="px-0 w-[90%] pt-[80px] pb-[100px] tablet:py-[100px]  tablet:max-w-[700px] flex flex-col gap-[80px]"
+        className="px-0 w-[90%] pt-20 pb-25 tablet:py-25  tablet:max-w-175 flex flex-col gap-20"
       >
 
         {/* Profile section */}
