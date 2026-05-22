@@ -12,7 +12,7 @@ const Footer = () => {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.4 } }
             }}
-            className="w-full mt-20 pb-10 flex flex-col items-center gap-8 border-t border-border/5 pt-10"
+            className="w-full pb-10 flex flex-col items-center gap-8 border-t border-border/5 pt-10"
         >
             {/* Social Links */}
             <SocialLinks
