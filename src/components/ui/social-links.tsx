@@ -92,7 +92,7 @@ const SocialLinks = ({
               <div
                 aria-label={social.name}
                 role="img"
-                className="icon icon-custom text-muted-foreground/70 hover:text-foreground transition-colors"
+                className="icon icon-custom hover:text-foreground transition-colors"
                 style={iconStyle}
               />
             </motion.div>
