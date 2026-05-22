@@ -1,6 +1,6 @@
 import ProjectPhoto from "./photo";
 import type { Project } from "@/types/projects";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import ExpandableText from "@/components/ui/expandable-text";
 import { ProjectTypeLabel } from "./labels";
 import { Link } from "@tanstack/react-router";
@@ -41,27 +41,15 @@ const ProjectItem = ({ project, tab }: { project: Project; tab?: string }) => {
 
                 {/* Bottom */}
                 <div className="mt-auto flex items-center justify-end gap-3">
-                    <Link
-                        to="/projects/$projectId"
-                        params={{ projectId: project.id.toString() }}
-                        search={{ tab }}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                    >
-                        View
-                        <ArrowUpRight size={13} />
-                    </Link>
-
-                    {project.link && (
-                        <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                        <Link
+                            to="/projects/$projectId"
+                            params={{ projectId: project.id.toString() }}
+                            search={{ tab }}
+                            className="text-neutral-500 hover:text-neutral-700 p-2 rounded-full transition-colors shrink-0"
+                            aria-label={`Open project ${project.name} details`}
                         >
-                            Visit
-                            <ExternalLink size={13} />
-                        </a>
-                    )}
+                            <ArrowUpRight className="h-4 w-4" size={16} aria-hidden="true" />
+                        </Link>
                 </div>
             </div>
         </div>
