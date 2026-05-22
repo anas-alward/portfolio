@@ -16,7 +16,7 @@ import AchievementsTabContent from "./achievements";
 const route = getRouteApi('/')
 
 const TabsSection = () => {
-    const tabs = ["Work", "Projects", "Skills", "Certificates", "Testimonials", "Education", "Achievements", "Languages"];
+    const tabs = ["work", "projects", "skills", "certificates", "testimonials", "education", "achievements", "languages"];
     const { tab } = route.useSearch();
     const navigate = route.useNavigate();
 
@@ -50,7 +50,7 @@ const TabsSection = () => {
 
     return (
         <Tabs
-            value={tab || "Work"}
+            value={tab || "work"}
             onValueChange={handleTabChange}
         >
 
@@ -92,14 +92,14 @@ const TabsSection = () => {
                             <Tabs.Trigger key={tab} value={tab} className="shrink-0">
                                 <div
                                     className={`px-4 py-1.5 rounded-full text-[13px] font-normal transition-all duration-300 whitespace-nowrap
-                                                group-data-[state=active]:bg-accent 
-                                                group-data-[state=active]:text-accent-foreground
+                                                group-data-[state=active]:bg-primary 
+                                                group-data-[state=active]:text-primary-foreground
                                                 group-data-[state=inactive]:bg-transparent 
                                                 group-data-[state=inactive]:text-foreground/60
                                                 group-data-[state=inactive]:hover:bg-accent 
                                                 group-data-[state=inactive]:hover:text-accent-foreground`}
                                 >
-                                    {tab}
+                                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
                                 </div>
                             </Tabs.Trigger>
                         ))}
@@ -107,28 +107,28 @@ const TabsSection = () => {
                 </div>
             </div>
 
-            <Tabs.Content value="Projects">
+            <Tabs.Content value="projects">
                 <ProjectTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Testimonials">
+            <Tabs.Content value="testimonials">
                 <TestimonialTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Skills">
+            <Tabs.Content value="skills">
                 <SkillTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Work">
+            <Tabs.Content value="work">
                 <WorkTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Education">
+            <Tabs.Content value="education">
                 <EducationTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Certificates">
+            <Tabs.Content value="certificates">
                 <CertificatesTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Achievements">
+            <Tabs.Content value="achievements">
                 <AchievementsTabContent />
             </Tabs.Content>
-            <Tabs.Content value="Languages">
+            <Tabs.Content value="languages">
                 <LanguagesTabContent />
             </Tabs.Content>
         </Tabs>
