@@ -45,6 +45,7 @@ const TabsSection = () => {
         navigate({
             search: (prev) => ({ ...prev, tab: value }),
             replace: true,
+            resetScroll: false,
         });
     };
 
