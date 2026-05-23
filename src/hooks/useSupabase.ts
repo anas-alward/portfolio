@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { supabaseAxios } from '../lib/axios';
+import { supabaseAxios } from '@/lib/axios';
 
 /**
  * Hook to fetch multiple records from a Supabase table.

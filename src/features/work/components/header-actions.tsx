@@ -12,7 +12,7 @@ export function WorkHeaderActions({ tab }: WorkHeaderActionsProps) {
         <div className="flex items-center justify-between gap-4">
             <Link
                 to="/"
-                search={{ tab: tab || 'Work' }}
+                search={{ tab: tab || 'work' }}
                 className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-300 group active:scale-95"
             >
                 <ArrowLeft
