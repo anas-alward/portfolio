@@ -1,17 +1,20 @@
 import ProjectItem from "@/features/projects/components/item";
 import ProjectSkeleton from "@/features/projects/components/skeleton";
-import { usePaginatedProjects } from '@/features/projects/hooks'
 import { getRouteApi } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
+import { Project } from "@/types/projects";
 
 const route = getRouteApi('/')
 
 const ProjectTabContent = () => {
     const { tab } = route.useSearch()
-    const { data, isLoading } = usePaginatedProjects();
-    const projects = data?.data;
+    const { data: projects, isLoading } = useSupabaseQuery<Project>({
+        key: ['projects'],
+        table: 'projects',
+    });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScroll, setCanScroll] = useState(false);
 

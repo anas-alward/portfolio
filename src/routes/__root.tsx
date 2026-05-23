@@ -31,8 +31,8 @@ const queryClient = new QueryClient({
 export const Route = createRootRoute({
     loader: async () => {
         try {
-            const metadata = await fetchSiteMetadata()
-            return { metadata }
+             
+            return await fetchSiteMetadata(); 
         } catch (error) {
             console.error('Failed to fetch site metadata:', error)
             return { metadata: [] }

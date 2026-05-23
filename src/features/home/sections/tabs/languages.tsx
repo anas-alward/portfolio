@@ -1,10 +1,13 @@
 import LanguageItem from "@/features/languages/components/item";
 import LanguageSkeleton from "@/features/languages/components/skeleton";
-import { usePaginatedLanguages } from "@/features/languages/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
+import { Language } from "@/types";
 
 const LanguagesTabContent = () => {
-    const { data, isLoading } = usePaginatedLanguages();
-    const languages = data?.data;
+    const { data: languages, isLoading } = useSupabaseQuery<Language>({
+        key: ['languages'],
+        table: 'languages',
+    });
 
     if (isLoading) {
         return (

@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSocials } from "@/features/home/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
 import { getStorageUrl } from "@/lib/storage";
 import Tooltip from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Contact } from "@/types";
 
 interface SocialLinksProps {
   iconSize?: number;
@@ -23,9 +24,13 @@ const SocialLinks = ({
   className = "",
   itemClassName = "",
 }: SocialLinksProps) => {
-  const { data, isLoading } = useSocials({
-    is_active: "eq.true",
-    order: "order.asc",
+  const { data: socials, isLoading } = useSupabaseQuery<Contact>({
+    key: ['socials'],
+    table: 'socials',
+    params: {
+      is_active: "eq.true",
+      order: "order.asc",
+    },
   });
   const [activeId, setActiveId] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
@@ -74,7 +79,7 @@ const SocialLinks = ({
           <Skeleton className={`w-10 h-10 rounded-full`} />
         </>
       ) : (
-        data?.map((social) => {
+        socials?.map((social) => {
           const reference = social.copy_reference || social.name;
           const isExpanded = activeId === social.id;
           const iconSizeRem = `${iconSize * 0.25}rem`;

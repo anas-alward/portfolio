@@ -1,10 +1,13 @@
 import AchievementItem from "@/features/achievements/components/item";
 import AchievementSkeleton from "@/features/achievements/components/skeleton";
-import { usePaginatedAchievements } from "@/features/achievements/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
+import { Achievement } from "@/types";
 
 const AchievementsTabContent = () => {
-    const { data, isLoading } = usePaginatedAchievements();
-    const achievements = data?.data;
+    const { data: achievements, isLoading } = useSupabaseQuery<Achievement>({
+        key: ['achievements'],
+        table: 'achievements',
+    });
 
     if (isLoading) {
         return (

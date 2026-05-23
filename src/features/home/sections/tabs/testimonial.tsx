@@ -1,10 +1,13 @@
 import TestimonialItem from "@/features/testimonial/components/item";
 import TestimonialSkeleton from "@/features/testimonial/components/skeleton";
-import { usePaginatedTestimonials } from "@/features/testimonial/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
+import { Testimonial } from "@/types";
 
 const TestimonialTabContent = () => {
-    const { data, isLoading } = usePaginatedTestimonials();
-    const testimonials = data?.data;
+    const { data: testimonials, isLoading } = useSupabaseQuery<Testimonial>({
+        key: ['testimonials'],
+        table: 'testimonials',
+    });
 
     if (isLoading) {
         return (

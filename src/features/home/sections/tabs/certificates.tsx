@@ -1,11 +1,14 @@
 import CertificateItem from "@/features/certificates/components/item";
 import CertificateSkeleton from "@/features/certificates/components/skeleton";
-import { usePaginatedCertificates } from "@/features/certificates/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
+import { Certificate } from "@/types";
 
 
 const CertificatesTabContent = () => {
-    const { data, isLoading } = usePaginatedCertificates();
-    const certificates = data?.data;
+    const { data: certificates, isLoading } = useSupabaseQuery<Certificate>({
+        key: ['certificates'],
+        table: 'certificates',
+    });
 
     if (isLoading) {
         return (

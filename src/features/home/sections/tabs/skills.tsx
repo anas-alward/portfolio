@@ -1,15 +1,16 @@
 import { useState, useCallback } from "react";
 import { SkillItem, SkillSkeleton, SkillDialog } from "@/features/skills/components";
-import { usePaginatedSkills } from "@/features/skills/hooks";
+import { useSupabaseQuery } from "@/hooks/useSupabase";
 import { Skill } from "@/types";
 
 
 const SkillTabContent = () => {
-    const { data, isLoading } = usePaginatedSkills();
+    const { data: skills, isLoading } = useSupabaseQuery<Skill>({
+        key: ['skills'],
+        table: 'skills',
+    });
     const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    const skills = data?.data;
 
     const handleSkillClick = useCallback((skill: Skill) => {
         setSelectedSkill(skill);
