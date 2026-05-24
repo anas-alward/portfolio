@@ -1,5 +1,6 @@
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUserId = import.meta.env.VITE_SUPABASE_USER_ID ?? import.meta.env.VITE_USER_ID;
 
 if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Supabase URL or Anon Key is missing. Please check your .env file.');
@@ -24,17 +25,15 @@ async function request<T = unknown>(method: string, path: string, opts?: { param
     }
 
     const url = new URL(urlStr);
-    if (opts?.params) {
-        Object.entries(opts.params).forEach(([k, v]) => {
-            if (v === undefined || v === null) return; // skip undefined/null to avoid 'undefined' strings
-            // If value is an array, append multiple entries
-            if (Array.isArray(v)) {
-                v.forEach((item) => url.searchParams.append(k, String(item)));
-            } else {
-                url.searchParams.append(k, String(v));
-            }
-        });
-    }
+    const defaultParams: Record<string, string> = {
+        is_active: 'eq.true',
+        ...(supabaseUserId ? { user: `eq.${supabaseUserId}` } : {}),
+    };
+
+    Object.entries({ ...defaultParams, ...(opts?.params ?? {}) }).forEach(([k, v]) => {
+        if (v === undefined || v === null) return;
+        url.searchParams.set(k, String(v));
+    });
 
     const headers: Record<string, string> = {
         apikey: supabaseAnonKey ?? '',

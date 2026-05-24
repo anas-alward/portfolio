@@ -19,21 +19,8 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   fetchSettings: async () => {
     set({ loading: true, error: null });
     try {
-        const userId = import.meta.env.VITE_SUPABASE_USER_ID;
-        
 
-      // Build final params with default filters (same as useSupabase hooks)
-        const finalParams = {
-          user: userId ? `eq.${userId}` : undefined,
-          is_active: 'eq.true',
-      };
-
-      // Fetch all settings from Supabase with user filtering
-      const { data } = await supabaseAxios.get<Settings[]>('/settings', {
-        params: finalParams
-      });
-
-      // Transform to lookup object: { [section]: { [type]: setting } }
+      const { data } = await supabaseAxios.get<Settings[]>('/settings');
       const settingsMap: Record<string, Record<string, Settings>> = {};
       data?.forEach(setting => {
         if (!settingsMap[setting.section]) {
@@ -53,7 +40,6 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   },
 
   initialize: async () => {
-    // Only fetch if not already loaded
     if (get().settings === null && !get().loading) {
       await get().fetchSettings();
     }

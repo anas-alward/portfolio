@@ -1,8 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { z } from "zod";
 import { getWorkDetails } from "@/features/work/api";
 import { Work } from "@/types/work";
-import { WorkNotFoundPage } from "@/features/work/pages/404";
 import { getStorageUrl } from "@/lib/storage";
 import { motion } from "framer-motion";
 import { WorkHeaderActions } from "@/features/work/components/header-actions";
@@ -10,7 +9,7 @@ import { WorkHeroSection } from "@/features/work/components/hero-section";
 import { WorkProjectsSection } from "@/features/work/components/projects-section";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-
+import Preloader from "@/components/ui/preloader";
 const workSearchSchema = z.object({
   tab: z.string().optional(),
 });
@@ -47,7 +46,10 @@ export const Route = createFileRoute("/work/$workId")({
     };
   },
   component: Page,
-  notFoundComponent: NotFound,
+  notFoundComponent: NotFoundPage,
+  pendingComponent: Preloader,
+  pendingMs: 100,
+  pendingMinMs: 500,
 });
 
 function Page() {
@@ -55,9 +57,8 @@ function Page() {
   const { work } = Route.useLoaderData();
 
   if (!work) {
-    return <WorkNotFoundPage />;
+    throw notFound();
   }
-
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
       <motion.div
@@ -78,7 +79,7 @@ function Page() {
   );
 }
 
-function NotFound() {
+function NotFoundPage() {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4">
       <h1 className="text-xl font-bold text-foreground">Work item not found</h1>

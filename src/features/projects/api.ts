@@ -1,15 +1,11 @@
 import { supabaseAxios } from '@/lib/axios';
+import { Project } from '@/types/projects';
 
 export const getProjectDetails = async (id: string) => {
-    const USER_ID = import.meta.env.VITE_SUPABASE_USER_ID;
-
-    const { data } = await supabaseAxios.get('/project_details', {
+    const { data } = await supabaseAxios.get<Project[]>('/project_details', {
         params: {
-            id: `eq.${id}`,
-            user: `eq.${USER_ID}`,
-            select: '*'
+            id: `eq.${id}`
         }
     });
-
     return data && data.length > 0 ? data[0] : null;
 };

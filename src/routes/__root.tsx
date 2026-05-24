@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/context/ThemeContext";
 import appCss from "@/index.css?url";
-import { fetchSiteMetadata } from "@/features/home/api";
+import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
 import NotFoundPage from "@/features/home/pages/404";
 import { getStorageUrl } from "@/lib/storage";
 import { useSettingsStore } from "@/store/settings";
@@ -32,7 +32,7 @@ const queryClient = new QueryClient({
 export const Route = createRootRoute({
   loader: async () => {
     try {
-      return await fetchSiteMetadata();
+      return { metadata: await fetchMetadata() };
     } catch (error) {
       console.error("Failed to fetch site metadata:", error);
       return { metadata: [] };
@@ -123,7 +123,8 @@ export const Route = createRootRoute({
   component: Page,
   pendingComponent: Preloader,
   notFoundComponent: NotFoundPage,
-  pendingMs: 100, 
+  pendingMs: 10,
+  pendingMinMs: 500,
 });
 
 function Page() {
@@ -141,14 +142,14 @@ function Page() {
       </head>
 
       <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-              <body>
-                <Outlet />
-                <Scripts />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </body>
-              <Footer />
-          </ThemeProvider>
+        <ThemeProvider>
+          <body>
+            <Outlet />
+            <Scripts />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Footer />
+          </body>
+        </ThemeProvider>
       </QueryClientProvider>
     </html>
   );
