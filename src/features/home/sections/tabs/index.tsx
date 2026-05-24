@@ -12,6 +12,7 @@ import CertificatesTabContent from "./certificates";
 import LanguagesTabContent from "./languages";
 import EducationTabContent from "./education";
 import AchievementsTabContent from "./achievements";
+import { useSettingsStore } from "@/store/settings";
 const route = getRouteApi("/");
 
 const TabsSection = () => {
@@ -27,7 +28,12 @@ const TabsSection = () => {
   ];
   const { tab } = route.useSearch();
   const navigate = route.useNavigate();
-  // const visibleTabs = tabs.filter((tab) => getSettings(`show_${tab}`)?.value === true);
+  const { getSettings } = useSettingsStore();
+  const visibleTabs =
+    getSettings("VISIBLE_TABS")
+      ?.value.split(",")
+      .map((tab) => tab.trim())
+      .filter(Boolean) || tabs;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
@@ -93,7 +99,7 @@ const TabsSection = () => {
             onScroll={checkScroll}
             className="flex flex-nowrap gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
           >
-            {tabs.map((tab) => (
+            {visibleTabs.map((tab) => (
               <Tabs.Trigger key={tab} value={tab} className="shrink-0">
                 <div
                   className={`px-4 py-1.5 rounded-full text-[13px] font-normal transition-all duration-300 whitespace-nowrap
