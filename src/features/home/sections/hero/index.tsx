@@ -2,7 +2,6 @@ import HeroPhoto from "./photo";
 import ContactCTA from "./cta";
 import WordFadeIn from "@/components/animation/wordFadeIn";
 import FormattedText from "@/components/ui/formatted-text";
-import ContactBlock from "./contact";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -10,6 +9,7 @@ import { useSupabaseQuery, useSupabaseSingleQuery } from "@/hooks/useSupabase";
 import { SECTION, SETTINGS_TYPE } from "@/types/enums";
 import { Profile, Contact } from "@/types";
 import { useSettingsStore } from "@/store/settings";
+import SocialLinks from "@/components/ui/social-links";
 
 const HeroSection = () => {
   const profileResult = useSupabaseSingleQuery<Profile | null>({
@@ -95,8 +95,7 @@ const HeroSection = () => {
               </>
             )}
           </div>
-
-          <ContactBlock />
+          <SocialLinks iconSize={4} gap="gap-2" showTooltip animated />{" "}
         </div>
       </div>
     </div>
