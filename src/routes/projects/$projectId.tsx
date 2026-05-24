@@ -7,10 +7,12 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import SkillDialog from "@/features/skills/components/dialog";
 import { Lightbox } from "@/components/ui/lightbox";
-import { ProjectHeaderActions } from "@/features/projects/components/header-actions";
-import { ProjectHeroSection } from "@/features/projects/components/hero-section";
-import { ProjectSkillsSection } from "@/features/projects/components/skills-section";
-import { ProjectGallery } from "@/features/projects/components/gallery";
+import {
+  ProjectHeaderActions,
+  ProjectHeroSection,
+  ProjectSkillsSection,
+  ProjectGallery,
+} from "@/features/projects";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
@@ -129,7 +131,7 @@ function Page() {
 
 
 
-export function NotFoundPage() {
+function NotFoundPage() {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4">
       <h1 className="text-xl font-bold text-foreground">Project not found</h1>
