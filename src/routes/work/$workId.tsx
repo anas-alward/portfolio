@@ -10,6 +10,8 @@ import { WorkProjectsSection } from "@/features/work/components/projects-section
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import Preloader from "@/components/ui/preloader";
+
+
 const workSearchSchema = z.object({
   tab: z.string().optional(),
 });
@@ -18,6 +20,9 @@ export const Route = createFileRoute("/work/$workId")({
   validateSearch: (search) => workSearchSchema.parse(search),
   loader: async ({ params }) => {
     const work = await getWorkDetails(params.workId);
+    if (!work) {
+      throw notFound();
+    }
     return { work };
   },
   head: ({ loaderData }) => {
@@ -56,9 +61,6 @@ function Page() {
   const { tab } = Route.useSearch();
   const { work } = Route.useLoaderData();
 
-  if (!work) {
-    throw notFound();
-  }
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
       <motion.div
@@ -88,7 +90,7 @@ function NotFoundPage() {
       </p>
       <Link
         to="/"
-        search={{ tab: "Work" }}
+        search={{ tab: "work" }}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
       >
         <ArrowLeft size={15} />
