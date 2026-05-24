@@ -12,7 +12,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/context/ThemeContext";
 import appCss from "@/index.css?url";
 import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
-import NotFoundPage from "@/features/home/pages/404";
 import { getStorageUrl } from "@/lib/storage";
 import { useSettingsStore } from "@/store/settings";
 import Preloader from "@/components/ui/preloader";
@@ -152,5 +151,23 @@ function Page() {
         </ThemeProvider>
       </QueryClientProvider>
     </html>
+  );
+}
+
+
+function NotFoundPage() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4 text-center">
+      <h1 className="text-6xl font-bold mb-4">404</h1>
+      <p className="text-xl mb-8">
+        Oops! The page you're looking for doesn't exist.
+      </p>
+      <a
+        href="/"
+        className="px-6 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+      >
+        Go Back Home
+      </a>
+    </div>
   );
 }

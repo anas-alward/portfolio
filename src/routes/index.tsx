@@ -15,10 +15,10 @@ export const Route = createFileRoute("/")({
     return null;
   },
     component: Page,
-    wrapInSuspense: true,
-    pendingComponent: Preloader,
-    pendingMs: 10,
-    pendingMinMs: 500,
+  wrapInSuspense: true,
+  pendingComponent: Preloader,
+  pendingMs: 10,
+  pendingMinMs: 500,
 });
 
 function Page() {
@@ -55,3 +55,5 @@ function Page() {
     </div>
   );
 }
+
+
