@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useSupabaseQuery, useSupabaseSingleQuery } from "@/hooks/useSupabase";
-import { SECTION, SETTINGS_TYPE } from "@/types/enums";
 import { Profile, Contact } from "@/types";
 import { useSettingsStore } from "@/store/settings";
 import SocialLinks from "@/components/ui/social-links";
@@ -26,9 +25,9 @@ const HeroSection = () => {
   });
   const { data: socials, isLoading: socialsLoading } = socialsResult;
 
-  const { getSetting } = useSettingsStore();
-  const themeToggleSetting = getSetting(SECTION.HERO, SETTINGS_TYPE.FEATURE);
-  const isThemeToggleEnabled = themeToggleSetting?.value === 'true';
+  const { getSettings } = useSettingsStore();
+  const themeToggleSetting = getSettings("THEME_TOGGLE");
+  const isThemeToggleEnabled = themeToggleSetting?.value === "true";
   const isLoading = profileLoading || socialsLoading;
 
   // Find email or default to first social link for fallback

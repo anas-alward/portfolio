@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
     component: Page,
   wrapInSuspense: true,
   pendingComponent: Preloader,
-  pendingMs: 10,
+  pendingMs: 1,
   pendingMinMs: 500,
 });
 

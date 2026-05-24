@@ -1,47 +1,26 @@
 import { create } from 'zustand';
-import { api } from '@/lib/api';
 import type { Settings } from '@/types';
 
 interface SettingsStore {
-  settings: Record<string, Record<string, Settings>> | null;
-  loading: boolean;
-  error: string | null;
-  fetchSettings: () => Promise<void>;
-  getSetting: (section: string, type: string) => Settings | undefined;
-  initialize: () => Promise<void>;
+  settings: Record<string, Settings> | null;
+  setSettings: (settings: Settings[]) => void;
+  getSettings: (name: string) => Settings | undefined;
 }
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   settings: null,
-  loading: false,
-  error: null,
 
-  fetchSettings: async () => {
-    set({ loading: true, error: null });
-    try {
+  setSettings: (settings) => {
+    const settingsMap: Record<string, Settings> = {};
 
-      const { data } = await api.get<Settings[]>('/settings');
-      const settingsMap: Record<string, Record<string, Settings>> = {};
-      data?.forEach(setting => {
-        if (!settingsMap[setting.section]) {
-          settingsMap[setting.section] = {};
-        }
-        settingsMap[setting.section][setting.type] = setting;
-      });
+    settings.forEach((setting) => {
+      settingsMap[setting.name] = setting;
+    });
 
-      set({ settings: settingsMap, loading: false });
-    } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Failed to fetch settings', loading: false });
-    }
+    set({ settings: settingsMap });
   },
 
-  getSetting: (section: string, type: string) => {
-    return get().settings?.[section]?.[type];
+  getSettings: (name: string) => {
+    return get().settings?.[name];
   },
-
-  initialize: async () => {
-    if (get().settings === null && !get().loading) {
-      await get().fetchSettings();
-    }
-  }
 }));

@@ -12,10 +12,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/context/ThemeContext";
 import appCss from "@/index.css?url";
 import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
+import { api } from "@/lib/api";
 import { getStorageUrl } from "@/lib/storage";
 import { useSettingsStore } from "@/store/settings";
 import Preloader from "@/components/ui/preloader";
 import Footer from "@/components/footer";
+import type { Settings } from "@/types";
 
 type MetaItem = { key: string; value: string };
 
@@ -30,61 +32,79 @@ const queryClient = new QueryClient({
 
 export const Route = createRootRoute({
   loader: async () => {
+    const [metadataResult, settingsResult] = await Promise.allSettled([
+      fetchMetadata(),
+      api.get<Settings[]>("/settings"),
+    ]);
+
+    const metadata =
+      metadataResult.status === "fulfilled" ? metadataResult.value : [];
+    const settings =
+      settingsResult.status === "fulfilled" ? settingsResult.value.data : [];
+
     try {
-      return { metadata: await fetchMetadata() };
+      return { metadata, settings };
     } catch (error) {
-      console.error("Failed to fetch site metadata:", error);
-      return { metadata: [] };
+      console.error("Failed to load root data:", error);
+      return { metadata: [], settings: [] };
     }
   },
   head: ({ loaderData }) => {
     const rawMeta = loaderData?.metadata;
     const metaList: MetaItem[] = Array.isArray(rawMeta) ? rawMeta : [];
 
-    // Helper to get value by key with fallback
-    const getMeta = (key: string, fallback: string) => {
+    // Helper to get value by key without injecting defaults
+    const getMeta = (key: string) => {
       const item = metaList.find((m) => m?.key === key);
-      return item?.value || fallback;
+      return item?.value;
     };
 
-    const title = getMeta("title", "Anas Alward | Portfolio");
-    const x_handler = getMeta("x_handler", "@alward_dev");
-    const site_name = getMeta("site_name", "Anas Portfolio");
-    const description = getMeta(
-      "description",
-      "Portfolio of Anas Alward – Backend Dev",
-    );
-    const image = getStorageUrl(`${getMeta("image", "/preview.png")}`);
-    const url = getMeta(
-      "url",
-      import.meta.env.VITE_BASE_URL || "https://alward.dev",
-    );
+    const title = getMeta("title");
+    const description = getMeta("description");
+    const image = getMeta("image");
+    const url = getMeta("url");
+    const siteName = getMeta("site_name");
+    const xHandler = getMeta("x_handler");
+    const imageUrl = image ? getStorageUrl(image) : undefined;
 
     return {
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-
-        { title },
-        { name: "description", content: description },
-
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:image", content: image },
-        { property: "og:url", content: url },
-        { property: "og:site_name", content: site_name },
+        ...(title
+          ? [
+              { title },
+              { property: "og:title", content: title },
+              { name: "twitter:title", content: title },
+            ]
+          : []),
+        ...(description
+          ? [
+              { name: "description", content: description },
+              { name: "twitter:description", content: description },
+              { property: "og:description", content: description },
+            ]
+          : []),
+        ...(imageUrl
+          ? [
+              { property: "og:image", content: imageUrl },
+              { name: "twitter:card", content: "summary_large_image" },
+              { name: "twitter:image", content: imageUrl },
+            ]
+          : []),
+        ...(url ? [{ property: "og:url", content: url }] : []),
+        ...(siteName ? [{ property: "og:site_name", content: siteName }] : []),
         { property: "og:type", content: "website" },
 
-        // Twitter Card - Dynamic
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: image },
-        { name: "twitter:site", content: x_handler },
-        { name: "twitter:creator", content: x_handler },
+        ...(xHandler
+          ? [
+              { name: "twitter:creator", content: xHandler },
+              { name: "twitter:site", content: xHandler },
+            ]
+          : []),
       ],
       links: [
-        { rel: "canonical", href: url },
+        ...(url ? [{ rel: "canonical", href: url }] : []),
         { rel: "stylesheet", href: appCss },
         {
           rel: "icon",
@@ -127,12 +147,12 @@ export const Route = createRootRoute({
 });
 
 function Page() {
-  const initializeSettings = useSettingsStore((state) => state.initialize);
+  const loaderData = Route.useLoaderData();
+  const setSettings = useSettingsStore((state) => state.setSettings);
 
-  // Initialize settings when the app mounts
   useEffect(() => {
-    initializeSettings();
-  }, [initializeSettings]);
+    setSettings(loaderData.settings ?? []);
+  }, [loaderData.settings, setSettings]);
 
   return (
     <html>
@@ -153,7 +173,6 @@ function Page() {
     </html>
   );
 }
-
 
 function NotFoundPage() {
   return (
