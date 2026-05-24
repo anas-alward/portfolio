@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { supabaseAxios } from '@/lib/axios';
+import { api } from '@/lib/api';
 
 /**
  * Hook to fetch multiple records from a Supabase table.
@@ -27,7 +27,7 @@ export function useSupabaseQuery<TData>(
   return useQuery<TData[], Error>({
     queryKey: [...key, finalParams],
     queryFn: async () => {
-      const { data } = await supabaseAxios.get<TData[]>(`/${table}`, {
+      const { data } = await api.get<TData[]>(`/${table}`, {
         params: finalParams,
       });
       return data;
@@ -63,7 +63,7 @@ export function useSupabaseSingleQuery<TData>(
   return useQuery<TData | null, Error>({
     queryKey: [...key, finalParams],
     queryFn: async () => {
-      const { data } = await supabaseAxios.get<TData[]>(`/${table}`, {
+      const { data } = await api.get<TData[]>(`/${table}`, {
         params: finalParams,
       });
       return data[0] ?? null; // Return first item or null if not found

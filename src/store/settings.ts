@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { supabaseAxios } from '@/lib/axios';
+import { api } from '@/lib/api';
 import type { Settings } from '@/types';
 
 interface SettingsStore {
@@ -20,7 +20,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     set({ loading: true, error: null });
     try {
 
-      const { data } = await supabaseAxios.get<Settings[]>('/settings');
+      const { data } = await api.get<Settings[]>('/settings');
       const settingsMap: Record<string, Record<string, Settings>> = {};
       data?.forEach(setting => {
         if (!settingsMap[setting.section]) {

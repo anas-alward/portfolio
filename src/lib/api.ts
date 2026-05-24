@@ -69,7 +69,7 @@ async function request<T = unknown>(method: string, path: string, opts?: { param
 }
 
 // Export an axios-like object for compatibility with existing imports
-export const supabaseAxios = {
+export const api = {
     get: async <T = unknown>(path: string, config?: { params?: Record<string, string | number>; headers?: Record<string, string>; }) =>
         request<T>('GET', path, { params: config?.params, headers: config?.headers }),
     post: async <T = unknown>(path: string, body?: unknown, config?: { headers?: Record<string, string>; }) =>

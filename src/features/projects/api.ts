@@ -1,8 +1,8 @@
-import { supabaseAxios } from '@/lib/axios';
+import { api } from '@/lib/api';
 import { Project } from '@/types/projects';
 
 export const getProjectDetails = async (id: string) => {
-    const { data } = await supabaseAxios.get<Project[]>('/project_details', {
+    const { data } = await api.get<Project[]>('/project_details', {
         params: {
             id: `eq.${id}`
         }

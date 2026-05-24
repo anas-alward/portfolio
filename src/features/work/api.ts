@@ -1,4 +1,4 @@
-import { supabaseAxios } from '@/lib/axios';
+import { api } from '@/lib/api';
 import { Work } from '@/types/work';
 
 export type ListWorkResponse = {
@@ -14,7 +14,7 @@ export const listWork = async (): Promise<ListWorkResponse> => {
 
     const USER_ID = import.meta.env.VITE_SUPABASE_USER_ID;
 
-    const { data, headers } = await supabaseAxios.get<Work[]>('/work', {
+    const { data, headers } = await api.get<Work[]>('/work', {
         params: {
             select: '*,companies(*)',
             user: `eq.${USER_ID}`,
@@ -36,7 +36,7 @@ export const listWork = async (): Promise<ListWorkResponse> => {
 export const getWorkDetails = async (workId: string): Promise<Work | null> => {
     const USER_ID = import.meta.env.VITE_SUPABASE_USER_ID;
 
-    const { data } = await supabaseAxios.get<Work[]>('/work_details', {
+    const { data } = await api.get<Work[]>('/work_details', {
         params: {
             select: '*',
             id: `eq.${workId}`,
