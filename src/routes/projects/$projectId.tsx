@@ -74,7 +74,7 @@ function Page() {
 
   
   const projectImage = project.image
-    ? `projects/${project.slug}/main.png`
+    ? `projects/${project.slug}/${project.image}`
     : null;
   const additionalImages = (project.images || []).map(
     (image: string) => `projects/${project.slug}/${image}`,
