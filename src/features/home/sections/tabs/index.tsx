@@ -1,18 +1,18 @@
-import { lazy, Suspense, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Tabs from "@/components/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getRouteApi } from "@tanstack/react-router";
 import { useSettings } from "@/store/settings";
 
-const ProjectTabContent = lazy(() => import("./projects"));
-const TestimonialTabContent = lazy(() => import("./testimonial"));
-const SkillTabContent = lazy(() => import("./skills"));
-const WorkTabContent = lazy(() => import("./work"));
-const CertificatesTabContent = lazy(() => import("./certificates"));
-const LanguagesTabContent = lazy(() => import("./languages"));
-const EducationTabContent = lazy(() => import("./education"));
-const AchievementsTabContent = lazy(() => import("./achievements"));
+import ProjectTabContent from "./projects";
+import TestimonialTabContent from "./testimonial";
+import SkillTabContent from "./skills";
+import WorkTabContent from "./work";
+import CertificatesTabContent from "./certificates";
+import LanguagesTabContent from "./languages";
+import EducationTabContent from "./education";
+import AchievementsTabContent from "./achievements";
 const route = getRouteApi("/");
 
 const TabsSection = () => {
@@ -119,44 +119,28 @@ const TabsSection = () => {
       </div>
 
       <Tabs.Content value="projects">
-        <Suspense fallback={null}>
-          <ProjectTabContent />
-        </Suspense>
+        <ProjectTabContent />
       </Tabs.Content>
       <Tabs.Content value="testimonials">
-        <Suspense fallback={null}>
-          <TestimonialTabContent />
-        </Suspense>
+        <TestimonialTabContent />
       </Tabs.Content>
       <Tabs.Content value="skills">
-        <Suspense fallback={null}>
-          <SkillTabContent />
-        </Suspense>
+        <SkillTabContent />
       </Tabs.Content>
       <Tabs.Content value="work">
-        <Suspense fallback={null}>
-          <WorkTabContent />
-        </Suspense>
+        <WorkTabContent />
       </Tabs.Content>
       <Tabs.Content value="education">
-        <Suspense fallback={null}>
-          <EducationTabContent />
-        </Suspense>
+        <EducationTabContent />
       </Tabs.Content>
       <Tabs.Content value="certificates">
-        <Suspense fallback={null}>
-          <CertificatesTabContent />
-        </Suspense>
+        <CertificatesTabContent />
       </Tabs.Content>
       <Tabs.Content value="achievements">
-        <Suspense fallback={null}>
-          <AchievementsTabContent />
-        </Suspense>
+        <AchievementsTabContent />
       </Tabs.Content>
       <Tabs.Content value="languages">
-        <Suspense fallback={null}>
-          <LanguagesTabContent />
-        </Suspense>
+        <LanguagesTabContent />
       </Tabs.Content>
     </Tabs>
   );
