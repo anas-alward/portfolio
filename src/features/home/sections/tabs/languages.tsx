@@ -24,8 +24,8 @@ const LanguagesTabContent = () => {
     return (
         <section className="w-full">
             <div className="flex flex-col">
-                {languages?.map((item, i) => (
-                    <LanguageItem key={i} language={item} />
+                {languages?.map((item) => (
+                    <LanguageItem key={item.id} language={item} />
                 ))}
             </div>
         </section>

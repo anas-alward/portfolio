@@ -11,7 +11,6 @@ const homeSearchSchema = z.object({
 export const Route = createFileRoute("/")({
   validateSearch: (search) => homeSearchSchema.parse(search),
   loader: async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     return null;
   },
     component: Page,

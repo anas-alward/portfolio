@@ -8,6 +8,8 @@ interface ThemeContextType {
     setTheme: (theme: Theme) => void;
 }
 
+const STORAGE_KEY = "theme@v1";
+
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -15,7 +17,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (typeof window === 'undefined') return 'light'
 
         // Check localStorage first
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
+        const savedTheme = localStorage.getItem(STORAGE_KEY) as Theme | null;
         if (savedTheme) return savedTheme;
 
         // Default to light regardless of system preference
@@ -26,7 +28,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const root = window.document.documentElement;
         root.classList.remove('light', 'dark');
         root.classList.add(theme);
-        localStorage.setItem('theme', theme);
+        localStorage.setItem(STORAGE_KEY, theme);
     }, [theme]);
 
     const toggleTheme = () => {

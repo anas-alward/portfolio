@@ -7,7 +7,7 @@ import { IsAvailableLabel, CurrentlyAtLabel } from "./labels";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useSupabaseQuery, useSupabaseSingleQuery } from "@/hooks/useSupabase";
 import { Profile, Contact } from "@/types";
-import { useSettingsStore } from "@/store/settings";
+import { useSettings } from "@/store/settings";
 import SocialLinks from "@/components/ui/social-links";
 
 const HeroSection = () => {
@@ -25,8 +25,7 @@ const HeroSection = () => {
   });
   const { data: socials, isLoading: socialsLoading } = socialsResult;
 
-  const { getSettings } = useSettingsStore();
-  const themeToggleSetting = getSettings("THEME_TOGGLE");
+  const themeToggleSetting = useSettings("THEME_TOGGLE");
   const isThemeToggleEnabled = themeToggleSetting?.value === "true";
   const isLoading = profileLoading || socialsLoading;
 

@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import {
   Outlet,
   createRootRoute,
@@ -8,7 +8,9 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const ReactQueryDevtools = import.meta.env.DEV
+  ? lazy(() => import("@tanstack/react-query-devtools").then((m) => ({ default: m.ReactQueryDevtools })))
+  : () => null;
 import { ThemeProvider } from "@/context/ThemeContext";
 import appCss from "@/index.css?url";
 import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
@@ -165,7 +167,11 @@ function Page() {
           <body>
             <Outlet />
             <Scripts />
-            <ReactQueryDevtools initialIsOpen={false} />
+            {import.meta.env.DEV && (
+              <Suspense fallback={null}>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Suspense>
+            )}
             <Footer />
           </body>
         </ThemeProvider>

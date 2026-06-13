@@ -27,9 +27,9 @@ const SkillTabContent = () => {
                     ? [...Array(5)].map((_, i) => (
                         <SkillSkeleton key={i} />
                     ))
-                    : skills?.map((skill, i) => (
+                    : skills?.map((skill) => (
                         <SkillItem
-                            key={i}
+                            key={skill.name}
                             skill={skill}
                             onClick={handleSkillClick}
                         />

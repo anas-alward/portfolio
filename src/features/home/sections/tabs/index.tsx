@@ -1,18 +1,18 @@
-import { useRef, useState, useEffect } from "react";
+import { lazy, Suspense, useRef, useState, useEffect } from "react";
 import Tabs from "@/components/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getRouteApi } from "@tanstack/react-router";
+import { useSettings } from "@/store/settings";
 
-import ProjectTabContent from "./projects";
-import TestimonialTabContent from "./testimonial";
-import SkillTabContent from "./skills";
-import WorkTabContent from "./work";
-import CertificatesTabContent from "./certificates";
-import LanguagesTabContent from "./languages";
-import EducationTabContent from "./education";
-import AchievementsTabContent from "./achievements";
-import { useSettingsStore } from "@/store/settings";
+const ProjectTabContent = lazy(() => import("./projects"));
+const TestimonialTabContent = lazy(() => import("./testimonial"));
+const SkillTabContent = lazy(() => import("./skills"));
+const WorkTabContent = lazy(() => import("./work"));
+const CertificatesTabContent = lazy(() => import("./certificates"));
+const LanguagesTabContent = lazy(() => import("./languages"));
+const EducationTabContent = lazy(() => import("./education"));
+const AchievementsTabContent = lazy(() => import("./achievements"));
 const route = getRouteApi("/");
 
 const TabsSection = () => {
@@ -28,10 +28,10 @@ const TabsSection = () => {
   ];
   const { tab } = route.useSearch();
   const navigate = route.useNavigate();
-  const { getSettings } = useSettingsStore();
+  const visibleTabsSetting = useSettings("VISIBLE_TABS");
   const visibleTabs =
-    getSettings("VISIBLE_TABS")
-      ?.value.split(",")
+    visibleTabsSetting?.value
+      .split(",")
       .map((tab) => tab.trim())
       .filter(Boolean) || tabs;
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -119,28 +119,44 @@ const TabsSection = () => {
       </div>
 
       <Tabs.Content value="projects">
-        <ProjectTabContent />
+        <Suspense fallback={null}>
+          <ProjectTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="testimonials">
-        <TestimonialTabContent />
+        <Suspense fallback={null}>
+          <TestimonialTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="skills">
-        <SkillTabContent />
+        <Suspense fallback={null}>
+          <SkillTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="work">
-        <WorkTabContent />
+        <Suspense fallback={null}>
+          <WorkTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="education">
-        <EducationTabContent />
+        <Suspense fallback={null}>
+          <EducationTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="certificates">
-        <CertificatesTabContent />
+        <Suspense fallback={null}>
+          <CertificatesTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="achievements">
-        <AchievementsTabContent />
+        <Suspense fallback={null}>
+          <AchievementsTabContent />
+        </Suspense>
       </Tabs.Content>
       <Tabs.Content value="languages">
-        <LanguagesTabContent />
+        <Suspense fallback={null}>
+          <LanguagesTabContent />
+        </Suspense>
       </Tabs.Content>
     </Tabs>
   );

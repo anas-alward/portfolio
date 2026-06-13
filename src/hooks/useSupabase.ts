@@ -25,7 +25,7 @@ export function useSupabaseQuery<TData>(
   };
 
   return useQuery<TData[], Error>({
-    queryKey: [...key, finalParams],
+    queryKey: [...key, ...Object.entries(finalParams).flat()],
     queryFn: async () => {
       const { data } = await api.get<TData[]>(`/${table}`, {
         params: finalParams,
@@ -61,7 +61,7 @@ export function useSupabaseSingleQuery<TData>(
   };
 
   return useQuery<TData | null, Error>({
-    queryKey: [...key, finalParams],
+    queryKey: [...key, ...Object.entries(finalParams).flat()],
     queryFn: async () => {
       const { data } = await api.get<TData[]>(`/${table}`, {
         params: finalParams,

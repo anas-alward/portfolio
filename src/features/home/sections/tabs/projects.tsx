@@ -27,6 +27,7 @@ const ProjectTabContent = () => {
     };
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         checkScroll();
         window.addEventListener('resize', checkScroll);
         return () => window.removeEventListener('resize', checkScroll);
@@ -52,8 +53,8 @@ const ProjectTabContent = () => {
                 className="max-h-[70vh] overflow-y-auto px-4 -mx-4 no-scrollbar scroll-smooth"
             >
                 <div className="flex flex-col gap-2 py-4">
-                    {projects?.map((project, i) => (
-                        <ProjectItem key={i} project={project} tab={tab} />
+                    {projects?.map((project) => (
+                        <ProjectItem key={project.id} project={project} tab={tab} />
                     ))}
                 </div>
             </div>

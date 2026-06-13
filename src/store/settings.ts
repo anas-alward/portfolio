@@ -24,3 +24,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     return get().settings?.[name];
   },
 }));
+
+export function useSettings(name: string): Settings | undefined {
+  return useSettingsStore((state) => state.settings?.[name]);
+}
