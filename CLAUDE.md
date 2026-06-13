@@ -26,7 +26,7 @@ src/
 │   ├── certificates/   # Certificates section
 │   └── achievements/   # Achievements section
 ├── hooks/              # Custom React hooks (e.g., useSupabaseQuery)
-├── context/            # React providers (ThemeContext, PreloaderContext)
+├── context/            # React providers (PreloaderContext)
 ├── lib/                # Utilities (storage helpers for Supabase URLs)
 ├── routes/             # TanStack Router configuration
 │   ├── __root.tsx      # Root route with layout, metadata, providers
@@ -66,7 +66,6 @@ Data fetching patterns:
 ## Development Notes
 
 - The root route (`src/routes/__root.tsx`) provides:
-  - ThemeProvider (light/dark mode)
   - PreloaderProvider (loading state for assets)
   - QueryClient (Tanstack Query)
   - Dynamic metadata and OpenGraph tags from Supabase
@@ -92,4 +91,3 @@ Data fetching patterns:
 - **Styling**: 
   - Use Tailwind utility classes directly
   - For custom CSS, edit `src/index.css` or use `@layer` directives
-  - Dark mode is handled via ThemeContext (toggle updates `class` on `<html>`)

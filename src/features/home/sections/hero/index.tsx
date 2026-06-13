@@ -4,10 +4,8 @@ import WordFadeIn from "@/components/animation/wordFadeIn";
 import FormattedText from "@/components/ui/formatted-text";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IsAvailableLabel, CurrentlyAtLabel } from "./labels";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useSupabaseQuery, useSupabaseSingleQuery } from "@/hooks/useSupabase";
 import { Profile, Contact } from "@/types";
-import { useSettings } from "@/store/settings";
 import SocialLinks from "@/components/ui/social-links";
 
 const HeroSection = () => {
@@ -25,8 +23,6 @@ const HeroSection = () => {
   });
   const { data: socials, isLoading: socialsLoading } = socialsResult;
 
-  const themeToggleSetting = useSettings("THEME_TOGGLE");
-  const isThemeToggleEnabled = themeToggleSetting?.value === "true";
   const isLoading = profileLoading || socialsLoading;
 
   // Find email or default to first social link for fallback
@@ -42,9 +38,6 @@ const HeroSection = () => {
 
   return (
     <div className="relative">
-      <div className="absolute right-0 top-0">
-        {isThemeToggleEnabled && <ThemeToggle />}
-      </div>
       <div className="flex flex-col gap-8.75">
         {/* Name + Photo grouped as one item */}
         <div className="flex items-center gap-3">

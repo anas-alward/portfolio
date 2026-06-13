@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const ReactQueryDevtools = import.meta.env.DEV
   ? lazy(() => import("@tanstack/react-query-devtools").then((m) => ({ default: m.ReactQueryDevtools })))
   : () => null;
-import { ThemeProvider } from "@/context/ThemeContext";
 import appCss from "@/index.css?url";
 import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
 import { api } from "@/lib/api";
@@ -163,18 +162,16 @@ function Page() {
       </head>
 
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <body>
-            <Outlet />
-            <Scripts />
-            {import.meta.env.DEV && (
-              <Suspense fallback={null}>
-                <ReactQueryDevtools initialIsOpen={false} />
-              </Suspense>
-            )}
-            <Footer />
-          </body>
-        </ThemeProvider>
+        <body>
+          <Outlet />
+          <Scripts />
+          {import.meta.env.DEV && (
+            <Suspense fallback={null}>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </Suspense>
+          )}
+          <Footer />
+        </body>
       </QueryClientProvider>
     </html>
   );
