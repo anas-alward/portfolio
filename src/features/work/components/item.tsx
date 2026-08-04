@@ -54,7 +54,7 @@ const WorkItem = ({ item }: { item: Work }) => {
                         className="group/link inline-flex items-center gap-1.5 w-fit text-[14px] font-bold text-muted-foreground hover:text-primary transition-colors duration-300"
                     >
                         <div className="relative py-1">
-                            <span>Learn more</span>
+
                             <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-primary origin-left scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300" />
                         </div>
                         <ArrowUpRight
