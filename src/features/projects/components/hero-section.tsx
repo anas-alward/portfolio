@@ -37,39 +37,39 @@ export function ProjectHeroSection({ project, projectImage, onImageClick }: Proj
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="flex flex-col gap-4"
             >
-                <div className="flex flex-col gap-3" >
-                    <h1 className="text-3xl tablet:text-4xl font-bold text-foreground tracking-tight leading-tight">
-                        {project.name}
-                    </h1>
-
-                    <div className="flex flex-wrap items-center gap-4">
-                        <ProjectTypeLabel type={project.type} />
-                        {project.company && (
-                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground">
-                                <span>Developed at</span>
-                                <span className="text-foreground font-semibold">
-                                    {project.company}
-                                </span>
-                            </div>
-                        )}
+                <div className="flex flex-row items-start justify-between gap-4">
+                    <div className="flex flex-col gap-3">
+                        <h1 className="text-3xl tablet:text-4xl font-bold text-foreground tracking-tight leading-tight">
+                            {project.name}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <ProjectTypeLabel type={project.type} />
+                            {project.company && (
+                                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground">
+                                    <span>Developed at</span>
+                                    <span className="text-foreground font-semibold">
+                                        {project.company}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
                     </div>
+                    {project.link && (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-all hover:gap-3 w-fit shadow-lg shadow-primary/20 self-center"
+                        >
+                            Visit Project
+                            <ArrowUpRight size={18} />
+                        </a>
+                    )}
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-[90%]">
                     {project.description}
                 </p>
-
-                {project.link && (
-                    <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition-all hover:gap-3 w-fit shadow-lg shadow-primary/20"
-                    >
-                        Visit Project
-                        <ArrowUpRight size={18} />
-                    </a>
-                )}
             </motion.div>
         </div>
     )

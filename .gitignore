@@ -32,3 +32,6 @@ dist-ssr
 !.env.example
 
 .tanstack/*
+
+.opencode.json
+.serena 
