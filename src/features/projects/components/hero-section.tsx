@@ -21,6 +21,9 @@ export function ProjectHeroSection({ project, projectImage, onImageClick }: Proj
                     className="w-full aspect-video rounded-2xl overflow-hidden border border-border bg-muted group relative cursor-zoom-in"
                     onClick={() => onImageClick(projectImage)}
                 >
+                    <div className="absolute top-3 right-3 z-10">
+                        <ProjectTypeLabel type={project.type} />
+                    </div>
                     <img
                         src={getStorageUrl(projectImage)}
                         alt={project.name}
@@ -41,17 +44,19 @@ export function ProjectHeroSection({ project, projectImage, onImageClick }: Proj
                     <h1 className="text-3xl tablet:text-4xl font-bold text-foreground tracking-tight leading-tight">
                         {project.name}
                     </h1>
-                    <div className="flex flex-wrap items-center gap-4">
-                        <ProjectTypeLabel type={project.type} />
-                        {project.company && (
-                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground">
-                                <span>Developed at</span>
-                                <span className="text-foreground font-semibold">
-                                    {project.company}
-                                </span>
-                            </div>
-                        )}
-                    </div>
+                    {!projectImage && (
+                        <div className="flex flex-wrap items-center gap-4">
+                            <ProjectTypeLabel type={project.type} />
+                        </div>
+                    )}
+                    {project.company && (
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground w-fit">
+                            <span>Developed at</span>
+                            <span className="text-foreground font-semibold">
+                                {project.company}
+                            </span>
+                        </div>
+                    )}
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-[90%]">
