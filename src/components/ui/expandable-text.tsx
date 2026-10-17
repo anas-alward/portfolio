@@ -51,7 +51,9 @@ const ExpandableText = ({ text, wordLimit = 50, className = "" }: ExpandableText
                 )}
             </AnimatePresence>
             <button
+                type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
+                aria-expanded={isExpanded}
                 className="ml-1 text-muted-foreground hover:text-primary text-sm font-medium transition-colors duration-200 cursor-pointer"
             >
                 {isExpanded ? "Show less" : "Read more"}

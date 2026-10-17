@@ -30,7 +30,10 @@ const Filter = ({ items, activeItem, onChange, label = "Filter" }: FilterProps) 
     return (
         <div ref={dropdownRef} className="relative inline-block text-left">
             <button
+                type="button"
                 onClick={() => setOpen(!open)}
+                aria-expanded={open}
+                aria-label={`Filter by ${label}`}
                 className="group flex items-center gap-1.5 text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
             >
                 <span>

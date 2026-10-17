@@ -56,7 +56,9 @@ export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
                                 {title}
                             </h2>
                             <button
+                                type="button"
                                 onClick={onClose}
+                                aria-label="Close dialog"
                                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-colors"
                             >
                                 <X size={20} />

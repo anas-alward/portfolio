@@ -31,6 +31,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
                                 ? "bg-black text-white"
                                 : "text-neutral-600 hover:bg-neutral-50"
                             }`}
+                        aria-current={currentPage === page ? "page" : undefined}
                     >
                         {page}
                     </button>

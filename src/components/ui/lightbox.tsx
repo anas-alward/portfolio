@@ -41,7 +41,9 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
+                            type="button"
                             onClick={onClose}
+                            aria-label="Close image viewer"
                             className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors p-2"
                         >
                             <X className="w-8 h-8" />
