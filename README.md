@@ -2,7 +2,7 @@
 
 A premium, high-performance personal portfolio built with **React 19**, **Vite**, **Tailwind CSS 4**, and **Three.js**. This project features a dynamic, data-driven architecture powered by **Supabase**, offering a seamless blend of interactive 3D graphics and clean, modern UI.
 
-![Portfolio Preview](public/preview.png) *(Note: Add a real preview image to public/preview.png or update this link)*
+![Portfolio Preview](public/preview.png)
 
 ## ✨ Key Features
 
@@ -36,8 +36,8 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 
 1. **Clone the repository**:
    ```bash
-   git clone <your-repo-url>
-   cd basic-portfolio
+   git clone https://github.com/anas-alward/portfolio.git
+   cd portfolio
    ```
 
 2. **Install dependencies**:
@@ -61,6 +61,17 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
    # or
    bun run dev
    ```
+
+## 📜 Available Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Build for production and type-check with `tsc` |
+| `npm run lint` | Run ESLint across the project |
+| `npm run typecheck` | Type-check without emitting files |
+| `npm run preview` | Preview the production build locally |
+| `npm run deploy` | Build and deploy to Cloudflare Pages via Wrangler |
 
 ## 📦 Deployment
 
