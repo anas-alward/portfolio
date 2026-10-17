@@ -1,11 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-
-interface PreloaderContextType {
-    hasLoaded: boolean;
-    setHasLoaded: (value: boolean) => void;
-}
-
-const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
+import React, { useState } from 'react';
+import { PreloaderContext } from '@/hooks/usePreloader';
 
 export const PreloaderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -15,12 +9,4 @@ export const PreloaderProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             {children}
         </PreloaderContext.Provider>
     );
-};
-
-export const usePreloader = () => {
-    const context = useContext(PreloaderContext);
-    if (context === undefined) {
-        throw new Error('usePreloader must be used within a PreloaderProvider');
-    }
-    return context;
 };
