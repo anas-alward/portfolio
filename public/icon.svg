@@ -4,7 +4,7 @@
 <svg
    width="48"
    height="48"
-   viewBox="0 0 12.7 12.7"
+   viewBox="0 0 12.699999 12.699999"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
@@ -15,7 +15,7 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
      id="namedview1"
-     pagecolor="#ffffff"
+     pagecolor="#f5f5f5"
      bordercolor="#eeeeee"
      borderopacity="1"
      inkscape:showpageshadow="0"
@@ -24,8 +24,8 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      inkscape:zoom="5.6568543"
-     inkscape:cx="33.322407"
-     inkscape:cy="5.9220193"
+     inkscape:cx="21.124815"
+     inkscape:cy="19.180271"
      inkscape:window-width="1536"
      inkscape:window-height="795"
      inkscape:window-x="0"
@@ -73,7 +73,9 @@
        close="false"
        join="false"
        linkedpaths="#path5,0,1"
-       id="path-effect6" />
+       id="path-effect6"
+       is_visible="true"
+       lpeversion="0" />
     <inkscape:path-effect
        effect="fill_between_many"
        method="bsplinespiro"
@@ -81,7 +83,9 @@
        close="false"
        join="false"
        linkedpaths="#path8,0,1"
-       id="path-effect9" />
+       id="path-effect9"
+       is_visible="true"
+       lpeversion="0" />
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -90,9 +94,17 @@
     <g
        id="g2"
        transform="rotate(180,5.936857,6.35)">
+      <rect
+         style="fill:#f5f5f5;fill-opacity:1;fill-rule:evenodd;stroke:#f5f5f5;stroke-width:8.79062;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         id="rect2"
+         width="3.909384"
+         height="3.9093795"
+         x="-7.4784007"
+         y="-8.3046865"
+         transform="scale(-1)" />
       <path
          id="path15-3"
-         style="fill:#7564d9;fill-rule:evenodd;stroke:#7564d9;stroke-width:0.224898;paint-order:markers fill stroke;fill-opacity:1;stroke-opacity:1"
+         style="fill:#7564d9;fill-opacity:1;fill-rule:evenodd;stroke:#7564d9;stroke-width:0.224898;stroke-opacity:1;paint-order:markers fill stroke"
          d="M 9.7950219,8.984916 A 0.9068253,0.9068253 0 0 1 8.888197,9.8917414 0.9068253,0.9068253 0 0 1 7.9813709,8.984916 0.9068253,0.9068253 0 0 1 8.888197,8.0780908 0.9068253,0.9068253 0 0 1 9.7950219,8.984916 Z" />
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.11667;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:markers fill stroke"
