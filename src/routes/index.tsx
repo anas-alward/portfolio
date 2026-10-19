@@ -38,8 +38,26 @@ function Page() {
         }}
         className="px-0 w-[90%] pt-20 pb-25 tablet:py-25  tablet:max-w-175 flex flex-col gap-20"
       >
-        {/* Profile section */}
-        <HeroSection />
+        {/* Brand logo + profile section */}
+        <div className="flex flex-col gap-7.5">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+            }}
+            className="flex justify-start"
+          >
+            <img
+              src="/icon.svg"
+              alt="Site logo"
+              width={44}
+              height={44}
+              className="h-11 w-11"
+            />
+          </motion.div>
+
+          <HeroSection />
+        </div>
 
         {/* Tabs section */}
         <motion.div
