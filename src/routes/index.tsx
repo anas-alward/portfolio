@@ -36,27 +36,28 @@ function Page() {
             },
           },
         }}
-        className="relative px-0 w-[90%] pt-20 pb-25 tablet:py-25  tablet:max-w-175 flex flex-col gap-20"
+        className="px-0 w-[90%] pt-20 pb-25 tablet:py-25  tablet:max-w-175 flex flex-col gap-20"
       >
-        {/* Brand logo pinned to the top-left corner of the page */}
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: -8 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-          }}
-          className="absolute left-0 top-6 tablet:top-8"
-        >
-          <img
-            src="/icon.svg"
-            alt="Site logo"
-            width={44}
-            height={44}
-            className="h-11 w-11"
-          />
-        </motion.div>
+        {/* Brand logo + profile section */}
+        <div className="flex flex-col gap-7.5">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+            }}
+            className="flex justify-start"
+          >
+            <img
+              src="/icon.svg"
+              alt="Site logo"
+              width={44}
+              height={44}
+              className="h-11 w-11"
+            />
+          </motion.div>
 
-        {/* Profile section */}
-        <HeroSection />
+          <HeroSection />
+        </div>
 
         {/* Tabs section */}
         <motion.div
