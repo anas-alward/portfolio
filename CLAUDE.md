@@ -55,8 +55,8 @@ src/
 Environment variables (in `.env`):
 - `VITE_SUPABASE_URL`: Supabase project URL
 - `VITE_SUPABASE_ANON_KEY`: Supabase anon key
-- `VITE_USER_ID`: UUID of the profile row in Supabase (used to fetch user-specific data)
-- `VITE_BASE_URL`: Base URL for the site (used in metadata)
+- `VITE_SUPABASE_USER_ID`: UUID of the profile row in Supabase (used to fetch user-specific data)
+- `VITE_SUPABASE_STORAGE_BUCKET`: Public storage bucket name used to build image URLs
 
 Data fetching patterns:
 - API functions live in `src/features/[feature]/api.ts` (e.g., `fetchProjects`, `fetchWorkExperience`)

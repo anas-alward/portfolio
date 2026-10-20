@@ -52,7 +52,8 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
    ```env
    VITE_SUPABASE_URL=your_supabase_project_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   VITE_USER_ID=your_profile_id_in_supabase
+   VITE_SUPABASE_USER_ID=your_profile_id_in_supabase
+   VITE_SUPABASE_STORAGE_BUCKET=your_public_storage_bucket
    ```
 
 4. **Launch Development Server**:
