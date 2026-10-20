@@ -43,7 +43,6 @@ src/
 - **React 19** with **React Router** via TanStack Router
 - **Vite** as build tool
 - **Tailwind CSS 4** for styling
-- **Three.js** + `@react-three/fiber` for 3D hero section
 - **Framer Motion** for animations
 - **Supabase** as backend (PostgreSQL + Storage)
 - **TanStack Query v5** for data fetching and caching

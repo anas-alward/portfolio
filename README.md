@@ -1,12 +1,12 @@
-# 🌐 Interactive 3D Portfolio
+# 🌐 Interactive Portfolio
 
-A premium, high-performance personal portfolio built with **React 19**, **Vite**, **Tailwind CSS 4**, and **Three.js**. This project features a dynamic, data-driven architecture powered by **Supabase**, offering a seamless blend of interactive 3D graphics and clean, modern UI.
+A premium, high-performance personal portfolio built with **React 19**, **Vite**, and **Tailwind CSS 4**. This project features a dynamic, data-driven architecture powered by **Supabase**, offering a seamless blend of fluid animations and clean, modern UI.
 
 ![Portfolio Preview](public/preview.png)
 
 ## ✨ Key Features
 
-- **🎨 3D Hero Experience**: An immersive landing section powered by **Three.js** and **Framer Motion**, delivering a state-of-the-art visual first impression.
+- **🎨 Animated Hero Experience**: An immersive landing section powered by **Framer Motion**, delivering a polished visual first impression.
 - **🔄 Supabase Integration**: Completely dynamic content! Manage projects, work history, skills, and testimonials directly from your Supabase dashboard.
 - **📱 Responsive & Premium UI**: Built with **Tailwind CSS 4** for a high-end look and feel that works perfectly on any device.
 - **📂 Multi-Section Tabs**: Intuitive navigation through Projects, Experience, Education, Certificates, Achievements, and more.
@@ -16,7 +16,7 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 ## 🛠️ Tech Stack
 
 - **Core**: [React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
-- **Visuals**: [Three.js](https://threejs.org/), [@react-three/fiber](https://github.com/pmndrs/react-three-fiber), [Framer Motion](https://www.framer.com/motion/)
+- **Visuals**: [Framer Motion](https://www.framer.com/motion/)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **Backend & CMS**: [Supabase](https://supabase.com/) (PostgreSQL & Storage)
 - **Data Management**: [TanStack Query v5](https://tanstack.com/query/latest)
