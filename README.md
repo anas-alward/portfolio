@@ -21,7 +21,7 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 - **Backend & CMS**: [Supabase](https://supabase.com/) (PostgreSQL & Storage)
 - **Data Management**: [TanStack Query v5](https://tanstack.com/query/latest)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) via [Wrangler](https://developers.cloudflare.com/workers/wrangler/)
+- **Deployment**: [Cloudflare Workers](https://workers.cloudflare.com/) via [Wrangler](https://developers.cloudflare.com/workers/wrangler/)
 
 ## 🚀 Getting Started
 
@@ -72,11 +72,12 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 | `npm run lint` | Run ESLint across the project |
 | `npm run typecheck` | Type-check without emitting files |
 | `npm run preview` | Preview the production build locally |
-| `npm run deploy` | Build and deploy to Cloudflare Pages via Wrangler |
+| `npm run deploy` | Build and deploy to Cloudflare Workers via Wrangler |
+| `npm run cf-typegen` | Generate TypeScript types for Cloudflare Workers bindings |
 
 ## 📦 Deployment
 
-This project is configured for deployment on **Cloudflare Pages** using Wrangler.
+This project is configured for deployment on **Cloudflare Workers** using Wrangler.
 
 1. **Build the project**:
    ```bash

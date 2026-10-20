@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **build**: `bun run build` - Build for production (Vite + TypeScript type checking)
 - **lint**: `bun run lint` - Run ESLint
 - **preview**: `bun run preview` - Preview production build locally
-- **deploy**: `bun run deploy` - Build and deploy to Cloudflare Pages via Wrangler
+- **deploy**: `bun run deploy` - Build and deploy to Cloudflare Workers via Wrangler
 - **cf-typegen**: `bun run cf-typegen` - Generate TypeScript types for Cloudflare Workers bindings
 
 ## Project Structure
