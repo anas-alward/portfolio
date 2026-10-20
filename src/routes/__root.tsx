@@ -43,12 +43,7 @@ export const Route = createRootRoute({
     const settings =
       settingsResult.status === "fulfilled" ? settingsResult.value.data : [];
 
-    try {
-      return { metadata, settings };
-    } catch (error) {
-      console.error("Failed to load root data:", error);
-      return { metadata: [], settings: [] };
-    }
+    return { metadata, settings };
   },
   head: ({ loaderData }) => {
     const rawMeta = loaderData?.metadata;
