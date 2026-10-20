@@ -33,8 +33,7 @@ dist-ssr
 
 .tanstack/*
 
-.opencode.json
-.serena 
-
 # OpenCode local config
+.opencode.json
 opencode.json
+.serena
