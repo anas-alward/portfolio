@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **preview**: `bun run preview` - Preview production build locally
 - **deploy**: `bun run deploy` - Build and deploy to Cloudflare Workers via Wrangler
 - **cf-typegen**: `bun run cf-typegen` - Generate TypeScript types for Cloudflare Workers bindings
+- **db:new / db:push / db:pull / db:list / db:reset** - Supabase schema migration commands (see "Supabase Integration")
 
 ## Project Structure
 
@@ -32,6 +33,9 @@ src/
 │   ├── __root.tsx      # Root route with layout, metadata, providers
 │   ├── index.tsx       # Home page route
 │   └── [feature]/      # Feature-specific routes (projects, work, etc.)
+├── supabase/           # Supabase CLI project (schema-as-code)
+│   ├── config.toml     # Local development configuration
+│   └── migrations/     # Versioned SQL migrations - source of truth for the DB schema
 ├── types/              # TypeScript interfaces for Supabase data
 ├── router.tsx          # Router entry point (if used)
 ├── vite-env.d.ts       # Vite TypeScript declarations
@@ -62,6 +66,23 @@ Data fetching patterns:
 - Use `useQuery` from TanStack Query with stable keys
 - Storage URLs are built via `getStorageUrl` from `src/lib/storage.ts`
 
+### Database schema (migrations)
+
+Schema changes are version-controlled in `supabase/migrations/` (standard Supabase CLI workflow). **Do not change the schema only via the Dashboard** — always create a migration file so the change is tracked.
+
+- `supabase/migrations/20261027152028_remote_schema.sql` is the baseline capturing the full pre-existing schema (originally built in the Dashboard). It is already recorded as applied in `supabase_migrations.schema_migrations`, so it will not be re-applied.
+
+**Option A — Supabase CLI (standard):** one-time setup: `bunx supabase login` and `bunx supabase link --project-ref wiztpuhcysldvryjndaz` (needs your database password). Then:
+
+1. `bun run db:new <name>` → creates `supabase/migrations/<timestamp>_<name>.sql`
+2. Write the DDL in that file
+3. `bun run db:push` → applies it to the remote project
+4. `bun run db:list` → verifies local files match the remote migration history
+
+**Option B — Supabase MCP (no login needed):** apply the SQL with `apply_migration`, then save the same SQL to `supabase/migrations/<version>_<name>.sql`, where `<version>` is the timestamp reported by `list_migrations` immediately after applying. The file timestamp and the history version must match — otherwise a later `db push` will try to re-apply the migration.
+
+Local development: `supabase start` + `bun run db:reset` rebuilds a local database from `supabase/migrations/`.
+
 ## Development Notes
 
 - The root route (`src/routes/__root.tsx`) provides:
@@ -83,9 +104,12 @@ Data fetching patterns:
   5. Update types in `src/types/[name].ts` if needed
 
 - **Modifying Supabase schema**: 
-  - Update corresponding TypeScript interfaces in `src/types/`
-  - Adjust API functions to match new fields
-  - Ensure environment variables are set for any new secrets
+  1. Create a migration file: `bun run db:new <name>` (or add a `<timestamp>_<name>.sql` under `supabase/migrations/`)
+  2. Write the DDL in the migration file
+  3. Apply it: `bun run db:push` (CLI) or `apply_migration` via the Supabase MCP — see "Database schema (migrations)" above
+  4. Update corresponding TypeScript interfaces in `src/types/`
+  5. Adjust API functions to match new fields
+  6. Ensure environment variables are set for any new secrets
 
 - **Styling**: 
   - Use Tailwind utility classes directly

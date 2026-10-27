@@ -74,6 +74,15 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 | `npm run preview` | Preview the production build locally |
 | `npm run deploy` | Build and deploy to Cloudflare Workers via Wrangler |
 | `npm run cf-typegen` | Generate TypeScript types for Cloudflare Workers bindings |
+| `npm run db:new <name>` | Create a new Supabase migration file |
+| `npm run db:push` | Apply pending migrations to the linked Supabase project |
+| `npm run db:pull` | Pull remote schema changes into a migration file |
+| `npm run db:list` | List local migrations vs. remote migration history |
+| `npm run db:reset` | Rebuild the local database from `supabase/migrations/` |
+
+### 🗄️ Database Schema Migrations
+
+The database schema is version-controlled in [`supabase/migrations/`](supabase/migrations/) using the standard [Supabase CLI workflow](https://supabase.com/docs/guides/local-development/database-migrations) — schema changes go in migration files (one-time setup: `bunx supabase login` + `bunx supabase link --project-ref <project-ref>`), not as one-off edits in the Dashboard. The first file, `20261027152028_remote_schema.sql`, is a baseline of the pre-existing schema.
 
 ## 📦 Deployment
 
