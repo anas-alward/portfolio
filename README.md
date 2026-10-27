@@ -82,7 +82,7 @@ A premium, high-performance personal portfolio built with **React 19**, **Vite**
 
 ### 🗄️ Database Schema Migrations
 
-The database schema is version-controlled in [`supabase/migrations/`](supabase/migrations/) using the standard [Supabase CLI workflow](https://supabase.com/docs/guides/local-development/database-migrations) — schema changes go in migration files (one-time setup: `bunx supabase login` + `bunx supabase link --project-ref <project-ref>`), not as one-off edits in the Dashboard. The first file, `20261027152028_remote_schema.sql`, is a baseline of the pre-existing schema.
+The database schema is version-controlled in [`supabase/migrations/`](supabase/migrations/) using the standard [Supabase CLI workflow](https://supabase.com/docs/guides/local-development/database-migrations) — schema changes go in migration files (one-time setup: `bunx supabase login` + `bunx supabase link --project-ref <project-ref>`), not as one-off edits in the Dashboard. The initial files (`20261027153000`–`20261027153016`) capture the pre-existing schema as one migration per feature.
 
 ## 📦 Deployment
 

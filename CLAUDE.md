@@ -70,7 +70,7 @@ Data fetching patterns:
 
 Schema changes are version-controlled in `supabase/migrations/` (standard Supabase CLI workflow). **Do not change the schema only via the Dashboard** — always create a migration file so the change is tracked.
 
-- `supabase/migrations/20261027152028_remote_schema.sql` is the baseline capturing the full pre-existing schema (originally built in the Dashboard). It is already recorded as applied in `supabase_migrations.schema_migrations`, so it will not be re-applied.
+- The initial migrations (`20261027153000`–`20261027153016`, one per feature: enums, each table with its FKs/RLS/policy/grants, views, default privileges) capture the pre-existing schema that was originally built in the Dashboard. They are already recorded as applied in `supabase_migrations.schema_migrations`, so they will not be re-applied.
 
 **Option A — Supabase CLI (standard):** one-time setup: `bunx supabase login` and `bunx supabase link --project-ref wiztpuhcysldvryjndaz` (needs your database password). Then:
 
