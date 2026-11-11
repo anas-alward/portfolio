@@ -13,9 +13,7 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false)
     const [isImageLoaded, setIsImageLoaded] = useState(false)
 
-    const portraitImage = profile?.image
-        ? profile.image
-        : '';
+    const portraitImage = profile?.image ?? '';
 
     const initials = profile?.name
         ? profile.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
@@ -83,6 +81,8 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
                         className="block w-full h-full rounded-[inherit] object-center object-cover"
                         onLoad={() => setIsImageLoaded(true)}
                         decoding="async"
+                        loading="eager"
+                        fetchPriority="high"
                     />
                 )}
             </motion.div>
