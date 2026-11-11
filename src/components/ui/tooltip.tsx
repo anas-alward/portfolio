@@ -32,6 +32,8 @@ const Tooltip = ({ content, children, position = 'top', className = '', delay = 
             className="relative inline-flex"
             onMouseEnter={() => setIsVisible(true)}
             onMouseLeave={() => setIsVisible(false)}
+            onFocus={() => setIsVisible(true)}
+            onBlur={() => setIsVisible(false)}
         >
             {children}
             <AnimatePresence>
