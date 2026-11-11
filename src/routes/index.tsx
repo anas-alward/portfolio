@@ -10,10 +10,7 @@ const homeSearchSchema = z.object({
 
 export const Route = createFileRoute("/")({
   validateSearch: (search) => homeSearchSchema.parse(search),
-  loader: async () => {
-    return null;
-  },
-    component: Page,
+  component: Page,
   wrapInSuspense: true,
   pendingComponent: Preloader,
   pendingMs: 1,

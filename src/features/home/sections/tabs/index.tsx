@@ -50,10 +50,11 @@ const TabsSection = () => {
     const scrollEl = scrollRef.current;
     if (scrollEl) {
       checkScroll();
-      window.addEventListener("resize", checkScroll);
-      return () => window.removeEventListener("resize", checkScroll);
+      const observer = new ResizeObserver(checkScroll);
+      observer.observe(scrollEl);
+      return () => observer.disconnect();
     }
-  }, []);
+  }, [visibleTabs]);
 
   const handleTabChange = (value: string) => {
     navigate({

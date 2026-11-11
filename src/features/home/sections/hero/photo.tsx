@@ -31,7 +31,16 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
                     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
                 }}
                 className="relative w-[60px] h-[60px] border-[2px] border-white rounded-xl shadow cursor-zoom-in group overflow-hidden bg-muted"
+                role={portraitImage ? "button" : undefined}
+                tabIndex={portraitImage ? 0 : undefined}
+                aria-label={portraitImage ? "Open profile picture" : undefined}
                 onClick={() => portraitImage && setIsLightboxOpen(true)}
+                onKeyDown={(e) => {
+                    if (portraitImage && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault()
+                        setIsLightboxOpen(true)
+                    }
+                }}
             >
                 <AnimatePresence mode="wait">
                     {(!isImageLoaded || isLoading) && (
@@ -64,7 +73,7 @@ const HeroPhoto = ({ profile, isLoading }: HeroPhotoProps) => {
                     <motion.img
                         key="profile-image"
                         src={getStorageUrl(portraitImage)}
-                        alt="persona portrait"
+                        alt={profile?.name || "Profile portrait"}
                         initial={{ opacity: 0, filter: "blur(4px)" }}
                         animate={{
                             opacity: isImageLoaded ? 1 : 0,
