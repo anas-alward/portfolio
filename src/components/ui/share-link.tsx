@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Tooltip from '@/components/ui/tooltip'
 
 interface ShareLinkProps {
@@ -7,18 +7,26 @@ interface ShareLinkProps {
     copiedTooltipText?: string
 }
 
-export function ShareLink({ 
-    children, 
-    tooltipText = "Copy Link", 
-    copiedTooltipText = "Link Copied!" 
+export function ShareLink({
+    children,
+    tooltipText = "Copy Link",
+    copiedTooltipText = "Link Copied!"
 }: ShareLinkProps) {
     const [isCopied, setIsCopied] = useState(false)
 
     const copy = () => {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard
+            .writeText(window.location.href)
+            .catch((err) => console.error('Failed to copy link:', err))
         setIsCopied(true)
-        setTimeout(() => setIsCopied(false), 2000)
     }
+
+    // Reset the copied state after 2 seconds, cleaning up on unmount
+    useEffect(() => {
+        if (!isCopied) return
+        const timeout = setTimeout(() => setIsCopied(false), 2000)
+        return () => clearTimeout(timeout)
+    }, [isCopied])
 
     return (
         <Tooltip content={isCopied ? copiedTooltipText : tooltipText}>
