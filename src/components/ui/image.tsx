@@ -9,6 +9,8 @@ const Image = ({ src, alt, className }: { src: string, alt: string, className?: 
         <img
             src={getStorageUrl(src)}
             alt={alt}
+            loading="lazy"
+            decoding="async"
             className={className || "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"}
         />
     )

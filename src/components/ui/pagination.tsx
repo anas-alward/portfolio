@@ -14,6 +14,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
     return (
         <div className="flex items-center justify-center gap-2 py-8 mt-4 border-t border-neutral-100">
             <button
+                type="button"
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className="p-2 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -25,6 +26,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
             <div className="flex items-center gap-1">
                 {pages.map((page) => (
                     <button
+                        type="button"
                         key={page}
                         onClick={() => onPageChange(page)}
                         className={`min-w-[40px] h-10 rounded-lg text-sm font-medium transition-colors ${currentPage === page
@@ -32,6 +34,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
                                 : "text-neutral-600 hover:bg-neutral-50"
                             }`}
                         aria-current={currentPage === page ? "page" : undefined}
+                        aria-label={`Page ${page}`}
                     >
                         {page}
                     </button>
@@ -39,6 +42,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
             </div>
 
             <button
+                type="button"
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 className="p-2 rounded-lg border border-neutral-200 text-neutral-600 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
