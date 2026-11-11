@@ -1,6 +1,20 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 
+const userId = import.meta.env.VITE_SUPABASE_USER_ID;
+
+/**
+ * Builds the final query params: caller params win over defaults.
+ */
+function buildParams(params: Record<string, unknown> = {}) {
+  return {
+    order: 'order.asc',
+    is_active: 'eq.true',
+    ...(userId ? { user: `eq.${userId}` } : {}),
+    ...params,
+  };
+}
+
 /**
  * Hook to fetch multiple records from a Supabase table.
  * @param options - Configuration object
@@ -14,15 +28,7 @@ export function useSupabaseQuery<TData>(
   }
 ) {
   const { key, table, params = {}, ...queryOptions } = options;
-  const userId = import.meta.env.VITE_SUPABASE_USER_ID;
-
-  // Build final params with default filters
-  const finalParams = {
-    order: 'order.asc',
-    is_active: 'eq.true',
-    ...(userId ? { user: `eq.${userId}` } : {}),
-    ...params,
-  };
+  const finalParams = buildParams(params);
 
   return useQuery<TData[], Error>({
     queryKey: [...key, finalParams],
@@ -49,14 +55,9 @@ export function useSupabaseSingleQuery<TData>(
   }
 ) {
   const { key, table, params = {}, ...queryOptions } = options;
-  const userId = import.meta.env.VITE_SUPABASE_USER_ID;
 
-  // Build final params with default filters
   const finalParams = {
-    order: 'order.asc',
-    is_active: 'eq.true',
-    ...(userId ? { user: `eq.${userId}` } : {}),
-    ...params,
+    ...buildParams(params),
     limit: 1, // Always limit to 1 for single record
   };
 
