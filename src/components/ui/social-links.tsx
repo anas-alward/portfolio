@@ -59,11 +59,11 @@ const SocialLinks = ({
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={social.name}
               className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary hover:bg-secondary/20 border border-border/20 transition-all duration-300 cursor-pointer ${itemClassName}`}
             >
               <div
-                aria-label={social.name}
-                role="img"
+                aria-hidden="true"
                 className="icon icon-custom hover:text-foreground transition-colors"
                 style={iconStyle}
               />
