@@ -11,13 +11,21 @@ interface LightboxProps {
 }
 
 export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
+    const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+    const previouslyFocused = React.useRef<HTMLElement | null>(null)
+
     React.useEffect(() => {
         if (!isOpen) return
+        previouslyFocused.current = document.activeElement as HTMLElement | null
+        closeButtonRef.current?.focus()
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose()
         }
         window.addEventListener("keydown", handleKeyDown)
-        return () => window.removeEventListener("keydown", handleKeyDown)
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown)
+            previouslyFocused.current?.focus()
+        }
     }, [isOpen, onClose])
 
     React.useEffect(() => {
@@ -35,6 +43,9 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
         <AnimatePresence>
             {isOpen && (
                 <motion.div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={alt || "Image viewer"}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -51,6 +62,7 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
                     >
                         <button
                             type="button"
+                            ref={closeButtonRef}
                             onClick={onClose}
                             aria-label="Close image viewer"
                             className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors p-2"
