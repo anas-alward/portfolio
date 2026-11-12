@@ -13,6 +13,9 @@ const Footer = () => {
 
   return (
     <motion.footer
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.4 }}
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: {
