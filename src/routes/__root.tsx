@@ -6,6 +6,7 @@ import {
   createRootRoute,
   HeadContent,
   Scripts,
+  Link,
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const ReactQueryDevtools = import.meta.env.DEV
@@ -184,12 +185,12 @@ function NotFoundPage() {
       <p className="text-xl mb-8">
         Oops! The page you're looking for doesn't exist.
       </p>
-      <a
-        href="/"
+      <Link
+        to="/"
         className="px-6 py-2 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
       >
         Go Back Home
-      </a>
+      </Link>
     </div>
   );
 }
