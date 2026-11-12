@@ -2,6 +2,7 @@ import {
     createContext,
     useContext,
     useState,
+    useId,
     ReactNode,
     useCallback,
     useMemo,
@@ -10,6 +11,8 @@ import {
 type TabsContextType = {
     value: string;
     setValue: (val: string) => void;
+    /** Prefix used to build unique trigger/panel ids for aria wiring */
+    baseId: string;
 };
 
 const TabsContext = createContext<TabsContextType | null>(null);
@@ -38,6 +41,7 @@ function Tabs({
     const [uncontrolledValue, setUncontrolledValue] = useState<string>(
         defaultValue
     );
+    const baseId = useId();
 
     const isControlled = controlledValue !== undefined;
     const currentValue = isControlled ? controlledValue! : uncontrolledValue;
@@ -56,8 +60,9 @@ function Tabs({
         () => ({
             value: currentValue,
             setValue,
+            baseId,
         }),
-        [currentValue, setValue]
+        [currentValue, setValue, baseId]
     );
 
     return (
@@ -78,9 +83,11 @@ type TabsTriggerProps = {
 };
 
 function TabsTrigger({ value, children, className = "" }: TabsTriggerProps) {
-    const { value: activeValue, setValue } = useTabsContext();
+    const { value: activeValue, setValue, baseId } = useTabsContext();
 
     const isActive = activeValue === value;
+    const triggerId = `${baseId}-trigger-${value}`;
+    const panelId = `${baseId}-panel-${value}`;
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         const isArrow = e.key === "ArrowLeft" || e.key === "ArrowRight";
@@ -116,6 +123,8 @@ function TabsTrigger({ value, children, className = "" }: TabsTriggerProps) {
         <button
             role="tab"
             type="button"
+            id={triggerId}
+            aria-controls={panelId}
             data-state={isActive ? "active" : "inactive"}
             data-value={value}
             aria-selected={isActive}
@@ -135,11 +144,20 @@ type TabsContentProps = {
 };
 
 function TabsContent({ value, children }: TabsContentProps) {
-    const { value: activeValue } = useTabsContext();
+    const { value: activeValue, baseId } = useTabsContext();
 
     if (activeValue !== value) return null;
 
-    return <div role="tabpanel">{children}</div>;
+    return (
+        <div
+            role="tabpanel"
+            id={`${baseId}-panel-${value}`}
+            aria-labelledby={`${baseId}-trigger-${value}`}
+            tabIndex={0}
+        >
+            {children}
+        </div>
+    );
 }
 
 Tabs.List = TabsList;
