@@ -1,5 +1,6 @@
 import React from "react"
 import { motion } from "framer-motion"
+import { wordVariants, wordContainerVariants } from "@/components/animation/variants"
 
 /**
  * FormattedText - A generic component that parses inline markers and renders formatted text.
@@ -176,27 +177,13 @@ const FormattedText = ({
             <motion.div
                 initial="hidden"
                 animate="visible"
-                variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: {
-                        opacity: 1,
-                        y: 0,
-                        transition: {
-                            duration: 0.5,
-                            staggerChildren: 0.05,
-                            delayChildren: delay,
-                        },
-                    },
-                }}
+                variants={wordContainerVariants(delay)}
                 className={`${className ?? ""} flex flex-wrap`}
             >
                 {words.map((word, i) => (
                     <motion.span
                         key={i}
-                        variants={{
-                            hidden: { opacity: 0, x: -10 },
-                            visible: { opacity: 1, x: 0 },
-                        }}
+                        variants={wordVariants}
                         className="inline-block mr-[0.25em]"
                     >
                         {renderWord(word, i)}
