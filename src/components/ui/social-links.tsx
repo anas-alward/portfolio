@@ -26,10 +26,6 @@ const SocialLinks = ({
   const { data: socials, isLoading } = useSupabaseQuery<Contact>({
     key: ['socials'],
     table: 'socials',
-    params: {
-      is_active: "eq.true",
-      order: "order.asc",
-    },
   });
 
   const variants = {

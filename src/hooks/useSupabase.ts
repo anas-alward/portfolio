@@ -1,18 +1,25 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 
-const userId = import.meta.env.VITE_SUPABASE_USER_ID;
-
 /**
- * Builds the final query params: caller params win over defaults.
+ * Merges caller params over hook-level defaults, dropping undefined values.
+ *
+ * Default request filters (`is_active`, `user`) are applied by the api layer
+ * (`src/lib/api.ts`), so they are not duplicated here. Passing `undefined`
+ * for a param opts out of the corresponding default (e.g. a table without
+ * an `order` column).
  */
 function buildParams(params: Record<string, unknown> = {}) {
-  return {
-    order: 'order.asc',
-    is_active: 'eq.true',
-    ...(userId ? { user: `eq.${userId}` } : {}),
-    ...params,
-  };
+  const merged = { order: 'order.asc', ...params };
+  return Object.fromEntries(
+    Object.entries(merged).filter(([, value]) => value !== undefined)
+  );
+}
+
+/** Fetches all rows matching params from a Supabase table. */
+async function fetchTable<T>(table: string, params: Record<string, unknown>) {
+  const { data } = await api.get<T[]>(`/${table}`, { params });
+  return data;
 }
 
 /**
@@ -32,12 +39,7 @@ export function useSupabaseQuery<TData>(
 
   return useQuery<TData[], Error>({
     queryKey: [...key, finalParams],
-    queryFn: async () => {
-      const { data } = await api.get<TData[]>(`/${table}`, {
-        params: finalParams,
-      });
-      return data;
-    },
+    queryFn: () => fetchTable<TData>(table, finalParams),
     ...queryOptions,
   });
 }
@@ -64,9 +66,7 @@ export function useSupabaseSingleQuery<TData>(
   return useQuery<TData | null, Error>({
     queryKey: [...key, finalParams],
     queryFn: async () => {
-      const { data } = await api.get<TData[]>(`/${table}`, {
-        params: finalParams,
-      });
+      const data = await fetchTable<TData>(table, finalParams);
       return data[0] ?? null; // Return first item or null if not found
     },
     ...queryOptions,

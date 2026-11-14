@@ -10,7 +10,6 @@ const WorkTabContent = () => {
         table: 'work',
         params: {
             select: '*,companies(*)',
-            order: 'order.asc'
         }
     });
     

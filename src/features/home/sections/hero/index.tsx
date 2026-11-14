@@ -12,6 +12,8 @@ const HeroSection = () => {
   const profileResult = useSupabaseSingleQuery<Profile | null>({
     key: ["profile"],
     table: "profile",
+    // `order: undefined` opts out of the default ordering: the profile table
+    // has no `order` column, so requesting one would fail the query.
     params: { order: undefined },
   });
   const { data: profile, isLoading: profileLoading } = profileResult;
@@ -19,7 +21,6 @@ const HeroSection = () => {
   const socialsResult = useSupabaseQuery<Contact>({
     key: ["socials"],
     table: "socials",
-    params: { is_active: "eq.true", order: "order.asc" },
   });
   const { data: socials, isLoading: socialsLoading } = socialsResult;
 
