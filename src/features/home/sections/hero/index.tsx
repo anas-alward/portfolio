@@ -87,7 +87,7 @@ const HeroSection = () => {
               </>
             )}
           </div>
-          <SocialLinks iconSize={4} gap="gap-2" showTooltip animated />{" "}
+          <SocialLinks iconSize={4} gap="gap-2" showTooltip animated />
         </div>
       </div>
     </div>

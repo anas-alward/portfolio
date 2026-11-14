@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"; // Adjust import path as needed
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ProjectItemSkeleton = () => {
     return (
