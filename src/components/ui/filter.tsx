@@ -22,9 +22,15 @@ const Filter = ({ items, activeItem, onChange, label = "Filter" }: FilterProps) 
                 setOpen(false);
             }
         };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setOpen(false);
+        };
         document.addEventListener("mousedown", handleClickOutside);
-        return () =>
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
     }, []);
 
     return (
@@ -33,6 +39,7 @@ const Filter = ({ items, activeItem, onChange, label = "Filter" }: FilterProps) 
                 type="button"
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
+                aria-haspopup="menu"
                 aria-label={`Filter by ${label}`}
                 className="group flex items-center gap-1.5 text-xs font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
             >
@@ -46,10 +53,13 @@ const Filter = ({ items, activeItem, onChange, label = "Filter" }: FilterProps) 
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-1 w-40 origin-top-right rounded-lg bg-white border border-neutral-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-30 py-1">
+                <div role="menu" className="absolute right-0 mt-1 w-40 origin-top-right rounded-lg bg-white border border-neutral-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-30 py-1">
                     {items.map((item) => (
                         <button
                             key={item}
+                            type="button"
+                            role="menuitemradio"
+                            aria-checked={activeItem === item}
                             onClick={() => {
                                 onChange(item);
                                 setOpen(false);
