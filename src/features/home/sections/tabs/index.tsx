@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import type { ComponentType } from "react";
 import Tabs from "@/components/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,25 +16,33 @@ import EducationTabContent from "./education";
 import AchievementsTabContent from "./achievements";
 const route = getRouteApi("/");
 
+/** All available tabs, in default display order. */
+const TABS: { value: string; label: string; Content: ComponentType }[] = [
+  { value: "work", label: "Work", Content: WorkTabContent },
+  { value: "projects", label: "Projects", Content: ProjectTabContent },
+  { value: "skills", label: "Skills", Content: SkillTabContent },
+  { value: "certificates", label: "Certificates", Content: CertificatesTabContent },
+  { value: "testimonials", label: "Testimonials", Content: TestimonialTabContent },
+  { value: "education", label: "Education", Content: EducationTabContent },
+  { value: "achievements", label: "Achievements", Content: AchievementsTabContent },
+  { value: "languages", label: "Languages", Content: LanguagesTabContent },
+];
+
 const TabsSection = () => {
-  const tabs = [
-    "work",
-    "projects",
-    "skills",
-    "certificates",
-    "testimonials",
-    "education",
-    "achievements",
-    "languages",
-  ];
   const { tab } = route.useSearch();
   const navigate = route.useNavigate();
   const visibleTabsSetting = useSettings("VISIBLE_TABS");
-  const visibleTabs =
-    visibleTabsSetting?.value
-      .split(",")
-      .map((tab) => tab.trim())
-      .filter(Boolean) || tabs;
+
+  // Optional VISIBLE_TABS setting filters the default tab list; unknown
+  // values in the setting are ignored.
+  const visibleTabValues = visibleTabsSetting?.value
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const tabs = visibleTabValues
+    ? TABS.filter((t) => visibleTabValues.includes(t.value))
+    : TABS;
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
@@ -54,7 +63,7 @@ const TabsSection = () => {
       observer.observe(scrollEl);
       return () => observer.disconnect();
     }
-  }, [visibleTabs]);
+  }, [tabs]);
 
   const handleTabChange = (value: string) => {
     navigate({
@@ -100,8 +109,8 @@ const TabsSection = () => {
             onScroll={checkScroll}
             className="flex flex-nowrap gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
           >
-            {visibleTabs.map((tab) => (
-              <Tabs.Trigger key={tab} value={tab} className="shrink-0">
+            {tabs.map(({ value, label }) => (
+              <Tabs.Trigger key={value} value={value} className="shrink-0">
                 <div
                   className={`px-4 py-1.5 rounded-full text-[13px] font-normal transition-all duration-300 whitespace-nowrap
                                                 group-data-[state=active]:bg-primary 
@@ -111,7 +120,7 @@ const TabsSection = () => {
                                                 group-data-[state=inactive]:hover:bg-accent 
                                                 group-data-[state=inactive]:hover:text-accent-foreground`}
                 >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {label}
                 </div>
               </Tabs.Trigger>
             ))}
@@ -119,30 +128,11 @@ const TabsSection = () => {
         </div>
       </div>
 
-      <Tabs.Content value="projects">
-        <ProjectTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="testimonials">
-        <TestimonialTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="skills">
-        <SkillTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="work">
-        <WorkTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="education">
-        <EducationTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="certificates">
-        <CertificatesTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="achievements">
-        <AchievementsTabContent />
-      </Tabs.Content>
-      <Tabs.Content value="languages">
-        <LanguagesTabContent />
-      </Tabs.Content>
+      {tabs.map(({ value, Content }) => (
+        <Tabs.Content key={value} value={value}>
+          <Content />
+        </Tabs.Content>
+      ))}
     </Tabs>
   );
 };
