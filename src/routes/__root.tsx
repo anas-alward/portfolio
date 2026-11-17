@@ -13,6 +13,7 @@ const ReactQueryDevtools = import.meta.env.DEV
   ? lazy(() => import("@tanstack/react-query-devtools").then((m) => ({ default: m.ReactQueryDevtools })))
   : () => null;
 import appCss from "@/index.css?url";
+import { MotionConfig } from "framer-motion";
 import { fetchSiteMetadata as fetchMetadata } from "@/features/home/api";
 import { api } from "@/lib/api";
 import { getStorageUrl } from "@/lib/storage";
@@ -185,16 +186,18 @@ function Page() {
       </head>
 
       <QueryClientProvider client={queryClient}>
-        <body>
-          <Outlet />
-          <Scripts />
-          {import.meta.env.DEV && (
-            <Suspense fallback={null}>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </Suspense>
-          )}
-          <Footer />
-        </body>
+        <MotionConfig reducedMotion="user">
+          <body>
+            <Outlet />
+            <Scripts />
+            {import.meta.env.DEV && (
+              <Suspense fallback={null}>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Suspense>
+            )}
+            <Footer />
+          </body>
+        </MotionConfig>
       </QueryClientProvider>
     </html>
   );
