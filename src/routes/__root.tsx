@@ -23,6 +23,23 @@ import type { Settings } from "@/types";
 
 type MetaItem = { key: string; value: string };
 
+// Preconnecting to the font CDNs and the Supabase origin lets the browser
+// establish TLS early, shaving latency off the first CSS/font/API fetches.
+const FONT_PRECONNECT_LINKS = [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" as const },
+];
+
+function getSupabaseOrigin(): string | undefined {
+  try {
+    return import.meta.env.VITE_SUPABASE_URL
+      ? new URL(import.meta.env.VITE_SUPABASE_URL).origin
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -63,6 +80,7 @@ export const Route = createRootRoute({
     const siteName = getMeta("site_name");
     const xHandler = getMeta("x_handler");
     const imageUrl = image ? getStorageUrl(image) : undefined;
+    const supabaseOrigin = getSupabaseOrigin();
 
     return {
       meta: [
@@ -102,6 +120,10 @@ export const Route = createRootRoute({
       ],
       links: [
         ...(url ? [{ rel: "canonical", href: url }] : []),
+        ...FONT_PRECONNECT_LINKS,
+        ...(supabaseOrigin
+          ? [{ rel: "preconnect", href: supabaseOrigin }]
+          : []),
         { rel: "stylesheet", href: appCss },
         {
           rel: "icon",
