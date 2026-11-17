@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { z } from "zod";
+import { tabSearchSchema } from "@/lib/search";
 import { getWorkDetails } from "@/features/work/api";
 import { Work } from "@/types/work";
 import { getStorageUrl } from "@/lib/storage";
@@ -12,12 +12,8 @@ import { ArrowLeft } from "lucide-react";
 import Preloader from "@/components/ui/preloader";
 
 
-const workSearchSchema = z.object({
-  tab: z.string().optional(),
-});
-
 export const Route = createFileRoute("/work/$workId")({
-  validateSearch: (search) => workSearchSchema.parse(search),
+  validateSearch: tabSearchSchema.parse,
   loader: async ({ params }) => {
     const work = await getWorkDetails(params.workId);
     if (!work) {

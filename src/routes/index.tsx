@@ -1,15 +1,12 @@
 import { motion } from "framer-motion";
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
+import { tabSearchSchema } from "@/lib/search";
 import Preloader from "@/components/ui/preloader";
 import HeroSection from "@/features/home/sections/hero";
 import TabsSection from "@/features/home/sections/tabs";
-const homeSearchSchema = z.object({
-  tab: z.string().optional(),
-});
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search) => homeSearchSchema.parse(search),
+  validateSearch: tabSearchSchema.parse,
   component: Page,
   wrapInSuspense: true,
   pendingComponent: Preloader,

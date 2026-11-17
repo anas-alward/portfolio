@@ -1,8 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { tabSearchSchema } from "@/lib/search";
 import { getStorageUrl } from "@/lib/storage";
 import { getProjectDetails } from "@/features/projects/api";
 import { Project, Skill } from "@/types";
-import { z } from "zod";
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import SkillDialog from "@/features/skills/components/dialog";
@@ -17,12 +17,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
 
-const projectSearchSchema = z.object({
-  tab: z.string().optional(),
-});
-
 export const Route = createFileRoute("/projects/$projectId")({
-  validateSearch: (search) => projectSearchSchema.parse(search),
+  validateSearch: tabSearchSchema.parse,
   loader: async ({ params }) => {
     const project = await getProjectDetails(params.projectId);
     if (!project) {
