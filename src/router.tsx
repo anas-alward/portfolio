@@ -1,6 +1,7 @@
 import { createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import Preloader from '@/components/ui/preloader'
+import ErrorPage from '@/components/ui/error'
 export function getRouter() {
     const router = createRouter({
       routeTree,
@@ -10,6 +11,7 @@ export function getRouter() {
         defaultPendingComponent: Preloader,
       defaultPendingMs: 10,
       defaultPendingMinMs: 500,
+      defaultErrorComponent: ErrorPage,
     });
 
     return router
