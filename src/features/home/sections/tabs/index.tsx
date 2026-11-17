@@ -34,14 +34,22 @@ const TabsSection = () => {
   const visibleTabsSetting = useSettings("VISIBLE_TABS");
 
   // Optional VISIBLE_TABS setting filters the default tab list; unknown
-  // values in the setting are ignored.
+  // values in the setting are ignored. An empty/blank setting falls back
+  // to the full list so the page never renders without tabs.
   const visibleTabValues = visibleTabsSetting?.value
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
-  const tabs = visibleTabValues
-    ? TABS.filter((t) => visibleTabValues.includes(t.value))
-    : TABS;
+  const tabs =
+    visibleTabValues && visibleTabValues.length > 0
+      ? TABS.filter((t) => visibleTabValues.includes(t.value))
+      : TABS;
+
+  const defaultTab = tabs[0]?.value ?? "work";
+  // Unknown or missing `tab` search params resolve to the first visible tab
+  // instead of matching no trigger (which would render a blank panel).
+  const activeTab =
+    tab && tabs.some((t) => t.value === tab) ? tab : defaultTab;
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -67,14 +75,16 @@ const TabsSection = () => {
 
   const handleTabChange = (value: string) => {
     navigate({
-      search: (prev) => ({ ...prev, tab: value }),
+      // Omit the param for the default tab to keep URLs clean
+      // (`/` instead of `/?tab=work`).
+      search: (prev) => ({ ...prev, tab: value === defaultTab ? undefined : value }),
       replace: true,
       resetScroll: false,
     });
   };
 
   return (
-    <Tabs value={tab || "work"} onValueChange={handleTabChange}>
+    <Tabs value={activeTab} onValueChange={handleTabChange}>
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 py-4 -mt-4 mb-8">
         <div className="relative group/tabs">
           {/* Scroll Indicators for Mobile */}
