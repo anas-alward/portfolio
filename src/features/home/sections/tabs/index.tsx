@@ -114,9 +114,10 @@ const TabsSection = () => {
             )}
           </AnimatePresence>
 
-          <div
+          <Tabs.List
             ref={scrollRef}
             onScroll={checkScroll}
+            aria-label="Portfolio sections"
             className="flex flex-nowrap gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
           >
             {tabs.map(({ value, label }) => (
@@ -134,7 +135,7 @@ const TabsSection = () => {
                 </div>
               </Tabs.Trigger>
             ))}
-          </div>
+          </Tabs.List>
         </div>
       </div>
 

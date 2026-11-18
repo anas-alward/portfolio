@@ -6,6 +6,8 @@ import {
     ReactNode,
     useCallback,
     useMemo,
+    type ComponentPropsWithoutRef,
+    type Ref,
 } from "react";
 
 type TabsContextType = {
@@ -72,8 +74,16 @@ function Tabs({
     );
 }
 
-function TabsList({ children, className = "" }: { children: ReactNode, className?: string }) {
-    return <div role="tablist" className={className}>{children}</div>;
+type TabsListProps = ComponentPropsWithoutRef<"div"> & {
+    ref?: Ref<HTMLDivElement>;
+};
+
+function TabsList({ children, className = "", ref, ...rest }: TabsListProps) {
+    return (
+        <div {...rest} ref={ref} role="tablist" className={className}>
+            {children}
+        </div>
+    );
 }
 
 type TabsTriggerProps = {
