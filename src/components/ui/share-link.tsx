@@ -14,11 +14,15 @@ export function ShareLink({
 }: ShareLinkProps) {
     const [isCopied, setIsCopied] = useState(false)
 
-    const copy = () => {
-        navigator.clipboard
-            .writeText(window.location.href)
-            .catch((err) => console.error('Failed to copy link:', err))
-        setIsCopied(true)
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href)
+            setIsCopied(true)
+        } catch (err) {
+            // Includes both denied permissions and browsers without the
+            // Clipboard API (e.g. insecure contexts) — don't claim success.
+            console.error('Failed to copy link:', err)
+        }
     }
 
     // Reset the copied state after 2 seconds, cleaning up on unmount
