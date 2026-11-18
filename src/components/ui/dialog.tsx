@@ -9,24 +9,63 @@ interface DialogProps {
     title?: string
 }
 
-export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
-    React.useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
-        };
+const FOCUSABLE_SELECTOR = [
+    'a[href]',
+    'button:not([disabled])',
+    'textarea:not([disabled])',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+].join(", ")
 
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-            window.addEventListener("keydown", handleEscape);
-        } else {
-            document.body.style.overflow = "unset";
+export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
+    const dialogRef = React.useRef<HTMLDivElement>(null)
+    const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+    const titleId = React.useId()
+
+    // Keep Escape handling separate from focus management: `onClose` is
+    // commonly an inline callback and re-running the focus effect on every
+    // parent render would pull focus back to the close button.
+    React.useEffect(() => {
+        if (!isOpen) return
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose()
         }
+        window.addEventListener("keydown", handleEscape)
+        return () => window.removeEventListener("keydown", handleEscape)
+    }, [isOpen, onClose])
+
+    React.useEffect(() => {
+        if (!isOpen) return
+
+        const previouslyFocused = document.activeElement as HTMLElement | null
+        const previousOverflow = document.body.style.overflow
+        document.body.style.overflow = "hidden"
+        closeButtonRef.current?.focus()
+
+        const keepFocusInside = (e: KeyboardEvent) => {
+            if (e.key !== "Tab") return
+            const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+            if (!focusable || focusable.length === 0) return
+
+            const first = focusable[0]
+            const last = focusable[focusable.length - 1]
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault()
+                last.focus()
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault()
+                first.focus()
+            }
+        }
+        document.addEventListener("keydown", keepFocusInside)
 
         return () => {
-            document.body.style.overflow = "unset";
-            window.removeEventListener("keydown", handleEscape);
-        };
-    }, [isOpen, onClose]);
+            document.removeEventListener("keydown", keepFocusInside)
+            document.body.style.overflow = previousOverflow
+            previouslyFocused?.focus()
+        }
+    }, [isOpen])
 
     return (
         <AnimatePresence>
@@ -43,6 +82,11 @@ export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
 
                     {/* Content */}
                     <motion.div
+                        ref={dialogRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby={title ? titleId : undefined}
+                        aria-label={title ? undefined : "Dialog"}
                         initial={{ scale: 0.95, opacity: 0, y: 10 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.95, opacity: 0, y: 10 }}
@@ -52,11 +96,12 @@ export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
-                            <h2 className="text-lg font-semibold text-foreground">
+                            <h2 id={titleId} className="text-lg font-semibold text-foreground">
                                 {title}
                             </h2>
                             <button
                                 type="button"
+                                ref={closeButtonRef}
                                 onClick={onClose}
                                 aria-label="Close dialog"
                                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-colors"
