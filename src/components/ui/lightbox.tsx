@@ -19,7 +19,15 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
         previouslyFocused.current = document.activeElement as HTMLElement | null
         closeButtonRef.current?.focus()
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose()
+            if (e.key === "Escape") {
+                onClose()
+                return
+            }
+            // Keep focus inside the lightbox while it is open.
+            if (e.key === "Tab") {
+                e.preventDefault()
+                closeButtonRef.current?.focus()
+            }
         }
         window.addEventListener("keydown", handleKeyDown)
         return () => {
@@ -29,13 +37,11 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
     }, [isOpen, onClose])
 
     React.useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden"
-        } else {
-            document.body.style.overflow = "unset"
-        }
+        if (!isOpen) return
+        const previousOverflow = document.body.style.overflow
+        document.body.style.overflow = "hidden"
         return () => {
-            document.body.style.overflow = "unset"
+            document.body.style.overflow = previousOverflow
         }
     }, [isOpen])
 
