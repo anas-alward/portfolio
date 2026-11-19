@@ -11,7 +11,16 @@ interface SkillItemProps {
 const SkillItem = memo(({ skill, onClick }: SkillItemProps) => {
     return (
         <div
+            role="button"
+            tabIndex={0}
+            aria-label={`View ${skill.name} details`}
             onClick={() => onClick?.(skill)}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onClick?.(skill);
+                }
+            }}
             className="
                 group
                 relative
