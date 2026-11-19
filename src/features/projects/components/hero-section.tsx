@@ -18,8 +18,17 @@ export function ProjectHeroSection({ project, projectImage, onImageClick }: Proj
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View ${project.name} image`}
                     className="w-full aspect-video rounded-2xl overflow-hidden border border-border bg-muted group relative cursor-zoom-in"
                     onClick={() => onImageClick(projectImage)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
+                            onImageClick(projectImage)
+                        }
+                    }}
                 >
                     <div className="absolute top-3 right-3 z-10">
                         <ProjectTypeLabel type={project.type} />

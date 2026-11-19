@@ -25,9 +25,18 @@ export function ProjectGallery({ images, projectName, onImageClick }: ProjectGal
                 {images.map((image: string, index: number) => (
                     <motion.div
                         key={index}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`View ${projectName} gallery image ${index + 1}`}
                         whileHover={{ y: -5 }}
                         className="aspect-video rounded-xl overflow-hidden border border-border bg-muted group relative cursor-zoom-in"
                         onClick={() => onImageClick(image)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault()
+                                onImageClick(image)
+                            }
+                        }}
                     >
                         <img
                             src={getStorageUrl(image)}
