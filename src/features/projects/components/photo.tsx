@@ -17,9 +17,18 @@ const ProjectPhoto = ({ project }: ProjectPhotoProps) => {
     return (
         <>
             <div
+                role={projectImage ? "button" : undefined}
+                tabIndex={projectImage ? 0 : undefined}
+                aria-label={projectImage ? `View ${project.name} image` : undefined}
                 className={`w-full sm:w-36 h-48 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden border border-neutral-100 bg-neutral-100 flex items-center justify-center ${projectImage ? 'cursor-zoom-in' : ''
                     }`}
                 onClick={() => projectImage && setIsLightboxOpen(true)}
+                onKeyDown={(e) => {
+                    if (projectImage && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault();
+                        setIsLightboxOpen(true);
+                    }
+                }}
             >
                 {projectImage ? (
                     <Image
