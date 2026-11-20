@@ -35,6 +35,10 @@ export function ShareLink({
     return (
         <Tooltip content={isCopied ? copiedTooltipText : tooltipText}>
             {children({ isCopied, copy })}
+            {/* The tooltip is visual only; announce the result to screen readers. */}
+            <span role="status" className="sr-only">
+                {isCopied ? copiedTooltipText : ""}
+            </span>
         </Tooltip>
     )
 }

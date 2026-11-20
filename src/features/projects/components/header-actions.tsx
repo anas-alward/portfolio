@@ -13,10 +13,12 @@ export function ProjectHeaderActions({ tab }: ProjectHeaderActionsProps) {
       <Link
         to="/"
         search={{ tab }}
+        aria-label="Back to portfolio"
         className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-300 group active:scale-95"
       >
         <ArrowLeft
           size={18}
+          aria-hidden="true"
           className="group-hover:-translate-x-0.5 transition-transform"
         />
       </Link>
@@ -24,7 +26,9 @@ export function ProjectHeaderActions({ tab }: ProjectHeaderActionsProps) {
       <ShareLink>
         {({ isCopied, copy }) => (
           <button
+            type="button"
             onClick={copy}
+            aria-label="Copy page link"
             className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-300 group active:scale-95"
           >
             <AnimatePresence mode="wait">
