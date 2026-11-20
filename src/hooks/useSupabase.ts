@@ -17,8 +17,8 @@ function buildParams(params: Record<string, unknown> = {}) {
 }
 
 /** Fetches all rows matching params from a Supabase table. */
-async function fetchTable<T>(table: string, params: Record<string, unknown>) {
-  const { data } = await api.get<T[]>(`/${table}`, { params });
+async function fetchTable<T>(table: string, params: Record<string, unknown>, signal?: AbortSignal) {
+  const { data } = await api.get<T[]>(`/${table}`, { params, signal });
   return data;
 }
 
@@ -39,7 +39,9 @@ export function useSupabaseQuery<TData>(
 
   return useQuery<TData[], Error>({
     queryKey: [...key, finalParams],
-    queryFn: () => fetchTable<TData>(table, finalParams),
+    // React Query aborts this signal when the query is cancelled (e.g. the
+    // last component using it unmounts), so in-flight requests don't linger.
+    queryFn: ({ signal }) => fetchTable<TData>(table, finalParams, signal),
     ...queryOptions,
   });
 }
@@ -65,8 +67,8 @@ export function useSupabaseSingleQuery<TData>(
 
   return useQuery<TData | null, Error>({
     queryKey: [...key, finalParams],
-    queryFn: async () => {
-      const data = await fetchTable<TData>(table, finalParams);
+    queryFn: async ({ signal }) => {
+      const data = await fetchTable<TData>(table, finalParams, signal);
       return data[0] ?? null; // Return first item or null if not found
     },
     ...queryOptions,

@@ -14,7 +14,7 @@ function parseHeaders(h: Headers) {
     return out;
 }
 
-async function request<T = unknown>(method: string, path: string, opts?: { params?: Record<string, unknown>; body?: unknown; headers?: Record<string, string>; }): Promise<{ data: T; headers: Record<string, string>; status: number }> {
+async function request<T = unknown>(method: string, path: string, opts?: { params?: Record<string, unknown>; body?: unknown; headers?: Record<string, string>; signal?: AbortSignal; }): Promise<{ data: T; headers: Record<string, string>; status: number }> {
     // Normalize URL: avoid new URL treating leading `/` as absolute host path
     let urlStr: string;
     if (/^https?:\/\//i.test(path)) {
@@ -45,6 +45,7 @@ async function request<T = unknown>(method: string, path: string, opts?: { param
     const res = await fetch(String(url), {
         method,
         headers,
+        signal: opts?.signal,
         body: opts?.body !== undefined ? JSON.stringify(opts.body) : undefined,
     });
 
@@ -86,8 +87,8 @@ export class ApiError extends Error {
 
 // Export an axios-like object for compatibility with existing imports
 export const api = {
-    get: async <T = unknown>(path: string, config?: { params?: Record<string, unknown>; headers?: Record<string, string>; }) =>
-        request<T>('GET', path, { params: config?.params, headers: config?.headers }),
+    get: async <T = unknown>(path: string, config?: { params?: Record<string, unknown>; headers?: Record<string, string>; signal?: AbortSignal; }) =>
+        request<T>('GET', path, { params: config?.params, headers: config?.headers, signal: config?.signal }),
     post: async <T = unknown>(path: string, body?: unknown, config?: { headers?: Record<string, string>; }) =>
         request<T>('POST', path, { body, headers: config?.headers }),
     patch: async <T = unknown>(path: string, body?: unknown, config?: { headers?: Record<string, string>; }) =>
