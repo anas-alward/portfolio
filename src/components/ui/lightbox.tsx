@@ -10,38 +10,68 @@ interface LightboxProps {
     alt?: string
 }
 
+const FOCUSABLE_SELECTOR = [
+    'a[href]',
+    'button:not([disabled])',
+    'textarea:not([disabled])',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+].join(", ")
+
 export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
+    const containerRef = React.useRef<HTMLDivElement>(null)
     const closeButtonRef = React.useRef<HTMLButtonElement>(null)
     const previouslyFocused = React.useRef<HTMLElement | null>(null)
+    const onCloseRef = React.useRef(onClose)
+
+    // Keep Escape handling separate from focus management: `onClose` is often
+    // an inline callback, so re-running the focus effect on every parent
+    // render would pull focus back to the close button and forget where to
+    // restore it afterwards.
+    React.useEffect(() => {
+        onCloseRef.current = onClose
+    }, [onClose])
 
     React.useEffect(() => {
         if (!isOpen) return
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onCloseRef.current()
+        }
+        window.addEventListener("keydown", handleEscape)
+        return () => window.removeEventListener("keydown", handleEscape)
+    }, [isOpen])
+
+    React.useEffect(() => {
+        if (!isOpen) return
+
         previouslyFocused.current = document.activeElement as HTMLElement | null
         closeButtonRef.current?.focus()
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-                onClose()
-                return
-            }
-            // Keep focus inside the lightbox while it is open.
-            if (e.key === "Tab") {
-                e.preventDefault()
-                closeButtonRef.current?.focus()
-            }
-        }
-        window.addEventListener("keydown", handleKeyDown)
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown)
-            previouslyFocused.current?.focus()
-        }
-    }, [isOpen, onClose])
 
-    React.useEffect(() => {
-        if (!isOpen) return
+        const keepFocusInside = (e: KeyboardEvent) => {
+            if (e.key !== "Tab" || !containerRef.current) return
+            const focusable = containerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+            if (focusable.length === 0) return
+
+            const first = focusable[0]
+            const last = focusable[focusable.length - 1]
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault()
+                last.focus()
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault()
+                first.focus()
+            }
+        }
+        document.addEventListener("keydown", keepFocusInside)
+
         const previousOverflow = document.body.style.overflow
         document.body.style.overflow = "hidden"
+
         return () => {
+            document.removeEventListener("keydown", keepFocusInside)
             document.body.style.overflow = previousOverflow
+            previouslyFocused.current?.focus()
         }
     }, [isOpen])
 
@@ -49,6 +79,7 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
         <AnimatePresence>
             {isOpen && (
                 <motion.div
+                    ref={containerRef}
                     role="dialog"
                     aria-modal="true"
                     aria-label={alt || "Image viewer"}
