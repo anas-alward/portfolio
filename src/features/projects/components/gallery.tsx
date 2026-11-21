@@ -1,4 +1,4 @@
-import { getStorageUrl } from '@/lib/storage'
+import Image from '@/components/ui/image'
 import { motion } from 'framer-motion'
 
 interface ProjectGalleryProps {
@@ -38,8 +38,8 @@ export function ProjectGallery({ images, projectName, onImageClick }: ProjectGal
                             }
                         }}
                     >
-                        <img
-                            src={getStorageUrl(image)}
+                        <Image
+                            src={image}
                             alt={`${projectName} gallery image ${index + 1}`}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />

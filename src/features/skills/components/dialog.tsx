@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { Skill } from "@/types";
-import { getStorageUrl } from "@/lib/storage";
+import Image from "@/components/ui/image";
 import { Award, Calendar, BarChart2, Tag } from "lucide-react";
 
 interface SkillItemDialogProps {
@@ -24,8 +24,8 @@ const SkillItemDialog = memo(
             {/* Header: Icon + Name */}
             <div className="flex items-center gap-6">
               <div className="w-20 h-20 bg-muted rounded-2xl flex items-center justify-center border border-border shrink-0">
-                <img
-                  src={getStorageUrl(skill.icon)}
+                <Image
+                  src={skill.icon}
                   alt={skill.name}
                   className="w-12 h-12 object-contain"
                 />

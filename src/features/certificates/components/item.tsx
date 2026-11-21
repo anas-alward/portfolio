@@ -1,5 +1,5 @@
 import type { Certificate } from "@/types";
-import { getStorageUrl } from "@/lib/storage";
+import Image from "@/components/ui/image";
 import { CertificateTypeLabel } from "./label";
 import { ExternalLink } from "lucide-react";
 
@@ -29,8 +29,8 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
 
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-neutral-100 rounded-lg">
-            <img
-              src={getStorageUrl(certificate.issuer_icon)}
+            <Image
+              src={certificate.issuer_icon}
               alt={certificate.issuer}
               className="w-6 h-6 object-contain"
             />

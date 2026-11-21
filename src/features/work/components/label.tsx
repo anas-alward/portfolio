@@ -1,5 +1,5 @@
 
-import { getStorageUrl } from "@/lib/storage"
+import Image from "@/components/ui/image"
 
 
 type CompanyLabelProps = {
@@ -14,8 +14,8 @@ export const CompanyLabel = ({ company, icon, link }: CompanyLabelProps) => {
         <div className="flex items-center gap-2 py-0.5">
         {icon && (
                 <div className="w-5 h-5 flex-shrink-0 rounded-md overflow-hidden border border-neutral-100 bg-white">
-                    <img
-                        src={getStorageUrl(icon)}
+                    <Image
+                        src={icon}
                         alt={company}
                         className="w-full h-full object-contain p-0.5"
                     />

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import type { Skill } from "@/types/skills";
-import { getStorageUrl } from "@/lib/storage";
+import Image from "@/components/ui/image";
 import { HoverArrowIcon } from "./icons";
 
 interface SkillItemProps {
@@ -51,8 +51,8 @@ const SkillItem = memo(({ skill, onClick }: SkillItemProps) => {
             >
                 {/* Icon */}
                 <div className="w-14 h-14 flex items-center justify-center">
-                    <img
-                        src={getStorageUrl(skill.icon)}
+                    <Image
+                        src={skill.icon}
                         alt={skill.name}
                         className="w-8 h-8 object-contain"
                     />

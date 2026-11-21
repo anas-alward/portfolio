@@ -1,7 +1,7 @@
 
 import type { Achievement } from "@/types";
 import { Award } from "lucide-react";
-import { getStorageUrl } from "@/lib/storage";
+import Image from "@/components/ui/image";
 
 const AchievementItem = ({ achievement }: { achievement: Achievement }) => {
     const formatDate = (stringDate: string) => {
@@ -20,7 +20,7 @@ const AchievementItem = ({ achievement }: { achievement: Achievement }) => {
                 {/* Icon Placeholder */}
                 <div className="w-12 h-12 shrink-0 flex items-center justify-center bg-yellow-50 text-yellow-600 rounded-lg">
                     {achievement.image ? (
-                        <img src={getStorageUrl(achievement.image)} alt={achievement.name} className="w-6 h-6 object-contain" />
+                        <Image src={achievement.image} alt={achievement.name} className="w-6 h-6 object-contain" />
                     ) : (
                         <Award size={24} />
                     )}
