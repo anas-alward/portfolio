@@ -2,6 +2,7 @@ import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import Image from "./image"
+import { useFocusTrap } from "@/hooks/useFocusTrap"
 
 interface LightboxProps {
     isOpen: boolean
@@ -10,19 +11,9 @@ interface LightboxProps {
     alt?: string
 }
 
-const FOCUSABLE_SELECTOR = [
-    'a[href]',
-    'button:not([disabled])',
-    'textarea:not([disabled])',
-    'input:not([disabled]):not([type="hidden"])',
-    'select:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])',
-].join(", ")
-
 export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
     const containerRef = React.useRef<HTMLDivElement>(null)
     const closeButtonRef = React.useRef<HTMLButtonElement>(null)
-    const previouslyFocused = React.useRef<HTMLElement | null>(null)
     const onCloseRef = React.useRef(onClose)
 
     // Keep Escape handling separate from focus management: `onClose` is often
@@ -42,38 +33,7 @@ export function Lightbox({ isOpen, onClose, src, alt }: LightboxProps) {
         return () => window.removeEventListener("keydown", handleEscape)
     }, [isOpen])
 
-    React.useEffect(() => {
-        if (!isOpen) return
-
-        previouslyFocused.current = document.activeElement as HTMLElement | null
-        closeButtonRef.current?.focus()
-
-        const keepFocusInside = (e: KeyboardEvent) => {
-            if (e.key !== "Tab" || !containerRef.current) return
-            const focusable = containerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-            if (focusable.length === 0) return
-
-            const first = focusable[0]
-            const last = focusable[focusable.length - 1]
-            if (e.shiftKey && document.activeElement === first) {
-                e.preventDefault()
-                last.focus()
-            } else if (!e.shiftKey && document.activeElement === last) {
-                e.preventDefault()
-                first.focus()
-            }
-        }
-        document.addEventListener("keydown", keepFocusInside)
-
-        const previousOverflow = document.body.style.overflow
-        document.body.style.overflow = "hidden"
-
-        return () => {
-            document.removeEventListener("keydown", keepFocusInside)
-            document.body.style.overflow = previousOverflow
-            previouslyFocused.current?.focus()
-        }
-    }, [isOpen])
+    useFocusTrap(isOpen, containerRef, closeButtonRef)
 
     return (
         <AnimatePresence>

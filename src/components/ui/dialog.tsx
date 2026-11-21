@@ -1,6 +1,7 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
+import { useFocusTrap } from "@/hooks/useFocusTrap"
 
 interface DialogProps {
     isOpen: boolean
@@ -9,19 +10,12 @@ interface DialogProps {
     title?: string
 }
 
-const FOCUSABLE_SELECTOR = [
-    'a[href]',
-    'button:not([disabled])',
-    'textarea:not([disabled])',
-    'input:not([disabled]):not([type="hidden"])',
-    'select:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])',
-].join(", ")
-
 export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
     const dialogRef = React.useRef<HTMLDivElement>(null)
     const closeButtonRef = React.useRef<HTMLButtonElement>(null)
     const titleId = React.useId()
+
+    useFocusTrap(isOpen, dialogRef, closeButtonRef)
 
     // Keep Escape handling separate from focus management: `onClose` is
     // commonly an inline callback and re-running the focus effect on every
@@ -34,38 +28,6 @@ export function Dialog({ isOpen, onClose, children, title }: DialogProps) {
         window.addEventListener("keydown", handleEscape)
         return () => window.removeEventListener("keydown", handleEscape)
     }, [isOpen, onClose])
-
-    React.useEffect(() => {
-        if (!isOpen) return
-
-        const previouslyFocused = document.activeElement as HTMLElement | null
-        const previousOverflow = document.body.style.overflow
-        document.body.style.overflow = "hidden"
-        closeButtonRef.current?.focus()
-
-        const keepFocusInside = (e: KeyboardEvent) => {
-            if (e.key !== "Tab") return
-            const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-            if (!focusable || focusable.length === 0) return
-
-            const first = focusable[0]
-            const last = focusable[focusable.length - 1]
-            if (e.shiftKey && document.activeElement === first) {
-                e.preventDefault()
-                last.focus()
-            } else if (!e.shiftKey && document.activeElement === last) {
-                e.preventDefault()
-                first.focus()
-            }
-        }
-        document.addEventListener("keydown", keepFocusInside)
-
-        return () => {
-            document.removeEventListener("keydown", keepFocusInside)
-            document.body.style.overflow = previousOverflow
-            previouslyFocused?.focus()
-        }
-    }, [isOpen])
 
     return (
         <AnimatePresence>
