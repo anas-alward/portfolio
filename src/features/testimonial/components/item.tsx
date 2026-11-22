@@ -1,7 +1,9 @@
 import QuotationIcon from "@/assets/icons/quotation.svg";
 import type { Testimonial } from "@/types/testimonials";
-import { getStorageUrl } from "@/lib/storage";
+import Image from "@/components/ui/image";
 import ExpandableText from "@/components/ui/expandable-text";
+
+const FALLBACK_AVATAR = "https://framerusercontent.com/images/vNTpC54tAMX1qyqFOcFM30s4.png?scale-down-to=512";
 
 const TestimonialItem = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
@@ -21,8 +23,8 @@ const TestimonialItem = ({ testimonial }: { testimonial: Testimonial }) => {
 
       {/* Author */}
       <div className="mt-4 flex items-center gap-3">
-        <img
-          src={testimonial.image ? getStorageUrl(testimonial.image) : "https://framerusercontent.com/images/vNTpC54tAMX1qyqFOcFM30s4.png?scale-down-to=512"}
+        <Image
+          src={testimonial.image || FALLBACK_AVATAR}
           alt={testimonial.person}
           className="w-8 h-8 rounded-full object-cover"
         />
